@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #f1f2f6;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.reservate.controller.AdminDashboardFormController">
+    <children>
+        <AnchorPane fx:id="mainPane" layoutX="164.0" layoutY="125.0" prefHeight="600.0" prefWidth="1160.0">
+            <children>
+                <AnchorPane fx:id="dashoardPane" prefHeight="600.0" prefWidth="1160.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                    <effect>
+                        <DropShadow blurType="GAUSSIAN" color="#bcbcbc" height="23.97" radius="18.155" spread="0.07" width="50.65" />
+                    </effect>
+                    <children>
+                        <Pane layoutX="24.0" layoutY="31.0" prefHeight="174.0" prefWidth="357.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 30;">
+                            <children>
+                                <Text fill="#034f8a" layoutX="156.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Rooms">
+                                    <font>
+                                        <Font size="29.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="lblTotalRooms" fill="#034f8a" layoutX="149.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15" wrappingWidth="174.05078229308128">
+                                    <font>
+                                        <Font size="69.0" />
+                                    </font>
+                                </Text>
+                                <ImageView layoutX="25.0" layoutY="37.0">
+                                    <image>
+                                        <Image url="@../img/roomDTO.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </Pane>
+                        <Pane layoutX="402.0" layoutY="31.0" prefHeight="174.0" prefWidth="357.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 30;">
+                            <children>
+                                <Text fill="#034f8a" layoutX="160.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available Rooms">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="lblAvailablerooms" fill="#034f8a" layoutX="161.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15" wrappingWidth="174.05078229308128">
+                                    <font>
+                                        <Font size="69.0" />
+                                    </font>
+                                </Text>
+                                <ImageView layoutX="26.0" layoutY="37.0">
+                                    <image>
+                                        <Image url="@../img/available.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </Pane>
+                        <Pane layoutX="24.0" layoutY="394.0" prefHeight="174.0" prefWidth="357.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 30;">
+                            <children>
+                                <Text fill="#034f8a" layoutX="142.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Booked Halls">
+                                    <font>
+                                        <Font size="28.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="lblBookedhalls" fill="#034f8a" layoutX="143.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15" wrappingWidth="174.05078229308128">
+                                    <font>
+                                        <Font size="69.0" />
+                                    </font>
+                                </Text>
+                                <ImageView layoutX="23.0" layoutY="37.0">
+                                    <image>
+                                        <Image url="@../img/booked.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </Pane>
+                        <Pane layoutX="402.0" layoutY="213.0" prefHeight="174.0" prefWidth="357.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 30;">
+                            <children>
+                                <Text fill="#034f8a" layoutX="154.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Booked Rooms">
+                                    <font>
+                                        <Font size="28.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="lblBookedRooms" fill="#034f8a" layoutX="155.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15" wrappingWidth="174.05078229308128">
+                                    <font>
+                                        <Font size="69.0" />
+                                    </font>
+                                </Text>
+                                <ImageView layoutX="24.0" layoutY="37.0">
+                                    <image>
+                                        <Image url="@../img/booked.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </Pane>
+                        <Pane layoutX="775.0" layoutY="271.0" prefHeight="116.0" prefWidth="357.0" style="-fx-background-color: #fab1a0; -fx-background-radius: 30;">
+                            <children>
+                                <Text fill="#b50f33" layoutX="150.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Complaints">
+                                    <font>
+                                        <Font size="28.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="lblComplaints" fill="#b50f33" layoutX="150.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" wrappingWidth="174.05078229308128">
+                                    <font>
+                                        <Font size="47.0" />
+                                    </font>
+                                </Text>
+                                <ImageView layoutX="14.0" layoutY="8.0">
+                                    <image>
+                                        <Image url="@../img/complaints.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                        </Pane>
+                        <Pane layoutX="24.0" layoutY="213.0" prefHeight="174.0" prefWidth="357.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 30;">
+                            <children>
+                                <Text fill="#034f8a" layoutX="155.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available Halls">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="lblAvailableHalls" fill="#034f8a" layoutX="156.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="15" wrappingWidth="174.05078229308128">
+                                    <font>
+                                        <Font size="69.0" />
+                                    </font>
+                                </Text>
+                                <ImageView layoutX="39.0" layoutY="37.0">
+                                    <image>
+                                        <Image url="@../img/available.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </Pane>
+                  <Pane layoutX="403.0" layoutY="394.0" prefHeight="174.0" prefWidth="729.0" style="-fx-background-color: #1dd1a1; -fx-background-radius: 30;">
+                     <children>
+                        <Text fill="#034f8a" layoutX="261.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Earnings" wrappingWidth="328.248046875">
+                           <font>
+                              <Font size="49.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="lblBookedhalls1" fill="#034f8a" layoutX="261.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RS : " wrappingWidth="77.05078229308128">
+                           <font>
+                              <Font size="37.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="139.0" fitWidth="153.0" layoutX="25.0" layoutY="18.0">
+                           <image>
+                              <Image url="@../img/earnings.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="lbltotValue" layoutX="327.0" layoutY="102.0" prefHeight="54.0" prefWidth="371.0" text="00.00" textFill="#034f8a">
+                           <font>
+                              <Font size="37.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <JFXButton fx:id="btnComplaints" buttonType="RAISED" layoutX="982.0" layoutY="255.0" onAction="#btnComplaintsOnAction" prefHeight="39.0" prefWidth="160.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20; -fx-border-radius: 20;" text="show complaints" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <ImageView fitHeight="224.0" fitWidth="224.0" layoutX="842.0" layoutY="26.0" opacity="0.15">
+                     <image>
+                        <Image url="@../img/blueocean-modified.png" />
+                     </image>
+                  </ImageView>
+                    </children>
+                </AnchorPane>
+            </children></AnchorPane>
+        <Pane layoutX="-43.0" layoutY="26.0" prefHeight="712.0" prefWidth="191.0" style="-fx-background-color: #0984e3; -fx-background-radius: 50;">
+            <children>
+                <Text fill="WHITE" layoutX="70.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dashboard">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Text>
+                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="62.0">
+                    <image>
+                        <Image url="@../img/home.png" />
+                    </image>
+                </ImageView>
+            <Text fill="WHITE" layoutX="71.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Text>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="138.0">
+               <image>
+                  <Image url="@../img/employeeDTO.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="84.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Text>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="213.0">
+               <image>
+                  <Image url="@../img/userDTO.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="76.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rooms">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Text>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="283.0">
+               <image>
+                  <Image url="@../img/roomDTO.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="68.0" layoutY="412.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meal Plans">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Text>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="352.0">
+               <image>
+                  <Image url="@../img/meal.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="62.0" layoutY="485.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Banquet Halls">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Text>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="422.0">
+               <image>
+                  <Image url="@../img/halls.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="74.0" layoutY="560.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Text>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="497.0">
+               <image>
+                  <Image url="@../img/report.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="55.0" layoutY="668.0">
+               <image>
+                  <Image url="@../img/logout.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="94.0" layoutY="675.0" text="Log out" textFill="WHITE" />
+                <JFXButton fx:id="btnDashboard" buttonType="RAISED" layoutX="62.0" layoutY="62.0" onAction="#btnDashboardOnAction" prefHeight="67.0" prefWidth="69.0" textFill="#0984e3">
+                    <font>
+                        <Font size="1.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </JFXButton>
+            <JFXButton fx:id="btnEmployee" buttonType="RAISED" layoutX="62.0" layoutY="140.0" onAction="#btnEmployeeOnAction" prefHeight="67.0" prefWidth="69.0" textFill="#0984e3">
+               <font>
+                  <Font size="1.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="btnUser" buttonType="RAISED" layoutX="62.0" layoutY="212.0" onAction="#btnUserOnAction" prefHeight="67.0" prefWidth="69.0" textFill="#0984e3">
+               <font>
+                  <Font size="1.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="btnRooms" buttonType="RAISED" layoutX="62.0" layoutY="280.0" onAction="#btnRoomsOnAction" prefHeight="67.0" prefWidth="69.0" textFill="#0984e3">
+               <font>
+                  <Font size="1.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="btnMealPlans" buttonType="RAISED" layoutX="64.0" layoutY="352.0" onAction="#btnMealPlansOnAction" prefHeight="67.0" prefWidth="69.0" textFill="#0984e3">
+               <font>
+                  <Font size="1.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="btnHalls" buttonType="RAISED" layoutX="64.0" layoutY="422.0" onAction="#btnHallsOnAction" prefHeight="67.0" prefWidth="69.0" textFill="#0984e3">
+               <font>
+                  <Font size="1.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="btnReports" buttonType="RAISED" layoutX="62.0" layoutY="497.0" onAction="#btnreportsOnAction" prefHeight="67.0" prefWidth="69.0" textFill="#0984e3">
+               <font>
+                  <Font size="1.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="btnLogout" layoutX="50.0" layoutY="663.0" onAction="#btnLogoutOnAction" prefHeight="39.0" prefWidth="108.0" textFill="WHITE">
+               <font>
+                  <Font size="1.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <Text fill="WHITE" layoutX="74.0" layoutY="635.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Send Mail">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Text>
+            <ImageView layoutX="73.0" layoutY="572.0">
+               <image>
+                  <Image url="@../img/mail.png" />
+               </image>
+            </ImageView>
+            <JFXButton fx:id="btnSendMail" buttonType="RAISED" layoutX="64.0" layoutY="572.0" onAction="#btnSendMailOnAction" prefHeight="67.0" prefWidth="69.0" textFill="#0984e3">
+               <font>
+                  <Font size="1.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            </children>
+        </Pane>
+        <AnchorPane layoutX="1110.0" layoutY="26.0" prefHeight="82.0" prefWidth="214.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+            <effect>
+                <DropShadow blurType="GAUSSIAN" color="#bcbcbc" height="23.97" radius="18.155" spread="0.07" width="50.65" />
+            </effect>
+            <children>
+                <Text fx:id="txtTime" layoutX="23.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00">
+                    <font>
+                        <Font size="46.0" />
+                    </font>
+                </Text>
+                <Text fx:id="txtDate" layoutX="65.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2023 : 3 : 11">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Text>
+            </children>
+        </AnchorPane>
+        <Text fx:id="lblTopic" fill="#0984e3" layoutX="509.0" layoutY="77.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Dashboard" textAlignment="RIGHT" wrappingWidth="586.798828125">
+            <font>
+                <Font size="62.0" />
+            </font>
+        </Text>
+        <Text fill="#0984e3" layoutX="783.0" layoutY="108.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" textAlignment="RIGHT" wrappingWidth="312.798828125">
+            <font>
+                <Font size="28.0" />
+            </font>
+        </Text>
+        <JFXButton layoutX="196.0" layoutY="67.0" onAction="#btnAboutusOnAction" prefHeight="37.0" prefWidth="153.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 50;" text="About us" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+        </JFXButton>
+        <JFXButton layoutX="363.0" layoutY="67.0" onAction="#btncontactOnAction" prefHeight="37.0" prefWidth="153.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 50;" text="Contact" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+        </JFXButton>
+    </children>
+</AnchorPane>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="reservationPane" prefHeight="600.0" prefWidth="1160.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.reservate.controller.rooms_form_Controller">
+    <effect>
+        <DropShadow color="#bcbcbc" height="37.31" radius="21.490000000000002" spread="0.07" width="50.65" />
+    </effect>
+    <children>
+        <JFXTextField fx:id="txtPrice" labelFloat="true" layoutX="66.0" layoutY="404.0" prefWidth="226.0" promptText="Price" />
+        <JFXButton fx:id="btnAddRoom" layoutX="66.0" layoutY="486.0" onAction="#btnAddRoomOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Add Room" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </JFXButton>
+        <JFXButton fx:id="btnUpdateRoom" layoutX="265.0" layoutY="486.0" onAction="#btnUpdateRoomOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Update Room" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </JFXButton>
+        <JFXButton fx:id="btnRemove" layoutX="461.0" layoutY="486.0" onAction="#btnRemoveOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #fab1a0; -fx-background-radius: 20;" text="remove" textFill="WHITE">
+            <font>
+                <Font size="17.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </JFXButton>
+        <Text fill="#0984e3" layoutX="65.0" layoutY="159.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Rooms">
+            <font>
+                <Font size="95.0" />
+            </font>
+        </Text>
+        <JFXTextField fx:id="txtRoomNumber" labelFloat="true" layoutX="66.0" layoutY="234.0" onAction="#txtRoomNumberOnAction" prefWidth="226.0" promptText="Room Number" />
+      <JFXComboBox fx:id="cmbStatus" layoutX="426.0" layoutY="233.0" prefHeight="25.0" prefWidth="226.0" promptText="Availability" />
+      <Label layoutX="365.0" layoutY="240.0" text="Status : ">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <JFXComboBox fx:id="cmbroomType" layoutX="65.0" layoutY="321.0" prefHeight="25.0" prefWidth="226.0" promptText="RoomType" />
+      <ImageView fitHeight="416.0" fitWidth="416.0" layoutX="669.0" layoutY="113.0" opacity="0.15">
+         <image>
+            <Image url="@../img/blueocean-modified.png" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>

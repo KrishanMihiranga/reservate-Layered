@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="reservationPane" prefHeight="600.0" prefWidth="1160.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.reservate.controller.meal_plans_form_Controller">
+    <effect>
+        <DropShadow color="#bcbcbc" height="37.31" radius="21.490000000000002" spread="0.07" width="50.65" />
+    </effect>
+    <children>
+        <JFXButton fx:id="btnAddMeal" layoutX="56.0" layoutY="519.0" onAction="#btnAddMealOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Add Meal" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </JFXButton>
+        <JFXButton fx:id="btnUpdateMeal" layoutX="265.0" layoutY="519.0" onAction="#btnupdaeteMealOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Update Meal" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </JFXButton>
+        <JFXButton fx:id="btnRemove" layoutX="473.0" layoutY="519.0" onAction="#btnRemoveOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #fab1a0; -fx-background-radius: 20;" text="remove" textFill="WHITE">
+            <font>
+                <Font size="17.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </JFXButton>
+        <Text fill="#0984e3" layoutX="66.0" layoutY="159.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Meal Plans">
+            <font>
+                <Font size="95.0" />
+            </font>
+        </Text>
+        <JFXTextField fx:id="txtPackageId" labelFloat="true" layoutX="66.0" layoutY="234.0" onAction="#txtPackageIdOnAction" prefWidth="226.0" promptText="Package id" />
+      <JFXTextField fx:id="txtPrice" labelFloat="true" layoutX="404.0" layoutY="375.0" prefWidth="226.0" promptText="Price : " />
+      <JFXTextArea fx:id="txtDescription" layoutX="404.0" layoutY="225.0" prefHeight="89.0" prefWidth="226.0" promptText="Description" />
+      <JFXComboBox fx:id="cmbMealType" labelFloat="true" layoutX="66.0" layoutY="375.0" prefHeight="25.0" prefWidth="226.0" promptText="Meal Type" />
+      <JFXComboBox fx:id="cmbMealplan" labelFloat="true" layoutX="66.0" layoutY="302.0" prefHeight="25.0" prefWidth="226.0" promptText="Meal Plans" />
+      <ImageView fitHeight="428.0" fitWidth="428.0" layoutX="667.0" layoutY="88.0" opacity="0.15">
+         <image>
+            <Image url="@../img/blueocean-modified.png" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>

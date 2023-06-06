@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Mealdetails" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ce7d0bdd-3f48-4755-b75a-405337373259">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<queryString language="SQL">
+		<![CDATA[select * from meal]]>
+	</queryString>
+	<field name="PackageId" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="PackageId"/>
+		<property name="com.jaspersoft.studio.field.label" value="PackageId"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="meal"/>
+	</field>
+	<field name="MealPlan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="MealPlan"/>
+		<property name="com.jaspersoft.studio.field.label" value="MealPlan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="meal"/>
+	</field>
+	<field name="MealType" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="MealType"/>
+		<property name="com.jaspersoft.studio.field.label" value="MealType"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="meal"/>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Description"/>
+		<property name="com.jaspersoft.studio.field.label" value="Description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="meal"/>
+	</field>
+	<field name="Price" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="Price"/>
+		<property name="com.jaspersoft.studio.field.label" value="Price"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="meal"/>
+	</field>
+	<group name="PackageId">
+		<groupExpression><![CDATA[$F{PackageId}]]></groupExpression>
+	</group>
+	<group name="MealPlan">
+		<groupExpression><![CDATA[$F{MealPlan}]]></groupExpression>
+	</group>
+	<group name="MealType">
+		<groupExpression><![CDATA[$F{MealType}]]></groupExpression>
+	</group>
+	<group name="Description">
+		<groupExpression><![CDATA[$F{Description}]]></groupExpression>
+	</group>
+	<group name="Price">
+		<groupExpression><![CDATA[$F{Price}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="90" width="556" height="1" uuid="3db526c4-3ec5-4824-af1b-163f62279ac8">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="415" y="10" width="50" height="20" uuid="e4400f94-8ca6-4c67-9b08-5354e4150b85"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="465" y="10" width="84" height="20" uuid="df016aa9-6989-4aec-87f5-2dc861ad6c77"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="95" y="0" width="210" height="25" uuid="f9b4a941-585f-453b-a3c4-6304d912ce93">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Blue Ocean Hotels]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="55" width="205" height="15" uuid="a94875dc-9e2d-4f09-b374-58ad3845e4c1"/>
+				<text><![CDATA[+94774512029]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="25" width="205" height="15" uuid="177a4b6f-dcd6-4f78-ada3-f1b975cab89b"/>
+				<text><![CDATA[275,  Temple Road,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="40" width="205" height="15" uuid="d09c2501-786d-416f-977a-b14d7b987016"/>
+				<text><![CDATA[Panadura, 22200]]></text>
+			</staticText>
+			<image>
+				<reportElement x="2" y="0" width="80" height="80" uuid="79a4df6b-cffc-4b3a-948b-8803d55ebde9"/>
+				<imageExpression><![CDATA["C:/Users/HI/Desktop/project-reservate/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="10" width="535" height="50" forecolor="#74B9FF" uuid="796ac383-e284-47a6-b605-3aa5610be564"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="26"/>
+				</textElement>
+				<text><![CDATA[Meal Details]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="51" y="0" width="67" height="30" uuid="91905122-b634-4e4f-999c-8bc5567376f6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6705bf6c-cb6a-43f5-8c59-66254040c628"/>
+				</reportElement>
+				<text><![CDATA[PackageId]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="0" width="80" height="30" uuid="d722b31d-97f9-4999-9466-042d841acfbe">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="578928ad-687d-42db-8ee8-a09dafcd897a"/>
+				</reportElement>
+				<text><![CDATA[MealPlan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="0" width="90" height="30" uuid="542ca2b1-0146-4122-80e4-0083ff5ea0be">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22623a67-7977-4f0b-9c46-adef2ef4563b"/>
+				</reportElement>
+				<text><![CDATA[MealType]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="0" width="154" height="30" uuid="99a3ad85-eb56-4d67-8b16-d6d93d532584">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5d308c42-0ca0-45b0-a5ed-b3fd7cbe784c"/>
+				</reportElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="442" y="0" width="100" height="30" uuid="c1736bde-52cb-431f-b75e-a3f2e329d4f1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a1a44f07-8544-4394-9f50-45665a304c1a"/>
+				</reportElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="59" splitType="Stretch">
+			<textField>
+				<reportElement x="51" y="14" width="67" height="30" uuid="b8bd0729-135d-4c1f-a213-71a126d68858">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6705bf6c-cb6a-43f5-8c59-66254040c628"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{PackageId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="118" y="14" width="80" height="30" uuid="f3aef2ba-0716-4481-ac3b-b40354f98634">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="578928ad-687d-42db-8ee8-a09dafcd897a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{MealPlan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="14" width="90" height="30" uuid="99a7aba9-846a-4802-a1d3-1a4be934d4b3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="22623a67-7977-4f0b-9c46-adef2ef4563b"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{MealType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="293" y="14" width="148" height="30" uuid="03214da3-cd6f-4683-b5d7-72a51f481ea6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5d308c42-0ca0-45b0-a5ed-b3fd7cbe784c"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="442" y="14" width="100" height="30" uuid="3b4b90e0-2f04-469b-94bd-1af92715e280">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a1a44f07-8544-4394-9f50-45665a304c1a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Price}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

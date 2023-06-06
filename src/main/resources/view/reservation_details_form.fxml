@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="reservationPane" prefHeight="600.0" prefWidth="1160.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.reservate.controller.reservation_details_form_Controller">
+    <effect>
+        <DropShadow color="#bcbcbc" height="37.31" radius="21.490000000000002" spread="0.07" width="50.65" />
+    </effect>
+    <children>
+        <Text fill="#0984e3" layoutX="65.0" layoutY="159.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Reservation Details">
+            <font>
+                <Font size="95.0" />
+            </font>
+        </Text>
+      <TableView fx:id="tblHallReservation" layoutX="159.0" layoutY="195.0" prefHeight="357.0" prefWidth="327.0" stylesheets="@../css/table_style.css">
+        <columns>
+          <TableColumn fx:id="colHallReservationId" prefWidth="163.0" text="Hall Reservation ID" />
+          <TableColumn fx:id="colHallNumber" prefWidth="164.0" text="Hall Number" />
+        </columns>
+      </TableView>
+      <TableView fx:id="tblRoomReservation" layoutX="648.0" layoutY="195.0" prefHeight="357.0" prefWidth="327.0" stylesheets="@../css/table_style.css">
+         <columns>
+            <TableColumn fx:id="colRoomReservationId" prefWidth="163.0" text="Room Reservation ID" />
+            <TableColumn fx:id="colRoomNumber" prefWidth="164.0" text="Room Number" />
+         </columns>
+      </TableView>
+    </children>
+</AnchorPane>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UserDetails" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ef11681d-e805-43c7-aebc-47fb4c831e02">
+	<property name="com.jaspersoft.studio.data.sql.tables" value="dXNlciAsMTUsMTUsNGFjODk2ZTctOWJhOC00NTE3LTllZmQtOGQ5YzhlNTVmMjkxOw=="/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<parameter name="userId" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT *
+FROM userDTO
+WHERE UserId =  $P{userId}]]>
+	</queryString>
+	<field name="UserId" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="UserId"/>
+		<property name="com.jaspersoft.studio.field.label" value="UserId"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="userDTO"/>
+	</field>
+	<field name="EmpId" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="EmpId"/>
+		<property name="com.jaspersoft.studio.field.label" value="EmpId"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="userDTO"/>
+	</field>
+	<field name="UserName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="UserName"/>
+		<property name="com.jaspersoft.studio.field.label" value="UserName"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="userDTO"/>
+	</field>
+	<field name="Password" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Password"/>
+		<property name="com.jaspersoft.studio.field.label" value="Password"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="userDTO"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="90" width="556" height="1" uuid="220b663b-4115-4c02-9dcd-ab561913b74d">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="415" y="10" width="50" height="20" uuid="296f95a0-3608-4284-8505-5107481d0553"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="465" y="10" width="84" height="20" uuid="dbc172f3-9b0f-4420-8aa3-8aa63e477cd8"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="95" y="0" width="210" height="25" uuid="168464c2-4b5f-4639-9315-f0f437cf1e8b">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Blue Ocean Hotels]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="55" width="205" height="15" uuid="9077dc35-58ac-4a24-95fc-44acab00c79d"/>
+				<text><![CDATA[+94774512029]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="25" width="205" height="15" uuid="b7305567-99ac-4ed6-8548-8823660b4783"/>
+				<text><![CDATA[275,  Temple Road,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="40" width="205" height="15" uuid="8ca8a472-3565-484c-b9d9-fc3e6c08358a"/>
+				<text><![CDATA[Panadura, 22200]]></text>
+			</staticText>
+			<image>
+				<reportElement x="2" y="0" width="80" height="80" uuid="d50de1ef-639a-4bdb-9345-768fc0f122ab"/>
+				<imageExpression><![CDATA["C:/Users/HI/Desktop/project-reservate/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="67" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="55" forecolor="#74B9FF" uuid="6ae8e188-f2ae-436a-8445-10e30c79365c"/>
+				<textElement textAlignment="Center" markup="html">
+					<font fontName="Arial Black" size="26"/>
+				</textElement>
+				<text><![CDATA[User Details]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="90" y="-1" width="100" height="30" uuid="6d25a50e-1f75-4e6c-a7e3-08f6e89ba896">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f2b0b3ab-6053-4b12-8ad0-c5ee03b37354"/>
+				</reportElement>
+				<text><![CDATA[UserId]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="1" width="100" height="30" uuid="fa13533e-d78f-430a-840d-4688b2258c79">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="814bb779-381c-403f-b68c-ed641df27224"/>
+				</reportElement>
+				<text><![CDATA[EmpId]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="0" width="100" height="30" uuid="50db24c9-8655-4a9a-b50b-49f9b765f912">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f6fa5da9-4f2a-47fe-87af-b6189ea4bcae"/>
+				</reportElement>
+				<text><![CDATA[UserName]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="-1" width="100" height="30" uuid="98817d01-874a-4996-bfd7-b071b1819df9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="30ee36cd-2db8-4f1c-b5d0-1678a078fb83"/>
+				</reportElement>
+				<text><![CDATA[Password]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="59" splitType="Stretch">
+			<textField>
+				<reportElement x="90" y="20" width="100" height="30" uuid="6d19d164-347f-42ee-ac2c-8c86391672a7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f2b0b3ab-6053-4b12-8ad0-c5ee03b37354"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{UserId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="20" width="100" height="30" uuid="ab1f743c-8af9-40e6-9e0a-a13de837ad48">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="814bb779-381c-403f-b68c-ed641df27224"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{EmpId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="20" width="100" height="30" uuid="a73bd100-5d36-44d3-96e6-0a4b12249711">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f6fa5da9-4f2a-47fe-87af-b6189ea4bcae"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{UserName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="20" width="100" height="30" uuid="04f70db6-da87-4397-99f7-bff7a2ab500f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="30ee36cd-2db8-4f1c-b5d0-1678a078fb83"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Password}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

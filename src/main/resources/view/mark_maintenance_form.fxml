@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="reservationPane" prefHeight="600.0" prefWidth="1160.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.reservate.controller.MarkMaintenanceFormController">
+    <effect>
+        <DropShadow color="#bcbcbc" height="37.31" radius="21.490000000000002" spread="0.07" width="50.65" />
+    </effect>
+    <children>
+        <JFXComboBox fx:id="cmbHallNumber" labelFloat="true" layoutX="701.0" layoutY="232.0" prefHeight="25.0" prefWidth="226.0" promptText="Hall Number" />
+        <JFXComboBox fx:id="cmbroomNumber" labelFloat="true" layoutX="380.0" layoutY="232.0" prefHeight="25.0" prefWidth="226.0" promptText="Room Number" />
+        <JFXButton fx:id="btnMarkRoom" layoutX="78.0" layoutY="423.0" onAction="#btnMarkRoomOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Mark Room" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </JFXButton>
+        <JFXButton fx:id="btnUpdateRoom" layoutX="580.0" layoutY="471.0" onAction="#btnUpdateRoomOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Update Room" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </JFXButton>
+        <JFXButton fx:id="btnCancelRoom" layoutX="580.0" layoutY="521.0" onAction="#btnCancelRoomOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #fab1a0; -fx-background-radius: 20;" text="Cancel Room" textFill="WHITE">
+            <font>
+                <Font size="17.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </JFXButton>
+        <Text fill="#0984e3" layoutX="66.0" layoutY="129.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Mark Maintenance">
+            <font>
+                <Font size="95.0" />
+            </font>
+        </Text>
+        <DatePicker fx:id="date" layoutX="78.0" layoutY="321.0" prefHeight="25.0" prefWidth="226.0" promptText="Date" />
+        <Text fill="#0984e3" layoutX="66.0" layoutY="179.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Halls / Rooms">
+            <font>
+                <Font size="35.0" />
+            </font>
+        </Text>
+        <JFXTextField fx:id="txtRoomMaintenanceId" labelFloat="true" layoutX="78.0" layoutY="232.0" onAction="#txtRoomMaintenanceIdOnAction" prefWidth="226.0" promptText="Room Maintenance id" />
+        <JFXTextField fx:id="txtStartTime" labelFloat="true" layoutX="380.0" layoutY="346.0" prefWidth="226.0" promptText="Start time" />
+        <JFXTextField fx:id="txtEndTime" labelFloat="true" layoutX="380.0" layoutY="417.0" prefWidth="226.0" promptText="End Time" />
+      <JFXButton fx:id="btnMarkHall" layoutX="78.0" layoutY="482.0" onAction="#btnMarkHallOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Mark Hall" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="btnUpdateHall" layoutX="765.0" layoutY="471.0" onAction="#btnUpdateHallOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Update Hall" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="btnCancelHall" layoutX="765.0" layoutY="521.0" onAction="#btnCancelHallOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #fab1a0; -fx-background-radius: 20;" text="Cancel Hall" textFill="WHITE">
+         <font>
+            <Font size="17.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </JFXButton>
+      <JFXTextField fx:id="txtHallMaintenanceId" labelFloat="true" layoutX="78.0" layoutY="275.0" onAction="#txtHallMaintenanceIdOnAction" prefWidth="226.0" promptText="Hall Maintenance id" />
+    </children>
+</AnchorPane>
