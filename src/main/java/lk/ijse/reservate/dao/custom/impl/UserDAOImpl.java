@@ -11,9 +11,6 @@ import java.util.List;
 
 public class UserDAOImpl {
 
-
-
-
     public static String generateNextUserId() throws SQLException {
         String sql = "SELECT UserId FROM UserDTO ORDER BY UserId DESC LIMIT 1";
 
