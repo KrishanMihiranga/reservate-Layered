@@ -11,14 +11,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dao.custom.impl.*;
 import lk.ijse.reservate.db.DBConnection;
 import lk.ijse.reservate.dto.*;
+import lk.ijse.reservate.model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.InputStream;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -94,7 +96,7 @@ public class PaymentFormController {
     }
     private void generateNextId() {
         try {
-            String nextId = paymentDAOImpl.generateNextId();
+            String nextId = paymentModel.generateNextId();
             txtPaymentId.setText(nextId);
 
         } catch (SQLException e) {
@@ -105,7 +107,7 @@ public class PaymentFormController {
 
     private void loadRoomReservationIds() {
         try{
-            List<String> RoomIds = paymentDAOImpl.getRds();
+            List<String> RoomIds = paymentModel.getRds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String rIds : RoomIds){
                 obList.add(rIds);
@@ -119,7 +121,7 @@ public class PaymentFormController {
 
     private void loadHallreservationIds() {
         try{
-            List<String> HallIds = paymentDAOImpl.getHIds();
+            List<String> HallIds = paymentModel.getHIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String hIds : HallIds){
                 obList.add(hIds);
@@ -133,7 +135,7 @@ public class PaymentFormController {
 
     private void loadOrderIds() {
         try{
-            List<String> OrderIds = paymentDAOImpl.getOIds();
+            List<String> OrderIds = paymentModel.getOIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String oIds : OrderIds){
                 obList.add(oIds);
@@ -147,7 +149,7 @@ public class PaymentFormController {
 
     private void loadGuestIds() {
         try{
-            List<String> GuestIds = paymentDAOImpl.getGIds();
+            List<String> GuestIds = paymentModel.getGIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String gIds : GuestIds){
                 obList.add(gIds);
@@ -171,12 +173,12 @@ public class PaymentFormController {
         String Time = txtTime.getText();
 if (!txtTime.getText().isEmpty()) {
     try {
-        boolean isSaved = paymentDAOImpl.save(paymentId, GuestId, MealOrderId, HallReservationId, RoomReservationId, Date, Time, Amount);
-        boolean isDeleted = MealOrderDetailsDAOImpl.remove(MealOrderId);
-        boolean isRoomDeleted = RoomReservationDetailsDAOImpl.removeR(RoomReservationId);
-        boolean isHallDeleted = HallReservationDetailsDAOImpl.removeH(HallReservationId);
+        boolean isSaved = paymentModel.save(paymentId, GuestId, MealOrderId, HallReservationId, RoomReservationId, Date, Time, Amount);
+        boolean isDeleted = MealOrderDetailsModel.remove(MealOrderId);
+        boolean isRoomDeleted = RoomReservationDetailsModel.removeR(RoomReservationId);
+        boolean isHallDeleted = HallReservationDetailsModel.removeH(HallReservationId);
         if (isSaved) {
-            new Alert(Alert.AlertType.CONFIRMATION, "PaymentDTO Done!").show();
+            new Alert(Alert.AlertType.CONFIRMATION, "Payment Done!").show();
             lblAmount.setText("00.00");
         }
     } catch (Exception e) {
@@ -190,9 +192,9 @@ if (!txtTime.getText().isEmpty()) {
     public void btnCancelPaymentOnAction(ActionEvent actionEvent) {
         String paymentId=txtPaymentId.getText();
         try{
-            boolean isSaved = paymentDAOImpl.remove(paymentId);
+            boolean isSaved = paymentModel.remove(paymentId);
             if(isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION, "PaymentDTO Canceled!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Payment Canceled!").show();
             }
         }catch(Exception e){
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -202,20 +204,20 @@ if (!txtTime.getText().isEmpty()) {
     public void txtPaymentIdOnAction(ActionEvent actionEvent) {
         String paymentId=txtPaymentId.getText();
         try {
-            PaymentDTO paymentDTO = paymentDAOImpl.setFields(paymentId);
-            if (paymentDTO != null)
+            Payment payment = paymentModel.setFields(paymentId);
+            if (payment != null)
             {
-                txtPaymentId.setText(paymentDTO.getPaymentid());
-                cmbGuestId.setValue(paymentDTO.getGuestid());
-                cmbOrderId.setValue(paymentDTO.getMealOrderId());
-                cmbhallReservationId.setValue(paymentDTO.getHallreservationid());
-                cmbRoomReservationId.setValue(paymentDTO.getRoomreservationid());
-                date.setValue(LocalDate.parse(paymentDTO.getDate()));
-                lblAmount.setText(paymentDTO.getAmount());
-                txtTime.setText(paymentDTO.getTime());
+                txtPaymentId.setText(payment.getPaymentid());
+                cmbGuestId.setValue(payment.getGuestid());
+                cmbOrderId.setValue(payment.getMealOrderId());
+                cmbhallReservationId.setValue(payment.getHallreservationid());
+                cmbRoomReservationId.setValue(payment.getRoomreservationid());
+                date.setValue(LocalDate.parse(payment.getDate()));
+                lblAmount.setText(payment.getAmount());
+                txtTime.setText(payment.getTime());
 
             } else {
-                new Alert(Alert.AlertType.WARNING, "no paymentDTO found :(").show();
+                new Alert(Alert.AlertType.WARNING, "no payment found :(").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
@@ -226,14 +228,14 @@ if (!txtTime.getText().isEmpty()) {
         String orderId= cmbOrderId.getValue();
 
         try {
-            mealOrderDTO mealO = MealOrderDAOImpl.getFields(orderId);
+            mealOrder mealO = MealOrderModel.getFields(orderId);
             if (mealO != null)
             {
                 pkgId =mealO.getPackageId();
                 Qty= Integer.parseInt(mealO.getQty());
-                MealPlansDTO mealPlansDTO = MealPlansDAOImpl.setFields(pkgId);
-                if(mealPlansDTO !=null){
-                    mealPrice = mealPlansDTO.getPrice();
+                MealPlans mealPlans = MealPlansModel.setFields(pkgId);
+                if(mealPlans!=null){
+                    mealPrice = mealPlans.getPrice();
                 }
             } else {
                 new Alert(Alert.AlertType.WARNING, "no payment found :(").show();
@@ -250,23 +252,23 @@ if (!txtTime.getText().isEmpty()) {
         String hallR=cmbhallReservationId.getValue();
 
         try {
-            hallReservationDTO hallReservationDTO = HallReservationDAOImpl.setFields(hallR);
-            if (hallReservationDTO != null)
+            hallReservation hallReservation = HallReservationModel.setFields(hallR);
+            if (hallReservation != null)
             {
-                hNumber= hallReservationDTO.getHallNumber();
-                hallstartDate = LocalDate.parse(hallReservationDTO.getCheckIn());
-                hallendDate = LocalDate.parse(hallReservationDTO.getCheckOut());
+                hNumber=hallReservation.getHallNumber();
+                hallstartDate = LocalDate.parse(hallReservation.getCheckIn());
+                hallendDate = LocalDate.parse(hallReservation.getCheckOut());
                 halldays = Math.toIntExact(ChronoUnit.DAYS.between(hallstartDate, hallendDate));
                 if ((halldays==0)){
                     halldays=1;
                 }
 
-                HallDTO hallDTO = HallDAOImpl.setFields(hNumber);
-                if (hallDTO !=null){
-                    hallPrice = hallDTO.getPrice();
+                Hall hall= HallModel.setFields(hNumber);
+                if (hall!=null){
+                    hallPrice =hall.getPrice();
                 }
             } else {
-                new Alert(Alert.AlertType.WARNING, "no HallDTO found :(").show();
+                new Alert(Alert.AlertType.WARNING, "no Hall found :(").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
@@ -281,7 +283,7 @@ if (!txtTime.getText().isEmpty()) {
         String roomR=cmbRoomReservationId.getValue();
 
         try {
-            roomReservationDTO reservation = RoomReservationDAOImpl.setFields(roomR);
+            roomReservation reservation = RoomReservationModel.setFields(roomR);
             if (reservation != null)
             {
                 rNumber=reservation.getRoomNumber();
@@ -293,12 +295,12 @@ if (!txtTime.getText().isEmpty()) {
                     roomdays=1;
                 }
 
-                RoomDTO roomDTO = RoomDAOImpl.setFields(rNumber);
-                if (roomDTO !=null){
-                    roomPrice = roomDTO.getPrice();
+                Room room= RoomModel.setFields(rNumber);
+                if (room!=null){
+                    roomPrice =room.getPrice();
                 }
             } else {
-                new Alert(Alert.AlertType.WARNING, "no RoomDTO found :(").show();
+                new Alert(Alert.AlertType.WARNING, "no Room found :(").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
@@ -310,13 +312,13 @@ if (!txtTime.getText().isEmpty()) {
 
     public void btnPrintBillOnaction(ActionEvent actionEvent) throws SQLException {
 
-        String name = GuestDAOImpl.getName(cmbGuestId.getValue());
+        String name = GuestModel.getName(cmbGuestId.getValue());
         String amount = lblAmount.getText();
-        String packageId = MealOrderDetailsDAOImpl.getpkg(cmbOrderId.getValue());
-        String items = MealPlansDAOImpl.getItems(packageId);
-        String hallId = HallReservationDetailsDAOImpl.getHall(cmbhallReservationId.getValue());
-        String roomId = RoomReservationDetailsDAOImpl.getRoom(cmbRoomReservationId.getValue());
-        String qty = MealOrderDAOImpl.getQty(cmbOrderId.getValue());
+        String packageId = MealOrderDetailsModel.getpkg(cmbOrderId.getValue());
+        String items = MealPlansModel.getItems(packageId);
+        String hallId = HallReservationDetailsModel.getHall(cmbhallReservationId.getValue());
+        String roomId = RoomReservationDetailsModel.getRoom(cmbRoomReservationId.getValue());
+        String qty = MealOrderModel.getQty(cmbOrderId.getValue());
         try {
             InputStream rpt = this.getClass().getResourceAsStream("/reports/payment.jrxml");
             JasperReport compileReport = JasperCompileManager.compileReport(rpt);

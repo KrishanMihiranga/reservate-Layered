@@ -1,6 +1,5 @@
 package lk.ijse.reservate.dto;
 
-import com.jfoenix.controls.JFXComboBox;
 import lombok.*;
 
 @NoArgsConstructor

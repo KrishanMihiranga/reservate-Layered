@@ -9,12 +9,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.HallReservationDetailsDTO;
-import lk.ijse.reservate.dto.RoomReservationDetailsDTO;
-import lk.ijse.reservate.entity.HallReservationDetails;
-import lk.ijse.reservate.entity.RoomReservationDetails;
-import lk.ijse.reservate.dao.custom.impl.HallReservationDetailsDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.RoomReservationDetailsDAOImpl;
+import lk.ijse.reservate.dto.HallReservationDetails;
+import lk.ijse.reservate.dto.RoomReservationDetails;
+import lk.ijse.reservate.dto.tm.HallReservationDetailsTM;
+import lk.ijse.reservate.dto.tm.RoomReservationDetailsTM;
+import lk.ijse.reservate.model.HallReservationDetailsModel;
+import lk.ijse.reservate.model.RoomReservationDetailsModel;
+import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class reservation_details_form_Controller implements Initializable {
     private AnchorPane reservationPane;
 
     @FXML
-    private TableView<HallReservationDetails> tblHallReservation;
+    private TableView<HallReservationDetailsTM> tblHallReservation;
 
     @FXML
     private TableColumn<?, ?> colHallReservationId;
@@ -36,7 +37,7 @@ public class reservation_details_form_Controller implements Initializable {
     private TableColumn<?, ?> colHallNumber;
 
     @FXML
-    private TableView<RoomReservationDetails> tblRoomReservation;
+    private TableView<RoomReservationDetailsTM> tblRoomReservation;
 
     @FXML
     private TableColumn<?, ?> colRoomReservationId;
@@ -58,21 +59,21 @@ public class reservation_details_form_Controller implements Initializable {
 
     void getAll() {
         try {
-            ObservableList<HallReservationDetails> obList = FXCollections.observableArrayList();
-            ObservableList<RoomReservationDetails> ob = FXCollections.observableArrayList();
+            ObservableList<HallReservationDetailsTM> obList = FXCollections.observableArrayList();
+            ObservableList<RoomReservationDetailsTM> ob = FXCollections.observableArrayList();
 
-            List<HallReservationDetailsDTO> hresList = HallReservationDetailsDAOImpl.getAll();
-            List<RoomReservationDetailsDTO> rresList = RoomReservationDetailsDAOImpl.getAll();
+            List<HallReservationDetails> hresList = HallReservationDetailsModel.getAll();
+            List<RoomReservationDetails> rresList = RoomReservationDetailsModel.getAll();
 
 
-            for(HallReservationDetailsDTO hall : hresList) {
-                obList.add(new HallReservationDetails(
+            for(HallReservationDetails hall : hresList) {
+                obList.add(new HallReservationDetailsTM(
                         hall.getHallReservationId(),
                         hall.getHallNumber()
                 ));
             }
-            for(RoomReservationDetailsDTO room : rresList) {
-                ob.add(new RoomReservationDetails(
+            for(RoomReservationDetails room : rresList) {
+                ob.add(new RoomReservationDetailsTM(
                         room.getRoomReservationId(),
                         room.getRoomNumber()
                 ));

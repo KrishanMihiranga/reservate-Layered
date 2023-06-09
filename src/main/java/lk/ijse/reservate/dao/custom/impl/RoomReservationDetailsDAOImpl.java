@@ -1,22 +1,66 @@
 package lk.ijse.reservate.dao.custom.impl;
 
-import lk.ijse.reservate.dto.RoomReservationDetailsDTO;
-import lk.ijse.reservate.util.CrudUtil;
+import lk.ijse.reservate.dao.SQLUtill;
+import lk.ijse.reservate.dao.custom.RoomReservationDetailsDAO;
+import lk.ijse.reservate.entity.RoomReservationDetails;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomReservationDetailsDAOImpl {
+public class RoomReservationDetailsDAOImpl implements RoomReservationDetailsDAO {
+    @Override
+    public String getNextId() throws SQLException, ClassNotFoundException {
+        return null;
+    }
 
-    public static List<RoomReservationDetailsDTO> getAll() throws SQLException {
+    @Override
+    public String splitId(String currentId) throws SQLException, ClassNotFoundException {
+        return null;
+    }
 
+    @Override
+    public boolean add(RoomReservationDetails entity) throws SQLException, ClassNotFoundException {
+        String sql ="INSERT INTO RoomReservationDetailsDTO(RoomReservationId, RoomNumber) VALUES(?, ?)";
+        return SQLUtill.execute(sql, entity.getRoomReservationId(),entity.getRoomNumber());
+    }
+
+    @Override
+    public boolean update(RoomReservationDetails entity) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        String sql = "DELETE FROM RoomReservationDetailsDTO WHERE RoomReservationId = ?";
+        return SQLUtill.execute(sql, id);
+    }
+
+    @Override
+    public List<String> getIds() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public RoomReservationDetails setFields(String id) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM RoomReservationDetailsDTO WHERE RoomNumber = ?";
+        ResultSet resultSet = SQLUtill.execute(sql, id);
+        if (resultSet.next()) {
+            String RoomReservationId = resultSet.getString(1);
+            String RoomNumber = resultSet.getString(2);
+            return new RoomReservationDetails(RoomReservationId, RoomNumber);
+        }
+        return null;
+    }
+
+    @Override
+    public List<RoomReservationDetails> getAll() throws SQLException {
         String sql = "SELECT * FROM RoomReservationDetailsDTO";
-        List<RoomReservationDetailsDTO> data = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.execute(sql);
+        List<RoomReservationDetails> data = new ArrayList<>();
+        ResultSet resultSet = SQLUtill.execute(sql);
         while (resultSet.next()) {
-            data.add(new RoomReservationDetailsDTO(
+            data.add(new RoomReservationDetails(
                     resultSet.getString(1),
                     resultSet.getString(2)
             ));
@@ -24,41 +68,23 @@ public class RoomReservationDetailsDAOImpl {
         return data;
     }
 
-    public static boolean save(String roomReservationId, String roomNumber) throws SQLException {
-        String sql ="INSERT INTO RoomReservationDetailsDTO(RoomReservationId, RoomNumber) VALUES(?, ?)";
-        return CrudUtil.execute(sql, roomReservationId, roomNumber);
-    }
-
-    public static boolean remove(String roomNumber) throws SQLException {
+    @Override
+    public boolean removeR(String roomReservationId) throws SQLException {
         String sql = "DELETE FROM RoomReservationDetailsDTO WHERE RoomReservationId = ?";
-        return CrudUtil.execute(sql, roomNumber);
+        return SQLUtill.execute(sql, roomReservationId);
     }
 
-    public static boolean removeR(String roomReservationId) throws SQLException {
-        String sql = "DELETE FROM RoomReservationDetailsDTO WHERE RoomReservationId = ?";
-        return CrudUtil.execute(sql, roomReservationId);
-    }
-
-    public static RoomReservationDetailsDTO setFields(String roomnumber) throws SQLException {
-        String sql = "SELECT * FROM RoomReservationDetailsDTO WHERE RoomNumber = ?";
-        ResultSet resultSet = CrudUtil.execute(sql, roomnumber);
-        if (resultSet.next()) {
-            String RoomReservationId = resultSet.getString(1);
-            String RoomNumber = resultSet.getString(2);
-            return new RoomReservationDetailsDTO(RoomReservationId, RoomNumber);
-        }
-        return null;
-    }
-
-    public static String getRoom(String value) throws SQLException {
+    @Override
+    public String getRoom(String value) throws SQLException {
         String roomId;
         String sql = "SELECT * FROM RoomReservationDetailsDTO WHERE RoomReservationId = ?";
-        ResultSet resultSet =CrudUtil.execute(sql, value);
+        ResultSet resultSet = SQLUtill.execute(sql, value);
         if (resultSet.next()){
             roomId= resultSet.getString("RoomNumber");
             return roomId;
         }
         return null;
     }
+
 
 }

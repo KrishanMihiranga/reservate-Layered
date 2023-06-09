@@ -10,14 +10,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dao.custom.impl.HallMaintenanceDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.HallDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.RoomMaintenanceDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.RoomDAOImpl;
-import lk.ijse.reservate.dto.hallMaintenanceDTO;
-import lk.ijse.reservate.dto.roomMaintenanceDTO;
+import lk.ijse.reservate.dto.Employee;
+import lk.ijse.reservate.dto.hallMaintenance;
+import lk.ijse.reservate.dto.roomMaintenance;
+import lk.ijse.reservate.model.*;
 
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -90,8 +89,8 @@ public class MarkMaintenanceFormController {
 
     private void generateNextId() {
         try {
-            String nextHId = HallMaintenanceDAOImpl.generateNextId();
-            String nextRId = RoomMaintenanceDAOImpl.generateNextId();
+            String nextHId = HallMaintenanceModel.generateNextId();
+            String nextRId = RoomMaintenanceModel.generateNextId();
             txtHallMaintenanceId.setText(nextHId);
             txtRoomMaintenanceId.setText(nextRId);
 
@@ -102,7 +101,7 @@ public class MarkMaintenanceFormController {
 
     private void loadHallIds() {
         try{
-            List<String> HallIds = HallDAOImpl.getIds();
+            List<String> HallIds = HallModel.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String hIds : HallIds){
                 obList.add(hIds);
@@ -116,7 +115,7 @@ public class MarkMaintenanceFormController {
 
     private void loadRoomIds() {
         try{
-            List<String> RoomIds = RoomDAOImpl.getIds();
+            List<String> RoomIds = RoomModel.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String rIds : RoomIds){
                 obList.add(rIds);
@@ -138,7 +137,7 @@ public class MarkMaintenanceFormController {
 
         if (cmbroomNumber.getValue() !=null) {
             try {
-                boolean isSaved = RoomMaintenanceDAOImpl.save(MaintenanceId, RoomNumber, Date, StartTime, EndTime);
+                boolean isSaved = RoomMaintenanceModel.save(MaintenanceId, RoomNumber, Date, StartTime, EndTime);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
                 }
@@ -160,7 +159,7 @@ public class MarkMaintenanceFormController {
         String EndTime=txtEndTime.getText();
         if (cmbHallNumber.getValue() !=null) {
             try {
-                boolean isSaved = HallMaintenanceDAOImpl.save(MaintenanceId, hallNumber, Date, StartTime, EndTime);
+                boolean isSaved = HallMaintenanceModel.save(MaintenanceId, hallNumber, Date, StartTime, EndTime);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
                 }
@@ -180,7 +179,7 @@ public class MarkMaintenanceFormController {
         String EndTime= txtEndTime.getText();
 
         try{
-            boolean isSaved = RoomMaintenanceDAOImpl.updateRoom(MaintenanceId, RoomNumber, Date, StartTime,EndTime);
+            boolean isSaved = RoomMaintenanceModel.updateRoom(MaintenanceId, RoomNumber, Date, StartTime,EndTime);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
             }
@@ -197,7 +196,7 @@ public class MarkMaintenanceFormController {
         String StartTime=txtStartTime.getText();
         String EndTime=txtEndTime.getText();
         try{
-            boolean isSaved = HallMaintenanceDAOImpl.updateHall(MaintenanceId, hallNumber, Date, StartTime,EndTime);
+            boolean isSaved = HallMaintenanceModel.updateHall(MaintenanceId, hallNumber, Date, StartTime,EndTime);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
             }
@@ -209,7 +208,7 @@ public class MarkMaintenanceFormController {
     public void btnCancelRoomOnAction(ActionEvent actionEvent) {
         String MaintenanceId = txtRoomMaintenanceId.getText();
         try{
-            boolean isSaved = RoomMaintenanceDAOImpl.remove(MaintenanceId);
+            boolean isSaved = RoomMaintenanceModel.remove(MaintenanceId);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Removed!").show();
             }
@@ -222,7 +221,7 @@ public class MarkMaintenanceFormController {
     public void btnCancelHallOnAction(ActionEvent actionEvent) {
         String MaintenanceId=txtHallMaintenanceId.getText();
         try{
-            boolean isSaved = HallMaintenanceDAOImpl.remove(MaintenanceId);
+            boolean isSaved = HallMaintenanceModel.remove(MaintenanceId);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Removed!").show();
             }
@@ -234,7 +233,7 @@ public class MarkMaintenanceFormController {
     public void txtRoomMaintenanceIdOnAction(ActionEvent actionEvent) {
         String MaintenanceId = txtRoomMaintenanceId.getText();
         try {
-           roomMaintenanceDTO rm = RoomMaintenanceDAOImpl.setFields(MaintenanceId);
+           roomMaintenance rm = RoomMaintenanceModel.setFields(MaintenanceId);
             if (rm != null)
             {
                 txtRoomMaintenanceId.setText(rm.getRoomMaintenanceId());
@@ -255,7 +254,7 @@ public class MarkMaintenanceFormController {
         String MaintenanceId=txtHallMaintenanceId.getText();
 
         try {
-            hallMaintenanceDTO hm = HallMaintenanceDAOImpl.setFields(MaintenanceId);
+            hallMaintenance hm =HallMaintenanceModel.setFields(MaintenanceId);
             if (hm != null)
             {
                 txtHallMaintenanceId.setText(hm.getHallMaintenanceId());

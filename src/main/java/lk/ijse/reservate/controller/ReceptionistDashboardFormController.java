@@ -19,14 +19,18 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import lk.ijse.reservate.dao.custom.impl.DashboardDAOImpl;
+import lk.ijse.reservate.model.DashboardModel;
+import lk.ijse.reservate.model.paymentModel;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Clock;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 public class ReceptionistDashboardFormController {
@@ -96,19 +100,19 @@ public class ReceptionistDashboardFormController {
 
     private void setlable(){
         try {
-            int totRooms = DashboardDAOImpl.getTotalRooms();
+            int totRooms = DashboardModel.getTotalRooms();
             lblTotalRooms.setText(String.valueOf(totRooms));
 
-            int totHalls = DashboardDAOImpl.getTotalHalls();
+            int totHalls = DashboardModel.getTotalHalls();
             lblTotalHalls.setText(String.valueOf(totHalls));
 
-            int bookedHalls = DashboardDAOImpl.getBookedHalls();
+            int bookedHalls = DashboardModel.getBookedHalls();
             lblBookedhalls.setText(String.valueOf(bookedHalls));
 
-            int bookedRooms = DashboardDAOImpl.getBookedRooms();
+            int bookedRooms = DashboardModel.getBookedRooms();
             lblBookedRooms.setText(String.valueOf(bookedRooms));
 
-            int complaints = DashboardDAOImpl.getComplaints();
+            int complaints = DashboardModel.getComplaints();
             lblComplaints.setText(String.valueOf(complaints));
         }catch (Exception e){
             new Alert(Alert.AlertType.ERROR, "Error in set Label!").show();

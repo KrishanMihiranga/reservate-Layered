@@ -1,14 +1,19 @@
 package lk.ijse.reservate.dao.custom.impl;
 
+import lk.ijse.reservate.dao.custom.DashboardDAO;
 import lk.ijse.reservate.db.DBConnection;
+import lk.ijse.reservate.dto.ComplaintDTO;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
-public class DashboardDAOImpl {
-    public static int getTotalRooms() throws SQLException {
+public class DashboardDAOImpl implements DashboardDAO {
+
+    @Override
+    public int getTotalRooms() throws SQLException {
         Connection con = DBConnection.getInstance().getConnection();
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS num_rooms FROM room");
@@ -17,7 +22,8 @@ public class DashboardDAOImpl {
         return numRooms;
     }
 
-    public static int getTotalHalls() throws SQLException {
+    @Override
+    public int getTotalHalls() throws SQLException {
         Connection con = DBConnection.getInstance().getConnection();
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS num_halls FROM hall");
@@ -26,7 +32,8 @@ public class DashboardDAOImpl {
         return numhalls;
     }
 
-    public static int getBookedHalls() throws SQLException {
+    @Override
+    public int getBookedHalls() throws SQLException {
         Connection con = DBConnection.getInstance().getConnection();
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS booked_halls FROM hallreservationdetails");
@@ -35,7 +42,8 @@ public class DashboardDAOImpl {
         return booked_hall;
     }
 
-    public static int getBookedRooms() throws SQLException {
+    @Override
+    public int getBookedRooms() throws SQLException {
         Connection con = DBConnection.getInstance().getConnection();
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS booked_rooms FROM roomreservationdetails");
@@ -44,8 +52,9 @@ public class DashboardDAOImpl {
         return booked_room;
     }
 
-    public static int getComplaints() throws SQLException {
-        Connection con = DBConnection.getInstance().getConnection();
+    @Override
+    public int getComplaints() throws SQLException {
+         Connection con = DBConnection.getInstance().getConnection();
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS com FROM complaints");
         rs.next();

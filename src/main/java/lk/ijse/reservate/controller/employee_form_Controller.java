@@ -11,11 +11,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.EmployeeDTO;
 import lk.ijse.reservate.dao.custom.impl.EmployeeDAOImpl;
+import lk.ijse.reservate.dto.Employee;
+import lk.ijse.reservate.model.EmployeeModel;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 public class employee_form_Controller {
@@ -78,7 +80,7 @@ public class employee_form_Controller {
 
     private void generateNextEmpId() {
         try {
-            String nextEmpId = EmployeeDAOImpl.generateNextEmpId();
+            String nextEmpId = EmployeeModel.generateNextEmpId();
             empId.setText(nextEmpId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -105,9 +107,9 @@ public class employee_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values !").show();
             }else {
                 try {
-                    boolean isSaved = EmployeeDAOImpl.save(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email);
+                    boolean isSaved = EmployeeModel.save(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email);
                     if (isSaved) {
-                        new Alert(Alert.AlertType.CONFIRMATION, "EmployeeDTO Added!").show();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Employee Added!").show();
                     }
                 } catch (Exception e) {
                     new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -146,9 +148,9 @@ public class employee_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values !").show();
             }else {
                 try{
-                    boolean isSaved = EmployeeDAOImpl.update(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email);
+                    boolean isSaved = EmployeeModel.update(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email);
                     if(isSaved){
-                        new Alert(Alert.AlertType.CONFIRMATION, "EmployeeDTO Updated!").show();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Employee Updated!").show();
                     }
                 }catch(Exception e){
                     new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -173,7 +175,7 @@ public class employee_form_Controller {
         try{
             boolean isSaved = EmployeeDAOImpl.delete(EmpId);
             if(isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION, "EmployeeDTO Deleted!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Employee Deleted!").show();
             }else{
                 new Alert(Alert.AlertType.ERROR, "There is no matching employee!").show();
             }
@@ -185,20 +187,20 @@ public class employee_form_Controller {
     public void empIdOnAction(ActionEvent actionEvent) {
         String code = empId.getText();
         try {
-            EmployeeDTO employeeDTO = EmployeeDAOImpl.setFields(code);
-            if (employeeDTO != null)
+            Employee employee = EmployeeModel.setFields(code);
+            if (employee != null)
             {
-                nic.setText(employeeDTO.getNic());
-                date.setValue(LocalDate.parse(String.valueOf(employeeDTO.getDate())));
-                empId.setText(employeeDTO.getEmpId());
-                address.setText(employeeDTO.getAddress());
-                fullName.setText(employeeDTO.getFullname());
-                contact.setText(employeeDTO.getMobile());
-                jobRole.setValue(employeeDTO.getJobRole());
-                email.setText(employeeDTO.getEmail());
+                nic.setText(employee.getNic());
+                date.setValue(LocalDate.parse(String.valueOf(employee.getDate())));
+                empId.setText(employee.getEmpId());
+                address.setText(employee.getAddress());
+                fullName.setText(employee.getFullname());
+                contact.setText(employee.getMobile());
+                jobRole.setValue(employee.getJobRole());
+                email.setText(employee.getEmail());
 
             } else {
-                new Alert(Alert.AlertType.WARNING, "no EmployeeDTO found :(").show();
+                new Alert(Alert.AlertType.WARNING, "no Employee found :(").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();

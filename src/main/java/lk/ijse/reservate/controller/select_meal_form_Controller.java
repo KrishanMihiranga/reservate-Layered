@@ -13,12 +13,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dao.custom.impl.GuestDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.MealOrderDetailsDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.MealOrderDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.MealPlansDAOImpl;
 import lk.ijse.reservate.dto.*;
-import lk.ijse.reservate.entity.mealDetails;
+import lk.ijse.reservate.dto.tm.mealDetailsTM;
+import lk.ijse.reservate.model.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -55,7 +52,7 @@ public class select_meal_form_Controller {
     private JFXTextField txtOrderId;
 
     @FXML
-    private TableView<mealDetails> tblMealOrders;
+    private TableView<mealDetailsTM> tblMealOrders;
 
     @FXML
     private TableColumn<?, ?> colPackageId;
@@ -84,15 +81,15 @@ public class select_meal_form_Controller {
 
     private void getall() {
         try {
-            ObservableList<mealDetails> obList = FXCollections.observableArrayList();
+            ObservableList<mealDetailsTM> obList = FXCollections.observableArrayList();
 
 
-            List<MealPlansDTO> list = MealPlansDAOImpl.getAll();
+            List<MealPlans> list = MealPlansModel.getAll();
 
 
 
-            for(MealPlansDTO meal : list) {
-                obList.add(new mealDetails(
+            for(MealPlans meal : list) {
+                obList.add(new mealDetailsTM(
                         meal.getPackageId(),
                         meal.getMealPlan(),
                         meal.getMealType(),
@@ -119,7 +116,7 @@ public class select_meal_form_Controller {
 
     private void generateNextId() {
         try {
-            String nextId = MealOrderDAOImpl.generateNextId();
+            String nextId = MealOrderModel.generateNextId();
             txtOrderId.setText(nextId);
 
         } catch (SQLException e) {
@@ -141,7 +138,7 @@ public class select_meal_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = MealOrderDAOImpl.Order(OrderId, GuestId, PackageId, Date, Qty,OrderId, PackageId);
+                    boolean isSaved = MealOrderModel.Order(OrderId, GuestId, PackageId, Date, Qty,OrderId, PackageId);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Order Added!").show();
                     }
@@ -159,7 +156,7 @@ public class select_meal_form_Controller {
 
    private void loadPackageIds() {
        try{
-           List<String> packageIds = MealPlansDAOImpl.getIds();
+           List<String> packageIds = MealPlansModel.getIds();
            ObservableList<String> obList = FXCollections.observableArrayList();
            for(String pIds : packageIds){
                obList.add(pIds);
@@ -173,7 +170,7 @@ public class select_meal_form_Controller {
 
    private void loadGuestIds() {
        try{
-           List<String> gIds = GuestDAOImpl.getIds();
+           List<String> gIds = GuestModel.getIds();
            ObservableList<String> obList = FXCollections.observableArrayList();
            for(String guestIds : gIds){
                obList.add(guestIds);
@@ -199,7 +196,7 @@ public class select_meal_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = MealOrderDAOImpl.update(OrderId, GuestId, PackageId, Date, Qty);
+                    boolean isSaved = MealOrderModel.update(OrderId, GuestId, PackageId, Date, Qty);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Order Updated!").show();
                     }
@@ -219,7 +216,7 @@ public class select_meal_form_Controller {
     public void btnCancelOrderOnAction(ActionEvent actionEvent) {
         String OrderId = txtOrderId.getText();
     try{
-            boolean isSaved = MealOrderDetailsDAOImpl.remove(OrderId);
+            boolean isSaved = MealOrderDetailsModel.remove(OrderId);
             try {
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Meal Order Removed!").show();
@@ -237,7 +234,7 @@ public class select_meal_form_Controller {
     public void txtOrderIdOnAction(ActionEvent actionEvent) {
       String id = txtOrderId.getText();
        try {
-          selectMealDTO meal= MealOrderDAOImpl.setFields(id);
+          selectMeal meal= MealOrderModel.setFields(id);
            if (meal != null)
            {
                txtOrderId.setText(meal.getMealOrderId());

@@ -1,8 +1,10 @@
 package lk.ijse.reservate.dao.custom.impl;
 
+import lk.ijse.reservate.dao.custom.RoomDAO;
 import lk.ijse.reservate.db.DBConnection;
+import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.dto.RoomDTO;
-import lk.ijse.reservate.util.CrudUtil;
+import lk.ijse.reservate.entity.room;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,21 +12,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomDAOImpl {
-
-    public static String generateNextRoomNumber() throws SQLException {
+public class RoomDAOImpl implements RoomDAO {
+    @Override
+    public String getNextId() throws SQLException, ClassNotFoundException {
         String sql = "SELECT RoomNumber FROM room ORDER BY RoomNumber DESC LIMIT 1";
-
-        ResultSet resultSet = CrudUtil.execute(sql);
+        ResultSet resultSet = SQLUtill.execute(sql);
         if(resultSet.next()) {
-            return splitRoomNumber(resultSet.getString(1));
+            return splitId(resultSet.getString(1));
         }
-        return splitRoomNumber(null);
+        return splitId(null);
     }
 
-    public static String splitRoomNumber(String currentOrderId) {
-        if(currentOrderId != null) {
-            int lastNum = Integer.parseInt(currentOrderId.substring(1));
+    @Override
+    public String splitId(String currentId) throws SQLException, ClassNotFoundException {
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(1));
             int newNum = lastNum + 1;
             String newId = String.format("R%04d", newNum);
             return newId;
@@ -32,12 +34,26 @@ public class RoomDAOImpl {
         return "R0001";
     }
 
-    public static boolean save(String roomNumber, String roomType, String price, String status) throws SQLException {
+    @Override
+    public boolean add(room entity) throws SQLException, ClassNotFoundException {
         String sql ="INSERT INTO room(RoomNumber, RoomType, Price, Status) VALUES(?, ?, ?, ?)";
-        return CrudUtil.execute(sql, roomNumber, roomType, price, status);
+        return SQLUtill.execute(sql, entity.getRoomNumber(),entity.getRoomType(),entity.getPrice(),entity.getStatus());
     }
 
-    public static List<String> getIds() throws SQLException{
+    @Override
+    public boolean update(room entity) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE room SET RoomType = ?, Price = ?, Status = ? WHERE  RoomNumber = ?";
+        return SQLUtill.execute(sql, entity.getRoomType(),entity.getPrice(),entity.getStatus(), entity.getRoomNumber());
+    }
+
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        String sql= "DELETE FROM room WHERE RoomNumber = ?";
+        return SQLUtill.execute(sql, id);
+    }
+
+    @Override
+    public List<String> getIds() throws SQLException, ClassNotFoundException {
         Connection con = DBConnection.getInstance().getConnection();
         String sql = "SELECT RoomNumber FROM room";
         List<String> empIds = new ArrayList<>();
@@ -48,31 +64,19 @@ public class RoomDAOImpl {
         return empIds;
     }
 
-    public static boolean update(String roomNumber, String roomType, String valueOf, String status) throws SQLException {
-        String sql = "UPDATE room SET RoomType = ?, Price = ?, Status = ? WHERE  RoomNumber = ?";
-        return CrudUtil.execute(sql, roomType, valueOf, status, roomNumber);
-    }
-
-    public static boolean remove(String roomNumber) throws SQLException {
-        String sql= "DELETE FROM room WHERE RoomNumber = ?";
-        return CrudUtil.execute(sql, roomNumber);
-    }
-
-    public static RoomDTO setFields(String roomNumber) throws SQLException {
-
+    @Override
+    public room setFields(String id) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM room WHERE RoomNumber = ?";
-        ResultSet resultSet = CrudUtil.execute(sql, roomNumber);
-
+        ResultSet resultSet = SQLUtill.execute(sql, id);
         if(resultSet.next()) {
-
             String RoomNumber= resultSet.getString(1);
             String RoomType= resultSet.getString(2);
             Double Price= Double.valueOf(resultSet.getString(3));
             String Status= resultSet.getString(4);
-
-
-            return new RoomDTO(RoomNumber, RoomType, Price, Status);
+            return new room(RoomNumber, RoomType, Price, Status);
         }
         return null;
     }
+
+
 }

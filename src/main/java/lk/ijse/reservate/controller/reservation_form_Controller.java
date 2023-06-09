@@ -15,10 +15,15 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import lk.ijse.reservate.dao.custom.impl.*;
+import javafx.stage.StageStyle;
+import lk.ijse.reservate.db.DBConnection;
 import lk.ijse.reservate.dto.*;
 
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -80,9 +85,9 @@ public class reservation_form_Controller {
 
     private void generateNextId() {
         try {
-            String nextId = HallReservationDAOImpl.generateNextId();
+            String nextId = HallReservationModel.generateNextId();
             txtHallReservationId.setText(nextId);
-            String nextRId = RoomReservationDAOImpl.generateNextId();
+            String nextRId = RoomReservationModel.generateNextId();
             txtRoomReservationId.setText(nextRId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -92,7 +97,7 @@ public class reservation_form_Controller {
 
     private void loadGuestIds(){
         try{
-            List<String> gIds = GuestDAOImpl.getIds();
+            List<String> gIds = GuestModel.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String guestIds : gIds){
                 obList.add(guestIds);
@@ -105,7 +110,7 @@ public class reservation_form_Controller {
     }
     private void loadRoomIds(){
         try{
-            List<String> rIds = RoomDAOImpl.getIds();
+            List<String> rIds = RoomModel.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String roomIds : rIds){
                 obList.add(roomIds);
@@ -118,7 +123,7 @@ public class reservation_form_Controller {
     }
     private void loadHallIds(){
         try{
-            List<String> hIds = HallDAOImpl.getIds();
+            List<String> hIds = HallModel.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String hallIds : hIds){
                 obList.add(hallIds);
@@ -139,9 +144,9 @@ public class reservation_form_Controller {
         String RoomReservationId = txtRoomReservationId.getText();
 
         try{
-            boolean isSaved = RoomReservationDAOImpl.Order(CheckIn, CheckOut, RoomReservationId, GuestId, RoomNumber);
+            boolean isSaved = RoomReservationModel.Order(CheckIn, CheckOut, RoomReservationId, GuestId, RoomNumber);
             if(isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION, "RoomDTO Reserved!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Room Reserved!").show();
             }
         }catch(Exception e){
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -156,9 +161,9 @@ public class reservation_form_Controller {
         String HallNumber = String.valueOf(cmbHallNumber.getValue());
 
         try{
-            boolean isSaved = HallReservationDAOImpl.Order(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
+            boolean isSaved =HallReservationModel.Order(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
             if(isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION, "HallDTO Reserved!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Hall Reserved!").show();
             }
         }catch(Exception e){
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -171,12 +176,12 @@ public class reservation_form_Controller {
         String reservationId = txtRoomReservationId.getText();
 
         try{
-           // boolean isSaved = RoomReservationDAOImpl.remove(reservationId);
-            boolean isRemoved = RoomReservationDetailsDAOImpl.remove(reservationId);
+           // boolean isSaved = RoomReservationModel.remove(reservationId);
+            boolean isRemoved = RoomReservationDetailsModel.remove(reservationId);
 
             if(isRemoved){
 
-                new Alert(Alert.AlertType.CONFIRMATION, "RoomDTO Reservation Canceled!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Room Reservation Canceled!").show();
             }
         }catch(Exception e){
 
@@ -189,11 +194,11 @@ public class reservation_form_Controller {
         String reservationId = txtHallReservationId.getText();
 
         try{
-          //  boolean isSaved =HallReservationDAOImpl.remove(hallNumber);
-           boolean isRemoved = HallReservationDetailsDAOImpl.removeH(reservationId);
+          //  boolean isSaved =HallReservationModel.remove(hallNumber);
+           boolean isRemoved = HallReservationDetailsModel.removeH(reservationId);
             if(isRemoved){
 
-                new Alert(Alert.AlertType.CONFIRMATION, "HallDTO Reservation Canceled!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Hall Reservation Canceled!").show();
             }
         }catch(Exception e){
 
@@ -217,7 +222,7 @@ public class reservation_form_Controller {
         lblHall.setText(null);
         String RoomNumber = cmbRoomNumber.getValue();
         try{
-            boolean isSaved = RoomReservationDAOImpl.isValid(RoomNumber);
+            boolean isSaved =RoomReservationModel.isValid(RoomNumber);
             if(isSaved){
                 lblRoom.setText("*Already Reserved");
                 lblRoom.setStyle("-fx-text-fill: red;");
@@ -230,13 +235,13 @@ public class reservation_form_Controller {
         }
        String roomnumber = cmbRoomNumber.getValue();
         try {
-            roomReservationDTO roomReservationDTO = RoomReservationDAOImpl.setRFields(roomnumber);
-            RoomReservationDetailsDTO rd = RoomReservationDetailsDAOImpl.setFields(roomnumber);
+            roomReservation roomReservation = RoomReservationModel.setRFields(roomnumber);
+            RoomReservationDetails rd = RoomReservationDetailsModel.setFields(roomnumber);
             if (lblRoom.getText().equals("*Already Reserved")) {
-                    cmbGuestId.setValue(roomReservationDTO.getGuestId());
-                    txtCheckInDate.setValue(LocalDate.parse(roomReservationDTO.getCheckIn()));
-                    txtCheckOutDate.setValue(LocalDate.parse(roomReservationDTO.getCheckOut()));
-                    cmbRoomNumber.setValue(roomReservationDTO.getRoomNumber());
+                    cmbGuestId.setValue(roomReservation.getGuestId());
+                    txtCheckInDate.setValue(LocalDate.parse(roomReservation.getCheckIn()));
+                    txtCheckOutDate.setValue(LocalDate.parse(roomReservation.getCheckOut()));
+                    cmbRoomNumber.setValue(roomReservation.getRoomNumber());
                     txtRoomReservationId.setText(rd.getRoomReservationId());
             }else{
                 initialize();
@@ -252,7 +257,7 @@ public class reservation_form_Controller {
         lblRoom.setText(null);
         String HallNumber = cmbHallNumber.getValue();
         try{
-            boolean isSaved = HallReservationDAOImpl.isValid(HallNumber);
+            boolean isSaved =HallReservationModel.isValid(HallNumber);
             if(isSaved){
                 lblHall.setText("*Already Reserved");
                 lblHall.setStyle("-fx-text-fill: red;");
@@ -265,13 +270,13 @@ public class reservation_form_Controller {
         }
         String hallNumber =cmbHallNumber.getValue();
         try {
-            hallReservationDTO hallReservationDTO = HallReservationDAOImpl.setHFields(hallNumber);
-            HallReservationDetailsDTO hd = HallReservationDetailsDAOImpl.setFields(hallNumber);
+            hallReservation hallReservation = HallReservationModel.setHFields(hallNumber);
+            HallReservationDetails hd = HallReservationDetailsModel.setFields(hallNumber);
             if (lblHall.getText().equals("*Already Reserved")) {
-                cmbGuestId.setValue(hallReservationDTO.getGuestId());
-                txtCheckInDate.setValue(LocalDate.parse(hallReservationDTO.getCheckIn()));
-                txtCheckOutDate.setValue(LocalDate.parse(hallReservationDTO.getCheckOut()));
-                cmbHallNumber.setValue(hallReservationDTO.getHallNumber());
+                cmbGuestId.setValue(hallReservation.getGuestId());
+                txtCheckInDate.setValue(LocalDate.parse(hallReservation.getCheckIn()));
+                txtCheckOutDate.setValue(LocalDate.parse(hallReservation.getCheckOut()));
+                cmbHallNumber.setValue(hallReservation.getHallNumber());
                 txtHallReservationId.setText(hd.getHallReservationId());
             }else{
                 initialize();
@@ -286,7 +291,7 @@ public class reservation_form_Controller {
     public void cmbrIdOnAction(ActionEvent actionEvent) {
         String rId = txtRoomReservationId.getText();
         try {
-            roomReservationDTO reservation = RoomReservationDAOImpl.setFields(rId);
+            roomReservation reservation = RoomReservationModel.setFields(rId);
             if (reservation != null)
             {
                 txtCheckInDate.setValue(LocalDate.parse(reservation.getCheckIn()));
@@ -305,7 +310,7 @@ public class reservation_form_Controller {
     public void txtHallReservationIdOnAction(ActionEvent actionEvent) {
         String id = txtHallReservationId.getText();
         try {
-            hallReservationDTO hallreservation= HallReservationDAOImpl.setFields(id);
+            hallReservation hallreservation= HallReservationModel.setFields(id);
             if (hallreservation != null)
             {
                 txtCheckInDate.setValue(LocalDate.parse(hallreservation.getCheckIn()));

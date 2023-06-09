@@ -1,28 +1,35 @@
 package lk.ijse.reservate.dao.custom.impl;
 
-import lk.ijse.reservate.util.CrudUtil;
+import lk.ijse.reservate.dao.SQLUtill;
+import lk.ijse.reservate.dao.custom.MealOrderDetailsDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MealOrderDetailsDAOImpl {
-    public static boolean save(String orderId, String packageId) throws SQLException {
+public class MealOrderDetailsDAOImpl implements MealOrderDetailsDAO {
+
+    @Override
+    public boolean add(String orderId, String packageId) throws SQLException {
         String sql = "INSERT INTO mealorderdetails(PackageId, MealOrderId)VALUES(?, ?)";
-        return CrudUtil.execute(sql, packageId,orderId);
-    }
-    public static boolean remove(String orderId) throws SQLException {
-        String sql = "DELETE FROM mealorderdetails WHERE MealOrderId = ?";
-        return CrudUtil.execute(sql, orderId);
+        return SQLUtill.execute(sql, packageId,orderId);
     }
 
-    public static String getpkg(String cmbOrderId) throws SQLException {
+    @Override
+    public boolean delete(String orderId) throws SQLException {
+        String sql = "DELETE FROM mealorderdetails WHERE MealOrderId = ?";
+        return SQLUtill.execute(sql, orderId);
+    }
+
+    @Override
+    public String getpkg(String cmbOrderId) throws SQLException {
         String pkgId;
         String sql = "SELECT * FROM mealorderdetails WHERE MealOrderId = ?";
-        ResultSet resultSet = CrudUtil.execute(sql, cmbOrderId);
+        ResultSet resultSet = SQLUtill.execute(sql, cmbOrderId);
         if (resultSet.next()){
             pkgId= resultSet.getString("PackageId");
             return pkgId;
         }
         return null;
     }
+
 }

@@ -9,12 +9,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.UserDTO;
-import lk.ijse.reservate.dao.custom.impl.EmployeeDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.UserDAOImpl;
+import lk.ijse.reservate.dto.Employee;
+import lk.ijse.reservate.dto.User;
+import lk.ijse.reservate.model.EmployeeModel;
+import lk.ijse.reservate.model.UserModel;
 
+import javax.swing.plaf.basic.BasicComboPopup;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 public class user_form_Controller {
@@ -50,7 +57,7 @@ public class user_form_Controller {
 
     private void generateNextUserId() {
         try {
-            String nextUserId = UserDAOImpl.generateNextUserId();
+            String nextUserId = UserModel.generateNextUserId();
             txtUserId.setText(nextUserId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -59,7 +66,7 @@ public class user_form_Controller {
 
     private void loadEmpIds(){
         try{
-            List<String> eIds = EmployeeDAOImpl.getIds();
+            List<String> eIds = EmployeeModel.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String empIds : eIds){
                 obList.add(empIds);
@@ -79,8 +86,8 @@ public class user_form_Controller {
         String EmpId    =comboEmpId.getValue();
 
         boolean isValid = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$").matcher(Password).matches();
-        boolean isReceptionist = EmployeeDAOImpl.roleCheck(EmpId);
-        boolean validEmployee = UserDAOImpl.empCheck(EmpId);
+        boolean isReceptionist = EmployeeModel.roleCheck(EmpId);
+        boolean validEmployee = UserModel.empCheck(EmpId);
 
         if (isValid && isReceptionist && validEmployee) {
             txtPassword.setStyle("-fx-text-fill: black");
@@ -88,9 +95,9 @@ public class user_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty Values !").show();
             }else {
                 try{
-                    boolean isSaved = UserDAOImpl.save(UserId, EmpId, UserName, Password);
+                    boolean isSaved = UserModel.save(UserId, EmpId, UserName, Password);
                     if(isSaved){
-                        new Alert(Alert.AlertType.CONFIRMATION, "UserDTO Added!").show();
+                        new Alert(Alert.AlertType.CONFIRMATION, "User Added!").show();
                     }
                 }catch(Exception e){
                     new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -116,9 +123,9 @@ public class user_form_Controller {
         String EmpId    =comboEmpId.getValue();
 
         try{
-            boolean isSaved = UserDAOImpl.update(UserId, EmpId, UserName, Password);
+            boolean isSaved =UserModel.update(UserId, EmpId, UserName, Password);
             if(isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION, "UserDTO Updated!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "User Updated!").show();
             }
         }catch(Exception e){
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -129,9 +136,9 @@ public class user_form_Controller {
     public void btnRemoveOnAction(ActionEvent actionEvent) {
         String UserId = txtUserId.getText();
         try{
-            boolean isSaved = UserDAOImpl.remove(UserId);
+            boolean isSaved =UserModel.remove(UserId);
             if(isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION, "UserDTO Removed!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "User Removed!").show();
             }
         }catch(Exception e){
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -141,16 +148,16 @@ public class user_form_Controller {
     public void txtUserIdOnAction(ActionEvent actionEvent) {
         String UserId = txtUserId.getText();
         try {
-            UserDTO userDTO = UserDAOImpl.setFields(UserId);
-            if (userDTO != null)
+            User user = UserModel.setFields(UserId);
+            if (user != null)
             {
-                txtUserId.setText(userDTO.getUserId());
-                txtUserName.setText(userDTO.getUserName());
-                txtPassword.setText(userDTO.getPassword());
-                comboEmpId.setValue(userDTO.getEmpId());
+                txtUserId.setText(user.getUserId());
+                txtUserName.setText(user.getUserName());
+                txtPassword.setText(user.getPassword());
+                comboEmpId.setValue(user.getEmpId());
 
             } else {
-                new Alert(Alert.AlertType.WARNING, "no UserDTO found :(").show();
+                new Alert(Alert.AlertType.WARNING, "no User found :(").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();

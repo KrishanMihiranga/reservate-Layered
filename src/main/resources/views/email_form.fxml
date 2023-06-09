@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="reservationPane" prefHeight="600.0" prefWidth="1160.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.reservate.controller.email_form_Controller">
+    <effect>
+        <DropShadow color="#bcbcbc" height="37.31" radius="21.490000000000002" spread="0.07" width="50.65" />
+    </effect>
+    <children>
+        <Text fill="#0984e3" layoutX="65.0" layoutY="159.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Send Mail">
+            <font>
+                <Font size="95.0" />
+            </font>
+        </Text>
+      <JFXTextField fx:id="txtEmail" labelFloat="true" layoutX="219.0" layoutY="275.0" prefHeight="25.0" prefWidth="306.0" promptText="Email" />
+      <Label layoutX="167.0" layoutY="280.0" text="To :">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <JFXTextField fx:id="txtSubject" labelFloat="true" layoutX="219.0" layoutY="328.0" prefHeight="25.0" prefWidth="306.0" promptText="Subject" />
+      <Label layoutX="128.0" layoutY="330.0" text="Subject :">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="117.0" layoutY="382.0" text="Message :">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <JFXTextArea fx:id="txtMessage" labelFloat="true" layoutX="219.0" layoutY="382.0" prefHeight="156.0" prefWidth="464.0" promptText="Enter Message" />
+      <JFXButton layoutX="752.0" layoutY="517.0" onAction="#btnSendOnAction" prefHeight="25.0" prefWidth="113.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20; -fx-border-radius: 20;" text="send" textFill="WHITE">
+         <font>
+            <Font size="19.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label fx:id="lblStatus" layoutX="886.0" layoutY="530.0" />
+      <ImageView fitHeight="410.0" fitWidth="425.0" layoutX="614.0" layoutY="50.0" opacity="0.15">
+         <image>
+            <Image url="@img/blueocean-modified.png" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>

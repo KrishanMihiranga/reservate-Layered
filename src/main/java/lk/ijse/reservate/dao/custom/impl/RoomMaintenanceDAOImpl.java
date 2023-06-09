@@ -1,26 +1,29 @@
 package lk.ijse.reservate.dao.custom.impl;
 
-import lk.ijse.reservate.dto.roomMaintenanceDTO;
-import lk.ijse.reservate.util.CrudUtil;
+import lk.ijse.reservate.dao.SQLUtill;
+import lk.ijse.reservate.dao.custom.RoomMaintenanceDAO;
+import lk.ijse.reservate.entity.roommaintenance;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
-public class RoomMaintenanceDAOImpl {
+public class RoomMaintenanceDAOImpl implements RoomMaintenanceDAO {
 
-    public static String generateNextId() throws SQLException {
+    @Override
+    public String getNextId() throws SQLException, ClassNotFoundException {
         String sql = "SELECT RoomMaintenanceId FROM roommaintenance ORDER BY RoomMaintenanceId DESC LIMIT 1";
-
-        ResultSet resultSet = CrudUtil.execute(sql);
+        ResultSet resultSet = SQLUtill.execute(sql);
         if(resultSet.next()) {
             return splitId(resultSet.getString(1));
         }
         return splitId(null);
     }
 
-    public static String splitId(String currentOrderId) {
-        if(currentOrderId != null) {
-            int lastNum = Integer.parseInt(currentOrderId.substring(2));
+    @Override
+    public String splitId(String currentId) throws SQLException, ClassNotFoundException {
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(2));
             int newNum = lastNum + 1;
             String newId = String.format("RM%04d", newNum);
             return newId;
@@ -28,32 +31,48 @@ public class RoomMaintenanceDAOImpl {
         return "RM0001";
     }
 
-    public static boolean save(String MaintenanceId, String RoomNumber, String Date, String StartTime, String EndTime) throws SQLException {
+    @Override
+    public boolean add(roommaintenance entity) throws SQLException, ClassNotFoundException {
         String sql ="INSERT INTO roommaintenance(RoomMaintenanceId, RoomNumber, Date, startTime, EndTime)Values(?, ?, ?, ?, ?)";
-        return CrudUtil.execute(sql, MaintenanceId, RoomNumber, Date, StartTime, EndTime);
+        return SQLUtill.execute(sql, entity.getRoomMaintenanceId(),entity.getRoomNumber(),entity.getDate(),entity.getStartTime(),entity.getEndTime());
     }
 
-    public static boolean updateRoom(String maintenanceId, String roomNumber, String date, String startTime, String endTime) throws SQLException {
-        String sql = "UPDATE roommaintenance SET RoomNumber = ?, Date = ?, startTime = ?, EndTime = ? WHERE RoomMaintenanceId = ?";
-        return CrudUtil.execute(sql, roomNumber, date ,startTime ,endTime ,maintenanceId);
+    @Override
+    public boolean update(roommaintenance entity) throws SQLException, ClassNotFoundException {
+        return false;
     }
 
-    public static boolean remove(String maintenanceId) throws SQLException {
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
         String sql = "DELETE FROM roommaintenance WHERE RoomMaintenanceId = ?";
-        return CrudUtil.execute(sql, maintenanceId);
+        return SQLUtill.execute(sql, id);
     }
 
-    public static roomMaintenanceDTO setFields(String maintenanceId) throws SQLException {
+    @Override
+    public List<String> getIds() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public roommaintenance setFields(String id) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM roommaintenance WHERE RoomMaintenanceId = ?";
-        ResultSet resultSet = CrudUtil.execute(sql, maintenanceId);
+        ResultSet resultSet = SQLUtill.execute(sql, id);
         if (resultSet.next()) {
             String RoomMaintenanceId=resultSet.getString(1);
             String Date=resultSet.getString(2);
             String startTime=resultSet.getString(3);
             String EndTime=resultSet.getString(4);
             String RoomNumber=resultSet.getString(5);
-            return new roomMaintenanceDTO(RoomMaintenanceId, Date, startTime, EndTime, RoomNumber);
+            return new roommaintenance(RoomMaintenanceId, Date, startTime, EndTime, RoomNumber);
         }
         return null;
     }
+
+    @Override
+    public boolean updateRoom(String maintenanceId, String roomNumber, String date, String startTime, String endTime) throws SQLException {
+        String sql = "UPDATE roommaintenance SET RoomNumber = ?, Date = ?, startTime = ?, EndTime = ? WHERE RoomMaintenanceId = ?";
+        return SQLUtill.execute(sql, roomNumber, date ,startTime ,endTime ,maintenanceId);
+    }
+
+
 }

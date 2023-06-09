@@ -1,24 +1,12 @@
 package lk.ijse.reservate.dao.custom;
 
-import lk.ijse.reservate.dto.UserDTO;
+import lk.ijse.reservate.dao.CrudDAO;
+import lk.ijse.reservate.entity.user;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface UserDAO {
-    public  String generateNextUserId() throws SQLException ;
-
-    public  String splitUserId(String currentOrderId) ;
-
-    public  boolean save(String userId, String empId, String userName, String password) throws SQLException ;
-
-    public  List<String> getIds() throws SQLException ;
-
-    public  boolean update(String userId, String empId, String userName, String password) throws SQLException ;
-
-    public  boolean remove(String userId) throws SQLException ;
-
-    public  UserDTO setFields(String userId) throws SQLException ;
+public interface UserDAO extends CrudDAO<user> {
 
     public  boolean empCheck(String empId) throws SQLException ;
 

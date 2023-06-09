@@ -1,6 +1,7 @@
 package lk.ijse.reservate.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.sun.javafx.stage.EmbeddedWindow;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,16 +15,18 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import lk.ijse.reservate.dao.custom.impl.DashboardDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.paymentDAOImpl;
+import lk.ijse.reservate.model.DashboardModel;
+import lk.ijse.reservate.model.paymentModel;
 
 import java.io.IOException;
+import java.security.PrivilegedAction;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -104,7 +107,7 @@ public class AdminDashboardFormController {
     }
 
     private void setNetAmount() throws SQLException {
-        totValue= paymentDAOImpl.generateTotValue();
+        totValue= paymentModel.generateTotValue();
         lbltotValue.setText(String.valueOf(totValue));
     }
 
@@ -131,24 +134,24 @@ public class AdminDashboardFormController {
 
     private void setlable(){
         try {
-            int totRooms = DashboardDAOImpl.getTotalRooms();
+            int totRooms = DashboardModel.getTotalRooms();
             lblTotalRooms.setText(String.valueOf(totRooms));
 
-            int bookedRooms = DashboardDAOImpl.getBookedRooms();
+            int bookedRooms = DashboardModel.getBookedRooms();
             lblBookedRooms.setText(String.valueOf(bookedRooms));
 
             int AvailableRooms = (totRooms-bookedRooms);
             lblAvailablerooms.setText(String.valueOf(AvailableRooms));
 
-            int totHalls = DashboardDAOImpl.getTotalHalls();
+            int totHalls = DashboardModel.getTotalHalls();
 
-            int bookedHalls = DashboardDAOImpl.getBookedHalls();
+            int bookedHalls = DashboardModel.getBookedHalls();
             lblBookedhalls.setText(String.valueOf(bookedHalls));
 
             int AvailableHalls= (totHalls-bookedHalls);
             lblAvailableHalls.setText(String.valueOf(AvailableHalls));
 
-            int complaints = DashboardDAOImpl.getComplaints();
+            int complaints = DashboardModel.getComplaints();
             lblComplaints.setText(String.valueOf(complaints));
         }catch (Exception e){
             new Alert(Alert.AlertType.ERROR, "Error in set Label!").show();
@@ -178,7 +181,7 @@ public class AdminDashboardFormController {
         Node node;
         node = FXMLLoader.load(getClass().getResource("/view/employee_form.fxml"));
         mainPane.getChildren().setAll(node);
-        lblTopic.setText("EmployeeDTO");
+        lblTopic.setText("Employee");
     }
 
     public void btnUserOnAction(ActionEvent actionEvent) throws IOException {

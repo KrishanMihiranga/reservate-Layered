@@ -7,9 +7,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.reservate.dto.ComplaintDTO;
-import lk.ijse.reservate.entity.Complaint;
-import lk.ijse.reservate.dao.custom.impl.complaintDAOImpl;
+import lk.ijse.reservate.dto.Complaint;
+import lk.ijse.reservate.dto.tm.ComplaintTM;
+import lk.ijse.reservate.model.complaintModel;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
 public class complaint_table_Controller {
 
     @FXML
-    private TableView<Complaint> tblComplaints;
+    private TableView<ComplaintTM> tblComplaints;
 
     @FXML
     private TableColumn<?, ?> colComplaintid;
@@ -50,21 +50,21 @@ public class complaint_table_Controller {
 
     private void getAll() {
         try {
-            ObservableList<Complaint> obList = FXCollections.observableArrayList();
+            ObservableList<ComplaintTM> obList = FXCollections.observableArrayList();
 
-            List<ComplaintDTO> hresList = complaintDAOImpl.getAll();
+            List<Complaint> hresList = complaintModel.getAll();
 
 
-            for(ComplaintDTO complaintDTO : hresList) {
-                obList.add(new Complaint(
-                        complaintDTO.getComplaintId(),
-                        complaintDTO.getDate(),
-                        complaintDTO.getTime(),
-                        complaintDTO.getGuestid(),
-                        complaintDTO.getMealorderid(),
-                        complaintDTO.getHallreservationid(),
-                        complaintDTO.getRoomreservationid(),
-                        complaintDTO.getDescription()
+            for(Complaint complaint : hresList) {
+                obList.add(new ComplaintTM(
+                        complaint.getComplaintId(),
+                        complaint.getDate(),
+                        complaint.getTime(),
+                        complaint.getGuestid(),
+                        complaint.getMealorderid(),
+                        complaint.getHallreservationid(),
+                        complaint.getRoomreservationid(),
+                        complaint.getDescription()
 
                 ));
             }

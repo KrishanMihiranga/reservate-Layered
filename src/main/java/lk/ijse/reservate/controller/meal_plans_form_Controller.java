@@ -10,8 +10,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.MealPlansDTO;
-import lk.ijse.reservate.dao.custom.impl.MealPlansDAOImpl;
+import lk.ijse.reservate.dto.MealPlans;
+import lk.ijse.reservate.dto.Room;
+import lk.ijse.reservate.model.MealPlansModel;
+import lk.ijse.reservate.model.RoomModel;
 
 import java.sql.SQLException;
 import java.util.regex.Pattern;
@@ -63,7 +65,7 @@ public class meal_plans_form_Controller {
 
     private void generateNextId() {
         try {
-            String nextId = MealPlansDAOImpl.generateNextId();
+            String nextId = MealPlansModel.generateNextId();
             txtPackageId.setText(nextId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -84,7 +86,7 @@ public class meal_plans_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = MealPlansDAOImpl.save(PackageId, MealPlan, MealType, Description, Price);
+                    boolean isSaved = MealPlansModel.save(PackageId, MealPlan, MealType, Description, Price);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Added!").show();
                     }
@@ -114,7 +116,7 @@ public class meal_plans_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = MealPlansDAOImpl.update(PackageId, MealPlan, MealType, Description, Price);
+                    boolean isSaved = MealPlansModel.update(PackageId, MealPlan, MealType, Description, Price);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Updated!").show();
                     }
@@ -135,7 +137,7 @@ public class meal_plans_form_Controller {
         String PackageId    =txtPackageId.getText();
 
         try{
-            boolean isSaved = MealPlansDAOImpl.remove(PackageId);
+            boolean isSaved = MealPlansModel.remove(PackageId);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Meal Removed!").show();
             }
@@ -148,14 +150,14 @@ public class meal_plans_form_Controller {
         String PackageId    =txtPackageId.getText();
 
         try {
-            MealPlansDTO mealPlansDTO = MealPlansDAOImpl.setFields(PackageId);
-            if (mealPlansDTO != null)
+            MealPlans mealPlans = MealPlansModel.setFields(PackageId);
+            if (mealPlans != null)
             {
-                txtPackageId.setText(mealPlansDTO.getPackageId());
-                cmbMealplan.setValue(mealPlansDTO.getMealPlan());
-                cmbMealType.setValue(mealPlansDTO.getMealType());
-                txtDescription.setText(mealPlansDTO.getDescription());
-                txtPrice.setText(String.valueOf(mealPlansDTO.getPrice()));
+                txtPackageId.setText(mealPlans.getPackageId());
+                cmbMealplan.setValue(mealPlans.getMealPlan());
+                cmbMealType.setValue(mealPlans.getMealType());
+                txtDescription.setText(mealPlans.getDescription());
+                txtPrice.setText(String.valueOf(mealPlans.getPrice()));
 
 
             } else {

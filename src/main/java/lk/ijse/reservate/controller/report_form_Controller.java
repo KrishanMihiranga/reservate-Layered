@@ -9,9 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.reservate.db.DBConnection;
-import lk.ijse.reservate.dao.custom.impl.EmployeeDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.GuestDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.UserDAOImpl;
+import lk.ijse.reservate.model.EmployeeModel;
+import lk.ijse.reservate.model.GuestModel;
+import lk.ijse.reservate.model.UserModel;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -51,7 +51,7 @@ public class report_form_Controller {
     void btnEmployeeDetailsOnAction(ActionEvent event) {
 
         try{
-            List<String> eIds = EmployeeDAOImpl.getIds();
+            List<String> eIds = EmployeeModel.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String empIds : eIds){
                 obList.add(empIds);
@@ -106,7 +106,7 @@ public class report_form_Controller {
     @FXML
     void btnUserDetailsOnAction(ActionEvent event) {
         try{
-            List<String> uIds = UserDAOImpl.getIds();
+            List<String> uIds = UserModel.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String userIds : uIds){
                 obList.add(userIds);
@@ -178,7 +178,7 @@ public class report_form_Controller {
     @FXML
     void btnGuestDetailsOnAction(ActionEvent event){
         try{
-            List<String> uIds = GuestDAOImpl.getIds();
+            List<String> uIds = GuestModel.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String userIds : uIds){
                 obList.add(userIds);

@@ -9,8 +9,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.RoomDTO;
-import lk.ijse.reservate.dao.custom.impl.RoomDAOImpl;
+import lk.ijse.reservate.dto.Room;
+import lk.ijse.reservate.dto.User;
+import lk.ijse.reservate.model.RoomModel;
+import lk.ijse.reservate.model.UserModel;
 
 import java.sql.SQLException;
 import java.util.regex.Pattern;
@@ -57,7 +59,7 @@ public class rooms_form_Controller {
 
     private void generateNextRoomNumber() {
         try {
-            String nextRoomNumber = RoomDAOImpl.generateNextRoomNumber();
+            String nextRoomNumber = RoomModel.generateNextRoomNumber();
             txtRoomNumber.setText(nextRoomNumber);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -85,9 +87,9 @@ public class rooms_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = RoomDAOImpl.save(RoomNumber, RoomType, String.valueOf(Price), Status);
+                    boolean isSaved = RoomModel.save(RoomNumber, RoomType, String.valueOf(Price), Status);
                     if(isSaved){
-                        new Alert(Alert.AlertType.CONFIRMATION, "RoomDTO Added!").show();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Room Added!").show();
                     }
                 }catch(Exception e){
                     new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -115,9 +117,9 @@ public class rooms_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = RoomDAOImpl.update(RoomNumber, RoomType, String.valueOf(Price), Status);
+                    boolean isSaved = RoomModel.update(RoomNumber, RoomType, String.valueOf(Price), Status);
                     if(isSaved){
-                        new Alert(Alert.AlertType.CONFIRMATION, "RoomDTO Updated!").show();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Room Updated!").show();
                     }
                 }catch(Exception e){
                     new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -135,9 +137,9 @@ public class rooms_form_Controller {
     public void btnRemoveOnAction(ActionEvent actionEvent) {
         String RoomNumber = txtRoomNumber.getText();
         try{
-            boolean isSaved = RoomDAOImpl.remove(RoomNumber);
+            boolean isSaved = RoomModel.remove(RoomNumber);
             if(isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION, "RoomDTO Removed!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Room Removed!").show();
             }
         }catch(Exception e){
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -147,18 +149,18 @@ public class rooms_form_Controller {
     public void txtRoomNumberOnAction(ActionEvent actionEvent) {
         String RoomNumber = txtRoomNumber.getText();
         try {
-            RoomDTO roomDTO = RoomDAOImpl.setFields(RoomNumber);
-            if (roomDTO != null)
+            Room room = RoomModel.setFields(RoomNumber);
+            if (room != null)
             {
 
-                txtRoomNumber.setText(roomDTO.getRoomNumber());
-                cmbroomType.setValue(roomDTO.getRoomType());
-                txtPrice.setText(String.valueOf(roomDTO.getPrice()));
-                cmbStatus.setValue(roomDTO.getStatus());
+                txtRoomNumber.setText(room.getRoomNumber());
+                cmbroomType.setValue(room.getRoomType());
+                txtPrice.setText(String.valueOf(room.getPrice()));
+                cmbStatus.setValue(room.getStatus());
 
 
             } else {
-                new Alert(Alert.AlertType.WARNING, "no RoomDTO found :(").show();
+                new Alert(Alert.AlertType.WARNING, "no Room found :(").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();

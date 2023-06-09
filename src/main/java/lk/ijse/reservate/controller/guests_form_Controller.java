@@ -10,9 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.GuestDTO;
-import lk.ijse.reservate.dao.custom.impl.GuestDAOImpl;
-import lk.ijse.reservate.dao.custom.impl.UserDAOImpl;
+import lk.ijse.reservate.dto.Employee;
+import lk.ijse.reservate.dto.Guest;
+import lk.ijse.reservate.model.EmployeeModel;
+import lk.ijse.reservate.model.GuestModel;
+import lk.ijse.reservate.model.UserModel;
+import lk.ijse.reservate.model.paymentModel;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -64,7 +67,7 @@ public class guests_form_Controller {
 
     private void generateNextId() {
         try {
-            String nextId = GuestDAOImpl.generateNextId();
+            String nextId = GuestModel.generateNextId();
             txtGuestId.setText(nextId);
 
         } catch (SQLException e) {
@@ -75,7 +78,7 @@ public class guests_form_Controller {
 
     private void loadUserIds() {
         try{
-            List<String> uIds = UserDAOImpl.getIds();
+            List<String> uIds = UserModel.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String userIds : uIds){
                 obList.add(userIds);
@@ -106,9 +109,9 @@ public class guests_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = GuestDAOImpl.save(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email);
+                    boolean isSaved = GuestModel.save(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email);
                     if(isSaved){
-                        new Alert(Alert.AlertType.CONFIRMATION, "GuestDTO Added!").show();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Guest Added!").show();
                     }
                 }catch(Exception e){
                     new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -138,9 +141,9 @@ public class guests_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = GuestDAOImpl.update(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email);
+                    boolean isSaved = GuestModel.update(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email);
                     if(isSaved){
-                        new Alert(Alert.AlertType.CONFIRMATION, "GuestDTO Updated!").show();
+                        new Alert(Alert.AlertType.CONFIRMATION, "Guest Updated!").show();
                     }
                 }catch(Exception e){
                     new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -157,9 +160,9 @@ public class guests_form_Controller {
     public void btnRemoveGuestOnAction(ActionEvent actionEvent) {
         String GuestId = txtGuestId.getText();
         try{
-            boolean isSaved = GuestDAOImpl.remove(GuestId);
+            boolean isSaved = GuestModel.remove(GuestId);
             if(isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION, "GuestDTO Removed!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Guest Removed!").show();
             }
         }catch(Exception e){
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -169,20 +172,20 @@ public class guests_form_Controller {
     public void txtGuestIdOnAction(ActionEvent actionEvent) {
         String GuestId = txtGuestId.getText();
         try {
-            GuestDTO guestDTO = GuestDAOImpl.setFields(GuestId);
+            Guest guest = GuestModel.setFields(GuestId);
             if (GuestId != null)
             {
-                txtGuestId.setText(guestDTO.getGuestId());
-                cmbUserId.setValue(guestDTO.getUserId());
-                txtNic.setText(guestDTO.getNic());
-                txtGuestName.setText(guestDTO.getFullname());
-                txtAddress.setText(guestDTO.getAddress());
-                txtContact.setText(guestDTO.getMobile());
-                txtDate.setValue(LocalDate.parse(guestDTO.getDate()));
-                txtEmail.setText(guestDTO.getEmail());
+                txtGuestId.setText(guest.getGuestId());
+                cmbUserId.setValue(guest.getUserId());
+                txtNic.setText(guest.getNic());
+                txtGuestName.setText(guest.getFullname());
+                txtAddress.setText(guest.getAddress());
+                txtContact.setText(guest.getMobile());
+                txtDate.setValue(LocalDate.parse(guest.getDate()));
+                txtEmail.setText(guest.getEmail());
 
             } else {
-                new Alert(Alert.AlertType.WARNING, "no GuestDTO found :(").show();
+                new Alert(Alert.AlertType.WARNING, "no Guest found :(").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();

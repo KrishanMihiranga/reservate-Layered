@@ -1,8 +1,10 @@
 package lk.ijse.reservate.dao.custom.impl;
 
+import lk.ijse.reservate.dao.custom.EmployeeDAO;
 import lk.ijse.reservate.db.DBConnection;
 import lk.ijse.reservate.dto.EmployeeDTO;
-import lk.ijse.reservate.util.CrudUtil;
+import lk.ijse.reservate.dao.SQLUtill;
+import lk.ijse.reservate.entity.employee;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -12,16 +14,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class EmployeeDAOImpl {
-
-
-    public static boolean save(String empId, String nic, String fullName, String address, String mobile, String date, String jobRole, String email) throws SQLException {
-        String sql ="INSERT INTO employee(EmpID, Nic, FullName, Address, Mobile, Date, JobRole, Email) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-        return CrudUtil.execute(sql, empId, nic, fullName, address, mobile, date, jobRole, email );
+public class EmployeeDAOImpl implements EmployeeDAO {
+    @Override
+    public String getNextId() throws SQLException, ClassNotFoundException {
+        String sql = "SELECT EmpId FROM employee ORDER BY EmpId DESC LIMIT 1";
+        ResultSet resultSet = SQLUtill.execute(sql);
+        if(resultSet.next()) {
+            return splitId(resultSet.getString(1));
+        }
+        return splitId(null);
     }
 
+    @Override
+    public String splitId(String currentId) throws SQLException, ClassNotFoundException {
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(1));
+            int newNum = lastNum + 1;
+            String newId = String.format("E%04d", newNum);
+            return newId;
+        }
+        return "E0001";
+    }
 
-    public static List<String> getIds() throws SQLException{
+    @Override
+    public boolean add(employee entity) throws SQLException, ClassNotFoundException {
+        String sql ="INSERT INTO employee(EmpID, Nic, FullName, Address, Mobile, Date, JobRole, Email) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        return SQLUtill.execute(sql, entity.getEmpId(), entity.getNic(), entity.getFullname(), entity.getAddress(), entity.getMobile(),entity.getDate(), entity.getJobRole(),entity.getEmail());
+    }
+
+    @Override
+    public boolean update(employee entity) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE employee SET Nic = ?, FullName = ?, Address = ?, Mobile = ?, Date = ?, JobRole = ?, Email = ? WHERE EmpID = ?";
+        return SQLUtill.execute(sql,entity.getNic(),entity.getFullname(),entity.getAddress(), entity.getMobile(),entity.getDate(), entity.getJobRole(), entity.getEmail(),entity.getEmpId());
+    }
+
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        String sql ="DELETE FROM employee WHERE EmpID = ?";
+        return SQLUtill.execute(sql, id);
+    }
+
+    @Override
+    public List<String> getIds() throws SQLException, ClassNotFoundException {
         Connection con = DBConnection.getInstance().getConnection();
         String sql = "SELECT EmpId FROM employee";
         List<String> roomIds = new ArrayList<>();
@@ -32,40 +66,10 @@ public class EmployeeDAOImpl {
         return roomIds;
     }
 
-    public static boolean update(String empId, String nic, String fullName, String address, String mobile, String date, String jobRole, String email) throws SQLException {
-        String sql = "UPDATE employee SET Nic = ?, FullName = ?, Address = ?, Mobile = ?, Date = ?, JobRole = ?, Email = ? WHERE EmpID = ?";
-        return CrudUtil.execute(sql, nic, fullName, address, mobile, date, jobRole, email, empId);
-    }
-
-    public static boolean delete(String empId) throws SQLException {
-        String sql ="DELETE FROM employee WHERE EmpID = ?";
-        return CrudUtil.execute(sql, empId);
-    }
-
-    public static String generateNextEmpId() throws SQLException {
-        String sql = "SELECT EmpId FROM employee ORDER BY EmpId DESC LIMIT 1";
-
-        ResultSet resultSet = CrudUtil.execute(sql);
-        if(resultSet.next()) {
-            return splitEmpId(resultSet.getString(1));
-        }
-        return splitEmpId(null);
-    }
-
-    public static String splitEmpId(String currentOrderId) {
-        if(currentOrderId != null) {
-            int lastNum = Integer.parseInt(currentOrderId.substring(1));
-            int newNum = lastNum + 1;
-            String newId = String.format("E%04d", newNum);
-            return newId;
-        }
-        return "E0001";
-    }
-
-    public static EmployeeDTO setFields(String empId) throws SQLException {
+    @Override
+    public employee setFields(String id) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM employee WHERE EmpID = ?";
-        ResultSet resultSet = CrudUtil.execute(sql, empId);
-
+        ResultSet resultSet = SQLUtill.execute(sql, id);
         if(resultSet.next()) {
             String EmpId = resultSet.getString(1);
             String Nic = resultSet.getString(2);
@@ -75,25 +79,25 @@ public class EmployeeDAOImpl {
             Date Date = java.sql.Date.valueOf(resultSet.getString(6));
             String JobRole = resultSet.getString(7);
             String Email = resultSet.getString(8);
-
-
-            return new EmployeeDTO(EmpId, Nic, Fullname, Address, mobile, Date, JobRole, Email);
+            return new employee(EmpId, Nic, Fullname, Address, mobile, Date, JobRole, Email);
         }
         return null;
     }
 
-    public static boolean roleCheck(String empId) throws SQLException {
+    @Override
+    public boolean roleCheck(String empId) throws SQLException {
         String sql = "SELECT JobRole FROM employee WHERE EmpID = ?";
-        ResultSet resultSet = CrudUtil.execute(sql, empId);
-       if (resultSet.next()){
-           String jobRole = resultSet.getString("JobRole");
-           if (jobRole.equals("Receptionist")) {
-               return true;
-           } else {
-               return false;
-           }
-       }else{
-           return false;
-       }
+        ResultSet resultSet = SQLUtill.execute(sql, empId);
+        if (resultSet.next()){
+            String jobRole = resultSet.getString("JobRole");
+            if (jobRole.equals("Receptionist")) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
+
 }

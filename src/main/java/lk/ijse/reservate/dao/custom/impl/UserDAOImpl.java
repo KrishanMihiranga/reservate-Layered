@@ -1,7 +1,9 @@
 package lk.ijse.reservate.dao.custom.impl;
+import lk.ijse.reservate.dao.custom.UserDAO;
 import lk.ijse.reservate.db.DBConnection;
+import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.dto.UserDTO;
-import lk.ijse.reservate.util.CrudUtil;
+import lk.ijse.reservate.entity.user;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,21 +11,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl {
+public class UserDAOImpl implements UserDAO {
 
-    public static String generateNextUserId() throws SQLException {
+
+    @Override
+    public String getNextId() throws SQLException, ClassNotFoundException {
         String sql = "SELECT UserId FROM UserDTO ORDER BY UserId DESC LIMIT 1";
-
-        ResultSet resultSet = CrudUtil.execute(sql);
+        ResultSet resultSet = SQLUtill.execute(sql);
         if(resultSet.next()) {
-            return splitUserId(resultSet.getString(1));
+            return splitId(resultSet.getString(1));
         }
-        return splitUserId(null);
+        return splitId(null);
     }
 
-    public static String splitUserId(String currentOrderId) {
-        if(currentOrderId != null) {
-            int lastNum = Integer.parseInt(currentOrderId.substring(1));
+    @Override
+    public String splitId(String currentId) throws SQLException, ClassNotFoundException {
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(1));
             int newNum = lastNum + 1;
             String newId = String.format("U%04d", newNum);
             return newId;
@@ -31,12 +35,26 @@ public class UserDAOImpl {
         return "U0001";
     }
 
-    public static boolean save(String userId, String empId, String userName, String password) throws SQLException {
+    @Override
+    public boolean add(user entity) throws SQLException, ClassNotFoundException {
         String sql ="INSERT INTO UserDTO(UserID, EmpId, UserName, Password) VALUES(?, ?, ?, ?)";
-        return CrudUtil.execute(sql, userId, empId, userName, password);
+        return SQLUtill.execute(sql, entity.getUserId(), entity.getEmpId(), entity.getUserName(),entity.getPassword());
     }
 
-    public static List<String> getIds() throws SQLException {
+    @Override
+    public boolean update(user entity) throws SQLException, ClassNotFoundException {
+        String sql= "UPDATE user SET EmpId = ?, UserName = ?, Password = ? WHERE UserID = ?";
+        return SQLUtill.execute(sql, entity.getEmpId(),entity.getUserName(),entity.getPassword(),entity.getUserId());
+    }
+
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        String sql ="DELETE FROM user WHERE UserID = ?";
+        return SQLUtill.execute(sql, id);
+    }
+
+    @Override
+    public List<String> getIds() throws SQLException, ClassNotFoundException {
         Connection con = DBConnection.getInstance().getConnection();
         String sql = "SELECT UserId FROM user";
         List<String> UserIds = new ArrayList<>();
@@ -47,36 +65,24 @@ public class UserDAOImpl {
         return UserIds;
     }
 
-    public static boolean update(String userId, String empId, String userName, String password) throws SQLException {
-        String sql= "UPDATE user SET EmpId = ?, UserName = ?, Password = ? WHERE UserID = ?";
-        return CrudUtil.execute(sql, empId, userName, password, userId);
-    }
-
-    public static boolean remove(String userId) throws SQLException {
-        String sql ="DELETE FROM user WHERE UserID = ?";
-        return CrudUtil.execute(sql, userId);
-    }
-
-    public static UserDTO setFields(String userId) throws SQLException {
+    @Override
+    public user setFields(String id) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM user WHERE UserID = ?";
-        ResultSet resultSet = CrudUtil.execute(sql, userId);
-
+        ResultSet resultSet = SQLUtill.execute(sql, id);
         if(resultSet.next()) {
-
             String UserId= resultSet.getString(1);
             String EmpId= resultSet.getString(2);
             String UserName= resultSet.getString(3);
             String Password= resultSet.getString(4);
-
-
-            return new UserDTO(UserId, EmpId, UserName, Password);
+            return new user(UserId, EmpId, UserName, Password);
         }
         return null;
     }
 
-    public static boolean empCheck(String empId) throws SQLException {
+    @Override
+    public boolean empCheck(String empId) throws SQLException {
         String sql = "SELECT * FROM USER WHERE EmpId = ?";
-        ResultSet resultSet = CrudUtil.execute(sql, empId);
+        ResultSet resultSet = SQLUtill.execute(sql, empId);
         if (resultSet.next()){
             return false;
         }else{
@@ -84,9 +90,10 @@ public class UserDAOImpl {
         }
     }
 
-    public static boolean elegibleCheck(String userName, String password) throws SQLException {
+    @Override
+    public boolean elegibleCheck(String userName, String password) throws SQLException {
         String sql = "SELECT * FROM user WHERE UserName = ?";
-        ResultSet resultSet =CrudUtil.execute(sql, userName);
+        ResultSet resultSet = SQLUtill.execute(sql, userName);
         if (resultSet.next()){
             String userN = resultSet.getString("UserName");
             String pass = resultSet.getString("Password");
@@ -97,17 +104,19 @@ public class UserDAOImpl {
         return false;
     }
 
-    public static boolean getValid(String userName) throws SQLException {
+    @Override
+    public boolean getValid(String userName) throws SQLException {
         String sql = "SELECT * FROM user WHERE UserName = ?";
-        ResultSet resultSet = CrudUtil.execute(sql, userName);
+        ResultSet resultSet = SQLUtill.execute(sql, userName);
         if (resultSet.next()){
             return true;
         }
         return false;
     }
 
-    public static boolean RecoverUpdate(String userName, String password) throws SQLException {
+    @Override
+    public boolean RecoverUpdate(String userName, String password) throws SQLException {
         String sql = "UPDATE user SET Password = ? WHERE UserName = ?";
-        return CrudUtil.execute(sql,password, userName );
+        return SQLUtill.execute(sql,password, userName );
     }
 }

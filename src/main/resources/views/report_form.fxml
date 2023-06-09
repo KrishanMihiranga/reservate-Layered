@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="reservationPane" prefHeight="600.0" prefWidth="1160.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.reservate.controller.report_form_Controller">
+    <effect>
+        <DropShadow color="#bcbcbc" height="37.31" radius="21.490000000000002" spread="0.07" width="50.65" />
+    </effect>
+    <children>
+        <Text fill="#0984e3" layoutX="66.0" layoutY="154.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports">
+            <font>
+                <Font size="95.0" />
+            </font>
+        </Text>
+      <JFXButton fx:id="btnEmployeeDetails" layoutX="73.0" layoutY="220.0" onAction="#btnEmployeeDetailsOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Employee Details" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="btnUserDetails" layoutX="73.0" layoutY="280.0" onAction="#btnUserDetailsOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="User Details" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Pane layoutX="262.0" layoutY="204.0" prefHeight="296.0" prefWidth="815.0">
+         <children>
+            <JFXComboBox fx:id="cmbEmpId" labelFloat="true" layoutX="23.0" layoutY="24.0" onAction="#cmbEmpIdOnAction" prefHeight="25.0" prefWidth="212.0" promptText="select ID" />
+            <JFXButton fx:id="btnGenerateReport" layoutX="23.0" layoutY="82.0" onAction="#btnGenerateReportOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #1dd1a1; -fx-background-radius: 20;" text="Generate Report" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="btnHallDetails" layoutX="-7.0" layoutY="246.0" onAction="#btnHallDetailsOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Hall Details" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="btnMealDetails" layoutX="178.0" layoutY="246.0" onAction="#btnMealDetailsOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Meal Details" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <ImageView fitHeight="440.0" fitWidth="440.0" layoutX="344.0" layoutY="-118.0" opacity="0.15">
+               <image>
+                  <Image url="@img/blueocean-modified.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <JFXButton fx:id="btnGuestDetails" layoutX="73.0" layoutY="340.0" onAction="#btnGuestDetailsOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Guest Details" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="btnRoomDetails" layoutX="73.0" layoutY="450.0" onAction="#btnRoomDetailsOnAction" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #74b9ff; -fx-background-radius: 20;" text="Room Details" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+    </children>
+</AnchorPane>
