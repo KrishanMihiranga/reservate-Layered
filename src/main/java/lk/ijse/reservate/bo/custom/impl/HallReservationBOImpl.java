@@ -1,8 +1,10 @@
-package lk.ijse.reservate.dao.custom.impl;
+package lk.ijse.reservate.bo.custom.impl;
 
-import lk.ijse.reservate.dao.custom.HallReservationDAO;
-import lk.ijse.reservate.db.DBConnection;
+import lk.ijse.reservate.bo.custom.HallReservationBO;
 import lk.ijse.reservate.dao.SQLUtill;
+import lk.ijse.reservate.dao.custom.HallReservationDAO;
+import lk.ijse.reservate.dao.custom.impl.HallReservationDAOImpl;
+import lk.ijse.reservate.db.DBConnection;
 import lk.ijse.reservate.entity.hallReservation;
 
 import java.sql.Connection;
@@ -10,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class HallReservationDAOImpl implements HallReservationDAO {
+public class HallReservationBOImpl implements HallReservationBO {
 
     @Override
     public String getNextId() throws SQLException, ClassNotFoundException {
@@ -93,6 +95,30 @@ public class HallReservationDAOImpl implements HallReservationDAO {
             return new hallReservation(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
         }
         return null;
+    }
+
+    @Override
+    public boolean Order(String checkIn, String checkOut, String hallReservationId, String guestId, String hallNumber) throws SQLException {
+        Connection con = null;
+        try{
+            con= DBConnection.getInstance().getConnection();
+            con.setAutoCommit(false);
+            boolean isSaved = HallReservationDAOImpl.add(entity.getCheckIn(), entity.getCheckOut(),entity.getHallReservationId(),entity.getGuestId(),entity.getHallNumber(), entity.getHallNumber());
+            if(isSaved){
+                boolean isAdded=  HallReservationDetailsDAOImpl.save(entity.getHallReservationId(),entity.getHallNumber());
+                if (isAdded){
+                    con.commit();
+                    return true;
+                }
+            }
+            return false;
+        }catch (SQLException e){
+            e.printStackTrace();
+            con.rollback();
+            return false;
+        }finally {
+            con.setAutoCommit(true);
+        }
     }
 
 

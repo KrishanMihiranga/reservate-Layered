@@ -7,9 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.reservate.dto.Complaint;
-import lk.ijse.reservate.dto.tm.ComplaintTM;
-import lk.ijse.reservate.model.complaintModel;
+
 
 import java.sql.SQLException;
 import java.util.List;

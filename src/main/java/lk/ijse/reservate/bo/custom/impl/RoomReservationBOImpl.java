@@ -1,8 +1,9 @@
-package lk.ijse.reservate.dao.custom.impl;
+package lk.ijse.reservate.bo.custom.impl;
 
+import lk.ijse.reservate.bo.custom.RoomReservationBO;
+import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.dao.custom.RoomReservationDAO;
 import lk.ijse.reservate.db.DBConnection;
-import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.entity.roomreservation;
 
 import java.sql.Connection;
@@ -10,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class RoomReservationDAOImpl implements RoomReservationDAO {
+public class RoomReservationBOImpl implements RoomReservationBO {
 
     @Override
     public String getNextId() throws SQLException, ClassNotFoundException {
@@ -95,6 +96,28 @@ public class RoomReservationDAOImpl implements RoomReservationDAO {
         return null;
     }
 
-
+    @Override
+    public boolean Order(String checkIn, String checkOut, String roomReservationId, String guestId, String roomNumber) throws SQLException {
+        Connection con = null;
+        try{
+            con= DBConnection.getInstance().getConnection();
+            con.setAutoCommit(false);
+            boolean isSaved = RoomReservationDAOImpl.save(checkIn, checkOut, roomReservationId, guestId, roomNumber);
+            if(isSaved){
+                boolean isAdded=  RoomReservationDetailsDAOImpl.save(roomReservationId, roomNumber);
+                if (isAdded){
+                    con.commit();
+                    return true;
+                }
+            }
+            return false;
+        }catch (SQLException e){
+            e.printStackTrace();
+            con.rollback();
+            return false;
+        }finally {
+            con.setAutoCommit(true);
+        }
+    }
 
 }

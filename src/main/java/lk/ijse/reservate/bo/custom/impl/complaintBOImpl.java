@@ -1,9 +1,10 @@
-package lk.ijse.reservate.dao.custom.impl;
+package lk.ijse.reservate.bo.custom.impl;
 
+import lk.ijse.reservate.bo.custom.ComplaintBO;
+import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.dao.custom.ComplaintDAO;
 import lk.ijse.reservate.db.DBConnection;
 import lk.ijse.reservate.dto.ComplaintDTO;
-import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.entity.Complaint;
 
 import java.sql.Connection;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class complaintDAOImpl implements ComplaintDAO {
+public class complaintBOImpl implements ComplaintBO {
     @Override
     public String getNextId() throws SQLException, ClassNotFoundException {
         String sql = "SELECT ComplaintId FROM complaints ORDER BY ComplaintId DESC LIMIT 1";

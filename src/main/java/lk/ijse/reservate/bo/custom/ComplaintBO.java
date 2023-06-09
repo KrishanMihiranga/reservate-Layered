@@ -1,13 +1,13 @@
-package lk.ijse.reservate.dao.custom;
+package lk.ijse.reservate.bo.custom;
 
-import lk.ijse.reservate.dao.CrudDAO;
+import lk.ijse.reservate.bo.CrudBO;
 import lk.ijse.reservate.dto.ComplaintDTO;
 import lk.ijse.reservate.entity.Complaint;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface ComplaintDAO extends CrudDAO<Complaint> {
+public interface ComplaintBO extends CrudBO<Complaint> {
 
     public  List<String> getRIds() throws SQLException ;
     public  List<String> getGIds() throws SQLException ;

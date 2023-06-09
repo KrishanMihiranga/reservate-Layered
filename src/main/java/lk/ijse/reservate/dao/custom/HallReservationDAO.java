@@ -11,6 +11,6 @@ public interface HallReservationDAO extends CrudDAO<hallReservation> {
 
     public hallReservation setHFields(String hallnumber) throws SQLException ;
 
-    public  boolean Order(String checkIn, String checkOut, String hallReservationId, String guestId, String hallNumber) throws SQLException ;
+   // public  boolean Order(String checkIn, String checkOut, String hallReservationId, String guestId, String hallNumber) throws SQLException ;
 
 }

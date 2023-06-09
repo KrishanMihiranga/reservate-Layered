@@ -12,8 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.Complaint;
-import lk.ijse.reservate.model.complaintModel;
+
 
 import java.net.URL;
 import java.sql.SQLException;

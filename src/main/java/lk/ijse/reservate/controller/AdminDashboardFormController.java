@@ -1,7 +1,6 @@
 package lk.ijse.reservate.controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.sun.javafx.stage.EmbeddedWindow;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,18 +14,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import lk.ijse.reservate.model.DashboardModel;
-import lk.ijse.reservate.model.paymentModel;
 
 import java.io.IOException;
-import java.security.PrivilegedAction;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
