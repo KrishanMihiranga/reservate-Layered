@@ -110,7 +110,7 @@ public class guests_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = guestBO.add(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email);
+                    boolean isSaved = guestBO.add(new GuestDTO(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Guest Added!").show();
                     }
@@ -142,7 +142,7 @@ public class guests_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = guestBO.update(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email);
+                    boolean isSaved = guestBO.update(new GuestDTO(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Guest Updated!").show();
                     }

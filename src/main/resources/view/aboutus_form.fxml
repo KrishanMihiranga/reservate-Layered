@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="600.0" prefWidth="1160.0" style="-fx-background-radius: 20; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.reservate.controller.aboutus_form_Controller">
    <children>
       <Label layoutX="49.0" layoutY="47.0" opacity="0.5" text="Who are we ?" textFill="#0984e3">
@@ -16,7 +15,7 @@
       </Label>
       <ImageView fitHeight="338.0" fitWidth="344.0" layoutX="60.0" layoutY="188.0" opacity="0.88">
          <image>
-            <Image url="@img/blueocean-modified.png" />
+            <Image url="@../img/blueocean-modified.png" />
          </image>
       </ImageView>
       <Label layoutX="442.0" layoutY="188.0" opacity="0.77" prefHeight="312.0" prefWidth="667.0" text="Blue Ocean is an attractive hotel located in Panadura.This hotel has 25 rooms.Srilankan , Indian resipies are eadily available.Located in the city center and very accessible to tourists, the staff , receptionist and small staff are there and the grant management is done by the manager of the hotel" wrapText="true">

@@ -51,7 +51,7 @@
       <Label fx:id="lblStatus" layoutX="886.0" layoutY="530.0" />
       <ImageView fitHeight="410.0" fitWidth="425.0" layoutX="614.0" layoutY="50.0" opacity="0.15">
          <image>
-            <Image url="@img/blueocean-modified.png" />
+            <Image url="@../img/blueocean-modified.png" />
          </image>
       </ImageView>
     </children>

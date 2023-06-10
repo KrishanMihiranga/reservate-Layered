@@ -185,7 +185,7 @@ public class PaymentFormController {
         String Time = txtTime.getText();
 if (!txtTime.getText().isEmpty()) {
     try {
-        boolean isSaved = paymentBO.add(paymentId, GuestId, MealOrderId, HallReservationId, RoomReservationId, Date, Time, Amount);
+        boolean isSaved = paymentBO.add(new PaymentDTO(paymentId, GuestId, MealOrderId, HallReservationId, RoomReservationId, Date, Time, String.valueOf(Amount)));
         boolean isDeleted = mealOrderDetailsBO.delete(MealOrderId);
         boolean isRoomDeleted = roomReservationDetailsBO.removeR(RoomReservationId);
         boolean isHallDeleted = hallReservationDetailsBO.removeH(HallReservationId);

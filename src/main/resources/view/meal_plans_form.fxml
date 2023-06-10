@@ -57,7 +57,7 @@
       <JFXComboBox fx:id="cmbMealplan" labelFloat="true" layoutX="66.0" layoutY="302.0" prefHeight="25.0" prefWidth="226.0" promptText="Meal Plans" />
       <ImageView fitHeight="428.0" fitWidth="428.0" layoutX="667.0" layoutY="88.0" opacity="0.15">
          <image>
-            <Image url="@img/blueocean-modified.png" />
+            <Image url="@../img/blueocean-modified.png" />
          </image>
       </ImageView>
     </children>

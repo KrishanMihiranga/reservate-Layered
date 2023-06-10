@@ -34,7 +34,7 @@
                                 </Text>
                                 <ImageView layoutX="25.0" layoutY="37.0">
                                     <image>
-                                        <Image url="@../img/roomDTO.png" />
+                                        <Image url="@../img/room.png" />
                                     </image>
                                 </ImageView>
                             </children>
@@ -72,7 +72,7 @@
                                 </Text>
                                 <ImageView layoutX="23.0" layoutY="37.0">
                                     <image>
-                                        <Image url="@img/booked.png" />
+                                        <Image url="@../img/booked.png" />
                                     </image>
                                 </ImageView>
                             </children>
@@ -91,7 +91,7 @@
                                 </Text>
                                 <ImageView layoutX="24.0" layoutY="37.0">
                                     <image>
-                                        <Image url="@img/booked.png" />
+                                        <Image url="@../img/booked.png" />
                                     </image>
                                 </ImageView>
                             </children>
@@ -110,7 +110,7 @@
                                 </Text>
                                 <ImageView layoutX="14.0" layoutY="8.0">
                                     <image>
-                                        <Image url="@img/complaints.png" />
+                                        <Image url="@../img/complaints.png" />
                                     </image>
                                 </ImageView>
                             </children>
@@ -132,7 +132,7 @@
                                 </Text>
                                 <ImageView layoutX="39.0" layoutY="37.0">
                                     <image>
-                                        <Image url="@img/available.png" />
+                                        <Image url="@../img/available.png" />
                                     </image>
                                 </ImageView>
                             </children>
@@ -151,7 +151,7 @@
                         </Text>
                         <ImageView fitHeight="139.0" fitWidth="153.0" layoutX="25.0" layoutY="18.0">
                            <image>
-                              <Image url="@img/earnings.png" />
+                              <Image url="@../img/earnings.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="lbltotValue" layoutX="327.0" layoutY="102.0" prefHeight="54.0" prefWidth="371.0" text="00.00" textFill="#034f8a">
@@ -171,7 +171,7 @@
                   </JFXButton>
                   <ImageView fitHeight="224.0" fitWidth="224.0" layoutX="842.0" layoutY="26.0" opacity="0.15">
                      <image>
-                        <Image url="@img/blueocean-modified.png" />
+                        <Image url="@../img/blueocean-modified.png" />
                      </image>
                   </ImageView>
                     </children>
@@ -186,7 +186,7 @@
                 </Text>
                 <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="62.0">
                     <image>
-                        <Image url="@img/home.png" />
+                        <Image url="@../img/home.png" />
                     </image>
                 </ImageView>
             <Text fill="WHITE" layoutX="71.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee">
@@ -196,7 +196,7 @@
             </Text>
             <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="138.0">
                <image>
-                  <Image url="@../img/employeeDTO.png" />
+                  <Image url="@../img/employee.png" />
                </image>
             </ImageView>
             <Text fill="WHITE" layoutX="84.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User">
@@ -206,7 +206,7 @@
             </Text>
             <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="213.0">
                <image>
-                  <Image url="@../img/userDTO.png" />
+                  <Image url="@../img/user.png" />
                </image>
             </ImageView>
             <Text fill="WHITE" layoutX="76.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rooms">
@@ -216,7 +216,7 @@
             </Text>
             <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="283.0">
                <image>
-                  <Image url="@../img/roomDTO.png" />
+                  <Image url="@../img/room.png" />
                </image>
             </ImageView>
             <Text fill="WHITE" layoutX="68.0" layoutY="412.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meal Plans">
@@ -226,7 +226,7 @@
             </Text>
             <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="352.0">
                <image>
-                  <Image url="@img/meal.png" />
+                  <Image url="@../img/meal.png" />
                </image>
             </ImageView>
             <Text fill="WHITE" layoutX="62.0" layoutY="485.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Banquet Halls">
@@ -236,7 +236,7 @@
             </Text>
             <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="422.0">
                <image>
-                  <Image url="@img/halls.png" />
+                  <Image url="@../img/halls.png" />
                </image>
             </ImageView>
             <Text fill="WHITE" layoutX="74.0" layoutY="560.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports">
@@ -246,12 +246,12 @@
             </Text>
             <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="72.0" layoutY="497.0">
                <image>
-                  <Image url="@img/report.png" />
+                  <Image url="@../img/report.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="55.0" layoutY="668.0">
                <image>
-                  <Image url="@img/logout.png" />
+                  <Image url="@../img/logout.png" />
                </image>
             </ImageView>
             <Label layoutX="94.0" layoutY="675.0" text="Log out" textFill="WHITE" />
@@ -326,7 +326,7 @@
             </Text>
             <ImageView layoutX="73.0" layoutY="572.0">
                <image>
-                  <Image url="@img/mail.png" />
+                  <Image url="@../img/mail.png" />
                </image>
             </ImageView>
             <JFXButton fx:id="btnSendMail" buttonType="RAISED" layoutX="64.0" layoutY="572.0" onAction="#btnSendMailOnAction" prefHeight="67.0" prefWidth="69.0" textFill="#0984e3">

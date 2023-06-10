@@ -61,7 +61,7 @@
       <JFXComboBox fx:id="cmbroomType" layoutX="65.0" layoutY="321.0" prefHeight="25.0" prefWidth="226.0" promptText="RoomType" />
       <ImageView fitHeight="416.0" fitWidth="416.0" layoutX="669.0" layoutY="113.0" opacity="0.15">
          <image>
-            <Image url="@img/blueocean-modified.png" />
+            <Image url="@../img/blueocean-modified.png" />
          </image>
       </ImageView>
     </children>

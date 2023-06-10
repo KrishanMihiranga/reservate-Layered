@@ -15,7 +15,7 @@
         </Label>
         <ImageView fitHeight="338.0" fitWidth="344.0" layoutX="60.0" layoutY="188.0" opacity="0.88">
             <image>
-                <Image url="@img/blueocean-modified.png" />
+                <Image url="@../img/blueocean-modified.png" />
             </image>
         </ImageView>
         <Label layoutX="743.0" layoutY="188.0" prefHeight="70.0" prefWidth="150.0" text="Call us" wrapText="true">

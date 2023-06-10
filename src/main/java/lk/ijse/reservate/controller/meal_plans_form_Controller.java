@@ -90,7 +90,7 @@ public class meal_plans_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = mealPlansBO.add(PackageId, MealPlan, MealType, Description, Price);
+                    boolean isSaved = mealPlansBO.add(new MealPlansDTO(PackageId, MealPlan, MealType, Description, Double.valueOf(Price)));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Added!").show();
                     }
@@ -120,7 +120,7 @@ public class meal_plans_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = mealPlansBO.update(PackageId, MealPlan, MealType, Description, Price);
+                    boolean isSaved = mealPlansBO.update(new MealPlansDTO(PackageId, MealPlan, MealType, Description, Double.valueOf(Price)));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Updated!").show();
                     }

@@ -17,6 +17,7 @@ import lk.ijse.reservate.dto.EmployeeDTO;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class employee_form_Controller {
@@ -98,7 +99,6 @@ public class employee_form_Controller {
         String Mobile = contact.getText();
         String JobRole = jobRole.getValue();
         String Email= email.getText();
-
         boolean isMatch = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?").matcher(Email).matches();
         boolean pN = Pattern.compile("^\\+?\\d{10,15}$").matcher(Mobile).matches();
         if (isMatch && pN){
@@ -108,7 +108,8 @@ public class employee_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values !").show();
             }else {
                 try {
-                    boolean isSaved = employeeBO.add(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email);
+
+                    boolean isSaved = employeeBO.add(new EmployeeDTO(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email));
                     if (isSaved) {
                         new Alert(Alert.AlertType.CONFIRMATION, "Employee Added!").show();
                     }
@@ -149,7 +150,7 @@ public class employee_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values !").show();
             }else {
                 try{
-                    boolean isSaved = employeeBO.update(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email);
+                    boolean isSaved = employeeBO.update(new EmployeeDTO(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Employee Updated!").show();
                     }

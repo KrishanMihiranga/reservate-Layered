@@ -15,7 +15,7 @@ public class Launcher extends Application {
 
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader= new FXMLLoader(this.getClass().getResource("/views/login_form.fxml"));
+        FXMLLoader fxmlLoader= new FXMLLoader(this.getClass().getResource("/view/login_form.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);

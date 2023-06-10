@@ -92,7 +92,7 @@ public class user_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty Values !").show();
             }else {
                 try{
-                    boolean isSaved = userBO.add(UserId, EmpId, UserName, Password);
+                    boolean isSaved = userBO.add(new UserDTO(UserId, EmpId, UserName, Password));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "User Added!").show();
                     }
@@ -120,7 +120,7 @@ public class user_form_Controller {
         String EmpId    =comboEmpId.getValue();
 
         try{
-            boolean isSaved =userBO.update(UserId, EmpId, UserName, Password);
+            boolean isSaved =userBO.update(new UserDTO(UserId, EmpId, UserName, Password));
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "User Updated!").show();
             }

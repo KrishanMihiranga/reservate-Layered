@@ -159,7 +159,7 @@ public class ComplaintFormController implements Initializable {
         String HallId=cmbHallResrvationId.getValue();
         String Description=txtDescription.getText();
         try{
-            boolean isSaved= complaintBO.add(complainid, date, time, GuestId, MealId, RoomId, HallId, Description);
+            boolean isSaved= complaintBO.add(new ComplaintDTO(complainid, date, time, GuestId, MealId, RoomId, HallId, Description));
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Complaint Added!").show();
             }
@@ -178,7 +178,7 @@ public class ComplaintFormController implements Initializable {
         String HallId=cmbHallResrvationId.getValue();
         String Description=txtDescription.getText();
         try{
-            boolean isSaved= complaintBO.update(complainid, date, time, GuestId, MealId, RoomId, HallId, Description);
+            boolean isSaved= complaintBO.update(new ComplaintDTO(complainid, date, time, GuestId, MealId, RoomId, HallId, Description));
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Complaint Added!").show();
             }

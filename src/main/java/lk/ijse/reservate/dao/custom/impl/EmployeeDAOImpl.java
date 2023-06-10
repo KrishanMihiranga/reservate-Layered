@@ -79,7 +79,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             Date Date = java.sql.Date.valueOf(resultSet.getString(6));
             String JobRole = resultSet.getString(7);
             String Email = resultSet.getString(8);
-            return new employee(EmpId, Nic, Fullname, Address, mobile, Date, JobRole, Email);
+            return new employee(EmpId, Nic, Fullname, Address, mobile, String.valueOf(Date), JobRole, Email);
         }
         return null;
     }

@@ -90,7 +90,7 @@ public class rooms_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = roomBO.add(RoomNumber, RoomType, String.valueOf(Price), Status);
+                    boolean isSaved = roomBO.add(new RoomDTO(RoomNumber, RoomType,Double.valueOf(Price), Status));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Room Added!").show();
                     }
@@ -120,7 +120,7 @@ public class rooms_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = roomBO.update(RoomNumber, RoomType, String.valueOf(Price), Status);
+                    boolean isSaved = roomBO.update(new RoomDTO(RoomNumber, RoomType, Double.valueOf(Price), Status));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Room Updated!").show();
                     }

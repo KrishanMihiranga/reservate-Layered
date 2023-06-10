@@ -70,7 +70,7 @@
       <JFXTextField fx:id="txtPaymentId" labelFloat="true" layoutX="66.0" layoutY="258.0" onAction="#txtPaymentIdOnAction" prefWidth="226.0" promptText="Payment id" />
       <ImageView fitHeight="412.0" fitWidth="412.0" layoutX="681.0" layoutY="88.0" opacity="0.15">
          <image>
-            <Image url="@img/blueocean-modified.png" />
+            <Image url="@../img/blueocean-modified.png" />
          </image>
       </ImageView>
     </children>

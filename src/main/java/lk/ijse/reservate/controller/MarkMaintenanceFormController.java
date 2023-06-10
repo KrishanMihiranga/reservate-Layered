@@ -149,7 +149,7 @@ public class MarkMaintenanceFormController {
 
         if (cmbroomNumber.getValue() !=null) {
             try {
-                boolean isSaved = roomMaintenanceBO.add(MaintenanceId, RoomNumber, Date, StartTime, EndTime);
+                boolean isSaved = roomMaintenanceBO.add(new RoomMaintenanceDTO(MaintenanceId, RoomNumber, Date, StartTime, EndTime));
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
                 }
@@ -171,7 +171,7 @@ public class MarkMaintenanceFormController {
         String EndTime=txtEndTime.getText();
         if (cmbHallNumber.getValue() !=null) {
             try {
-                boolean isSaved = hallMaintenanceBO.add(MaintenanceId, hallNumber, Date, StartTime, EndTime);
+                boolean isSaved = hallMaintenanceBO.add(new HallMaintenanceDTO(MaintenanceId, hallNumber, Date, StartTime, EndTime));
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
                 }
@@ -208,7 +208,7 @@ public class MarkMaintenanceFormController {
         String StartTime=txtStartTime.getText();
         String EndTime=txtEndTime.getText();
         try{
-            boolean isSaved = hallMaintenanceBO.update(MaintenanceId, hallNumber, Date, StartTime,EndTime);
+            boolean isSaved = hallMaintenanceBO.update(new HallMaintenanceDTO( MaintenanceId, hallNumber, Date, StartTime,EndTime));
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
             }

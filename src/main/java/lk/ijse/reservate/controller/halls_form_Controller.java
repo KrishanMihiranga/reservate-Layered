@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.reservate.bo.BOFactory;
 import lk.ijse.reservate.bo.custom.HallBO;
+import lk.ijse.reservate.dto.HallDTO;
 
 
 import java.sql.SQLException;
@@ -86,7 +87,7 @@ public class halls_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = hallBO.add(HallNumber, HallType, Price, HallStatus);
+                    boolean isSaved = hallBO.add(new HallDTO(HallNumber, HallType, Price, HallStatus));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Hall Added!").show();
                     }
@@ -116,7 +117,7 @@ public class halls_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = hallBO.update(HallNumber, HallType, Price, HallStatus);
+                    boolean isSaved = hallBO.update(new HallDTO(HallNumber, HallType, Price, HallStatus));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Hall Updated!").show();
                     }
@@ -135,7 +136,7 @@ public class halls_form_Controller {
     public void btnRemoveOnAction(ActionEvent actionEvent) {
         String HallNumber =txtHallNumber.getText();
         try{
-            boolean isSaved = HallModel.remove(HallNumber);
+            boolean isSaved = hallBO.delete(HallNumber);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Hall Removed!").show();
             }
@@ -147,7 +148,7 @@ public class halls_form_Controller {
     public void txtHallNumberOnAction(ActionEvent actionEvent) {
         String HallNumber = txtHallNumber.getText();
         try {
-            Hall hall = HallModel.setFields(HallNumber);
+            HallDTO hall = hallBO.setFields(HallNumber);
             if (hall != null)
             {
                 txtHallNumber.setText(hall.getHallNumber());
@@ -158,7 +159,7 @@ public class halls_form_Controller {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Hall found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
     }

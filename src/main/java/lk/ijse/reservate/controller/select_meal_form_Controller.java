@@ -208,7 +208,7 @@ public class select_meal_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = mealOrderBO.update(OrderId, GuestId, PackageId, Date, Qty);
+                    boolean isSaved = mealOrderBO.update(new MealOrderDTO(OrderId, GuestId, PackageId, Date, Qty));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Order Updated!").show();
                     }

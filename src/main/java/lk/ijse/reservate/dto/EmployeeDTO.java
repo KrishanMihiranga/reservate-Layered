@@ -15,7 +15,7 @@ public class EmployeeDTO {
     private String Fullname;
     private String Address;
     private String Mobile;
-    private Date    Date;
+    private String    Date;
     private String JobRole;
     private String Email;
 

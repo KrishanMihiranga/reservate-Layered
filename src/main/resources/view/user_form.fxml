@@ -55,7 +55,7 @@
       <JFXComboBox fx:id="comboEmpId" layoutX="361.0" layoutY="234.0" prefHeight="25.0" prefWidth="229.0" promptText="Emp id" />
       <ImageView fitHeight="455.0" fitWidth="455.0" layoutX="645.0" layoutY="86.0" opacity="0.15">
          <image>
-            <Image url="@img/blueocean-modified.png" />
+            <Image url="@../img/blueocean-modified.png" />
          </image>
       </ImageView>
     </children>

@@ -60,7 +60,7 @@
       <JFXComboBox fx:id="cmbUserId" layoutX="372.0" layoutY="234.0" prefHeight="25.0" prefWidth="226.0" promptText="User id" />
       <ImageView fitHeight="315.0" fitWidth="315.0" layoutX="785.0" layoutY="31.0" opacity="0.15">
          <image>
-            <Image url="@img/blueocean-modified.png" />
+            <Image url="@../img/blueocean-modified.png" />
          </image>
       </ImageView>
     </children>
