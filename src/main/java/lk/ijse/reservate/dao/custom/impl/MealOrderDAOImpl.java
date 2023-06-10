@@ -1,13 +1,9 @@
 package lk.ijse.reservate.dao.custom.impl;
 
 import lk.ijse.reservate.dao.custom.MealOrderDAO;
-import lk.ijse.reservate.db.DBConnection;
 import lk.ijse.reservate.dao.SQLUtill;
-import lk.ijse.reservate.dto.mealOrderDTO;
-import lk.ijse.reservate.dto.selectMealDTO;
 import lk.ijse.reservate.entity.mealOrder;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;

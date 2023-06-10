@@ -1,5 +1,6 @@
 package lk.ijse.reservate.dto;
 
+import lk.ijse.reservate.entity.Complaint;
 import lombok.*;
 
 @Getter
@@ -7,7 +8,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComplaintDTO {
+public class ComplaintDTO{
     private String ComplaintId;
     private String Date;
     private String time;

@@ -2,12 +2,11 @@ package lk.ijse.reservate.bo.custom;
 
 import lk.ijse.reservate.bo.CrudBO;
 import lk.ijse.reservate.dto.ComplaintDTO;
-import lk.ijse.reservate.entity.Complaint;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface ComplaintBO extends CrudBO<Complaint> {
+public interface ComplaintBO extends CrudBO<ComplaintDTO> {
 
     public  List<String> getRIds() throws SQLException ;
     public  List<String> getGIds() throws SQLException ;
@@ -16,6 +15,6 @@ public interface ComplaintBO extends CrudBO<Complaint> {
 
     public  List<ComplaintDTO> getAll() throws SQLException ;
 
-   public Complaint setFields(String complainid) throws SQLException, ClassNotFoundException;
+   public ComplaintDTO setFields(String complainid) throws SQLException, ClassNotFoundException;
 
 }

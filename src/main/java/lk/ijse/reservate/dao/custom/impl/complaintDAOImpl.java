@@ -75,6 +75,8 @@ public class complaintDAOImpl implements ComplaintDAO {
         return null;
     }
 
+
+
     @Override
     public List<String> getRIds() throws SQLException {
         Connection con = DBConnection.getInstance().getConnection();
@@ -124,12 +126,12 @@ public class complaintDAOImpl implements ComplaintDAO {
     }
 
     @Override
-    public List<ComplaintDTO> getAll() throws SQLException {
+    public List<Complaint> getAll() throws SQLException {
         String sql = "SELECT * FROM complaints";
-        List<ComplaintDTO> data = new ArrayList<>();
+        List<Complaint> data = new ArrayList<>();
         ResultSet resultSet = SQLUtill.execute(sql);
         while (resultSet.next()) {
-            data.add(new ComplaintDTO(
+            data.add(new Complaint(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),

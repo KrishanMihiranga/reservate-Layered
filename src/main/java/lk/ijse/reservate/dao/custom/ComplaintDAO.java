@@ -14,7 +14,7 @@ public interface ComplaintDAO extends CrudDAO<Complaint> {
     public  List<String> getHIds() throws SQLException ;
     public  List<String> getMIds() throws SQLException ;
 
-    public  List<ComplaintDTO> getAll() throws SQLException ;
+    public  List<Complaint> getAll() throws SQLException ;
 
    public Complaint setFields(String complainid) throws SQLException, ClassNotFoundException;
 

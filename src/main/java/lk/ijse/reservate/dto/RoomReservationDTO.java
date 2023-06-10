@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @ToString
 @AllArgsConstructor
-public class roomReservationDTO {
+public class RoomReservationDTO {
     private String CheckIn;
     private String CheckOut;
     private String RoomReservationId;

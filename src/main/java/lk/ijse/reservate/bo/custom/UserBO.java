@@ -1,12 +1,11 @@
 package lk.ijse.reservate.bo.custom;
 
 import lk.ijse.reservate.bo.CrudBO;
-import lk.ijse.reservate.dao.CrudDAO;
-import lk.ijse.reservate.entity.user;
+import lk.ijse.reservate.dto.UserDTO;
 
 import java.sql.SQLException;
 
-public interface UserBO extends CrudBO<user> {
+public interface UserBO extends CrudBO<UserDTO> {
 
     public  boolean empCheck(String empId) throws SQLException ;
 

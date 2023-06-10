@@ -1,10 +1,15 @@
 package lk.ijse.reservate.bo.custom.impl;
 
 import lk.ijse.reservate.bo.custom.HallReservationBO;
+import lk.ijse.reservate.dao.DAOFactory;
 import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.dao.custom.HallReservationDAO;
+import lk.ijse.reservate.dao.custom.HallReservationDetailsDAO;
 import lk.ijse.reservate.dao.custom.impl.HallReservationDAOImpl;
+import lk.ijse.reservate.dao.custom.impl.HallReservationDetailsDAOImpl;
 import lk.ijse.reservate.db.DBConnection;
+import lk.ijse.reservate.dto.HallReservationDTO;
+import lk.ijse.reservate.entity.HallReservationDetails;
 import lk.ijse.reservate.entity.hallReservation;
 
 import java.sql.Connection;
@@ -36,13 +41,13 @@ public class HallReservationBOImpl implements HallReservationBO {
     }
 
     @Override
-    public boolean add(hallReservation entity) throws SQLException, ClassNotFoundException {
+    public boolean add(HallReservationDTO entity) throws SQLException, ClassNotFoundException {
         String sql ="INSERT INTO HallReservation(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber) VALUES(?, ?, ?, ?, ?)";
         return SQLUtill.execute(sql, entity.getCheckIn(), entity.getCheckOut(),entity.getHallReservationId(),entity.getGuestId(),entity.getHallNumber());
     }
 
     @Override
-    public boolean update(hallReservation entity) throws SQLException, ClassNotFoundException {
+    public boolean update(HallReservationDTO entity) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -58,7 +63,7 @@ public class HallReservationBOImpl implements HallReservationBO {
     }
 
     @Override
-    public hallReservation setFields(String id) throws SQLException, ClassNotFoundException {
+    public HallReservationDTO setFields(String id) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM HallReservation WHERE HallReservationId = ?";
         ResultSet resultSet = SQLUtill.execute(sql, id);
         if (resultSet.next()) {
@@ -67,7 +72,7 @@ public class HallReservationBOImpl implements HallReservationBO {
             String HallReservationId = resultSet.getString(3);
             String GuestId = resultSet.getString(4);
             String HallNumber = resultSet.getString(5);
-            return new hallReservation(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
+            return new HallReservationDTO(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
         }
         return null;
     }
@@ -99,20 +104,23 @@ public class HallReservationBOImpl implements HallReservationBO {
 
     @Override
     public boolean Order(String checkIn, String checkOut, String hallReservationId, String guestId, String hallNumber) throws SQLException {
+        HallReservationDAO hallReservationDAO = (HallReservationDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.HALLRESERVATION);
+        HallReservationDetailsDAO hallReservationDetailsDAO = (HallReservationDetailsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.HALLRESERVATIONDETAILS);
+
         Connection con = null;
         try{
             con= DBConnection.getInstance().getConnection();
             con.setAutoCommit(false);
-            boolean isSaved = HallReservationDAOImpl.add(entity.getCheckIn(), entity.getCheckOut(),entity.getHallReservationId(),entity.getGuestId(),entity.getHallNumber(), entity.getHallNumber());
+            boolean isSaved = hallReservationDAO.add(new hallReservation(checkIn, checkOut, hallReservationId, guestId, hallNumber));
             if(isSaved){
-                boolean isAdded=  HallReservationDetailsDAOImpl.save(entity.getHallReservationId(),entity.getHallNumber());
+                boolean isAdded=  hallReservationDetailsDAO.add(new HallReservationDetails(hallReservationId, hallNumber));
                 if (isAdded){
                     con.commit();
                     return true;
                 }
             }
             return false;
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
             con.rollback();
             return false;

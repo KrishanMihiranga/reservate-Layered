@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class user {
+public class User {
     private String UserId;
     private String EmpId;
     private String UserName;

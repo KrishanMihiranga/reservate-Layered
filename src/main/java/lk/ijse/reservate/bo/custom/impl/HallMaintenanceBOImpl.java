@@ -1,8 +1,10 @@
 package lk.ijse.reservate.bo.custom.impl;
 
 import lk.ijse.reservate.bo.custom.HallMaintenanceBO;
+import lk.ijse.reservate.dao.DAOFactory;
 import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.dao.custom.HallMaintenanceDAO;
+import lk.ijse.reservate.dto.HallMaintenanceDTO;
 import lk.ijse.reservate.entity.hallmaintenance;
 
 import java.sql.ResultSet;
@@ -10,43 +12,33 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class HallMaintenanceBOImpl implements HallMaintenanceBO {
+
+    HallMaintenanceDAO dao = (HallMaintenanceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.HALLMAINTENANCE);
+
     @Override
     public String getNextId() throws SQLException, ClassNotFoundException {
-        String sql = "SELECT HallMaintenanceId FROM hallmaintenance ORDER BY HallMaintenanceId DESC LIMIT 1";
-        ResultSet resultSet = SQLUtill.execute(sql);
-        if(resultSet.next()) {
-            return splitId(resultSet.getString(1));
-        }
-        return splitId(null);
+        return dao.getNextId();
     }
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-        if(currentId != null) {
-            int lastNum = Integer.parseInt(currentId.substring(2));
-            int newNum = lastNum + 1;
-            String newId = String.format("HM%04d", newNum);
-            return newId;
-        }
-        return "HM0001";
+       return dao.splitId(currentId);
     }
 
     @Override
-    public boolean add(hallmaintenance entity) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO hallmaintenance(HallMaintenanceId, HallNumber, Date, StartTime, EndTime)Values(?, ?, ?, ?, ?)";
-        return SQLUtill.execute(sql,entity.getHallMaintenanceId(),entity.getHallNumber(),entity.getDate(),entity.getStartTime(),entity.getEndTime());
+    public boolean add(HallMaintenanceDTO entity) throws SQLException, ClassNotFoundException {
+        return dao.add(new hallmaintenance(entity.getHallMaintenanceId(),entity.getHallNumber(),entity.getDate(),entity.getStartTime(),entity.getEndTime()));
     }
 
     @Override
-    public boolean update(hallmaintenance entity) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE hallmaintenance SET HallNumber = ?, Date = ?, StartTime = ?, EndTime = ? WHERE HallMaintenanceId = ?";
-        return SQLUtill.execute(sql, entity.getHallNumber(),entity.getDate(),entity.getStartTime(),entity.getEndTime(),entity.getHallMaintenanceId());
+    public boolean update(HallMaintenanceDTO entity) throws SQLException, ClassNotFoundException {
+        return dao.update(new hallmaintenance(entity.getHallNumber(),entity.getDate(),entity.getStartTime(),entity.getEndTime(),entity.getHallMaintenanceId()));
+
     }
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        String sql ="DELETE FROM hallmaintenance WHERE HallMaintenanceId = ?";
-        return SQLUtill.execute(sql, id);
+        return dao.delete(id);
     }
 
     @Override
@@ -55,18 +47,10 @@ public class HallMaintenanceBOImpl implements HallMaintenanceBO {
     }
 
     @Override
-    public hallmaintenance setFields(String id) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM hallmaintenance WHERE HallMaintenanceId = ?";
-        ResultSet resultSet = SQLUtill.execute(sql, id);
-        if (resultSet.next()) {
-            String HallMaintenanceId=resultSet.getString(1);
-            String Date=resultSet.getString(2);
-            String startTime=resultSet.getString(3);
-            String EndTime=resultSet.getString(4);
-            String hallNumber=resultSet.getString(5);
-            return new hallmaintenance(HallMaintenanceId, Date, startTime, EndTime, hallNumber);
-        }
-        return null;
+    public HallMaintenanceDTO setFields(String id) throws SQLException, ClassNotFoundException {
+        hallmaintenance hall = dao.setFields(id);
+        return new HallMaintenanceDTO(hall.getHallMaintenanceId(), hall.getDate(), hall.getStartTime(), hall.getEndTime(), hall.getHallNumber());
+
     }
 
 }
