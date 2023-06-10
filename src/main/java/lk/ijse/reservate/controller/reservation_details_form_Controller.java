@@ -9,12 +9,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.HallReservationDetails;
-import lk.ijse.reservate.dto.RoomReservationDetails;
-import lk.ijse.reservate.dto.tm.HallReservationDetailsTM;
-import lk.ijse.reservate.dto.tm.RoomReservationDetailsTM;
-import lk.ijse.reservate.model.HallReservationDetailsModel;
-import lk.ijse.reservate.model.RoomReservationDetailsModel;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.HallReservationDetailsBO;
+import lk.ijse.reservate.bo.custom.RoomReservationDetailsBO;
+import lk.ijse.reservate.dto.HallReservationDetailsDTO;
+import lk.ijse.reservate.dto.RoomReservationDetailsDTO;
+import lk.ijse.reservate.tdm.HallReservationDetailsTM;
+import lk.ijse.reservate.tdm.RoomReservationDetailsTM;
 import lombok.SneakyThrows;
 
 import java.net.URL;
@@ -45,6 +46,11 @@ public class reservation_details_form_Controller implements Initializable {
     @FXML
     private TableColumn<?, ?> colRoomNumber;
 
+
+    HallReservationDetailsBO hallReservationDetailsBO = (HallReservationDetailsBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.HALLRESERVATIONDETAILS);
+    RoomReservationDetailsBO roomReservationDetailsBO = (RoomReservationDetailsBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOMRESERVATIONDETAILS);
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setCellValueFactory();
@@ -62,17 +68,17 @@ public class reservation_details_form_Controller implements Initializable {
             ObservableList<HallReservationDetailsTM> obList = FXCollections.observableArrayList();
             ObservableList<RoomReservationDetailsTM> ob = FXCollections.observableArrayList();
 
-            List<HallReservationDetails> hresList = HallReservationDetailsModel.getAll();
-            List<RoomReservationDetails> rresList = RoomReservationDetailsModel.getAll();
+            List<HallReservationDetailsDTO> hresList = hallReservationDetailsBO.getAll();
+            List<RoomReservationDetailsDTO> rresList = roomReservationDetailsBO.getAll();
 
 
-            for(HallReservationDetails hall : hresList) {
+            for(HallReservationDetailsDTO hall : hresList) {
                 obList.add(new HallReservationDetailsTM(
                         hall.getHallReservationId(),
                         hall.getHallNumber()
                 ));
             }
-            for(RoomReservationDetails room : rresList) {
+            for(RoomReservationDetailsDTO room : rresList) {
                 ob.add(new RoomReservationDetailsTM(
                         room.getRoomReservationId(),
                         room.getRoomNumber()

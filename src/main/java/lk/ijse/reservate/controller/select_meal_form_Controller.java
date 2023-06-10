@@ -13,9 +13,17 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.*;
-import lk.ijse.reservate.dto.tm.mealDetailsTM;
-import lk.ijse.reservate.model.*;
+
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.GuestBO;
+import lk.ijse.reservate.bo.custom.MealOrderBO;
+import lk.ijse.reservate.bo.custom.MealOrderDetailsBO;
+import lk.ijse.reservate.bo.custom.MealPlansBO;
+import lk.ijse.reservate.dao.custom.MealPlansDAO;
+import lk.ijse.reservate.dto.MealOrderDTO;
+import lk.ijse.reservate.dto.MealPlansDTO;
+import lk.ijse.reservate.dto.selectMealDTO;
+import lk.ijse.reservate.tdm.mealDetailsTM;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -70,6 +78,10 @@ public class select_meal_form_Controller {
     private TableColumn<?, ?> colPrice;
 
 
+    MealOrderBO mealOrderBO = (MealOrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.MEALORDER);
+    MealPlansBO mealPlansBO = (MealPlansBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.MEALPLANS);
+    GuestBO  guestBO= (GuestBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.GUEST);
+    MealOrderDetailsBO  mealOrderDetailsBO= (MealOrderDetailsBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.MEALORDERDETAILS);
     public void initialize(){
        loadGuestIds();
        loadPackageIds();
@@ -84,11 +96,11 @@ public class select_meal_form_Controller {
             ObservableList<mealDetailsTM> obList = FXCollections.observableArrayList();
 
 
-            List<MealPlans> list = MealPlansModel.getAll();
+            List<MealPlansDTO> list = mealPlansBO.getAll();
 
 
 
-            for(MealPlans meal : list) {
+            for(MealPlansDTO meal : list) {
                 obList.add(new mealDetailsTM(
                         meal.getPackageId(),
                         meal.getMealPlan(),
@@ -116,10 +128,10 @@ public class select_meal_form_Controller {
 
     private void generateNextId() {
         try {
-            String nextId = MealOrderModel.generateNextId();
+            String nextId = mealOrderBO.getNextId();
             txtOrderId.setText(nextId);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -138,7 +150,7 @@ public class select_meal_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = MealOrderModel.Order(OrderId, GuestId, PackageId, Date, Qty,OrderId, PackageId);
+                    boolean isSaved = mealOrderBO.Order(OrderId, GuestId, PackageId, Date, Qty,OrderId, PackageId);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Order Added!").show();
                     }
@@ -156,13 +168,13 @@ public class select_meal_form_Controller {
 
    private void loadPackageIds() {
        try{
-           List<String> packageIds = MealPlansModel.getIds();
+           List<String> packageIds = mealPlansBO.getIds();
            ObservableList<String> obList = FXCollections.observableArrayList();
            for(String pIds : packageIds){
                obList.add(pIds);
            }
            cmbPackageId.setItems(obList);
-       }catch (SQLException e){
+       }catch (SQLException | ClassNotFoundException e){
            e.printStackTrace();
            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
        }
@@ -170,13 +182,13 @@ public class select_meal_form_Controller {
 
    private void loadGuestIds() {
        try{
-           List<String> gIds = GuestModel.getIds();
+           List<String> gIds = guestBO.getIds();
            ObservableList<String> obList = FXCollections.observableArrayList();
            for(String guestIds : gIds){
                obList.add(guestIds);
            }
            cmbGuestId.setItems(obList);
-       }catch (SQLException e){
+       }catch (SQLException | ClassNotFoundException e){
            e.printStackTrace();
            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
        }
@@ -196,7 +208,7 @@ public class select_meal_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = MealOrderModel.update(OrderId, GuestId, PackageId, Date, Qty);
+                    boolean isSaved = mealOrderBO.update(OrderId, GuestId, PackageId, Date, Qty);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Order Updated!").show();
                     }
@@ -216,7 +228,7 @@ public class select_meal_form_Controller {
     public void btnCancelOrderOnAction(ActionEvent actionEvent) {
         String OrderId = txtOrderId.getText();
     try{
-            boolean isSaved = MealOrderDetailsModel.remove(OrderId);
+            boolean isSaved = mealOrderDetailsBO.delete(OrderId);
             try {
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Meal Order Removed!").show();
@@ -234,7 +246,7 @@ public class select_meal_form_Controller {
     public void txtOrderIdOnAction(ActionEvent actionEvent) {
       String id = txtOrderId.getText();
        try {
-          selectMeal meal= MealOrderModel.setFields(id);
+          MealOrderDTO meal= mealOrderBO.setFields(id);
            if (meal != null)
            {
                txtOrderId.setText(meal.getMealOrderId());
@@ -245,7 +257,7 @@ public class select_meal_form_Controller {
            } else {
                new Alert(Alert.AlertType.WARNING, "no Reservation found :(").show();
            }
-       } catch (SQLException e) {
+       } catch (SQLException | ClassNotFoundException e) {
            new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
        }
 

@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -15,7 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import lk.ijse.reservate.model.UserModel;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.UserBO;
 
 import java.io.IOException;
 
@@ -33,6 +33,8 @@ public class login_form_Controller {
 
     static Stage stage;
     static Stage stage2;
+
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
     public void closeBtnOnMouseClicked(MouseEvent mouseEvent) {
         System.exit(0);
     }
@@ -41,7 +43,7 @@ public class login_form_Controller {
        try{
            String userName = userNameField.getText();
            String password = passwordField.getText();
-           boolean isElegible = UserModel.elegibleCheck(userName, password);
+           boolean isElegible = userBO.elegibleCheck(userName, password);
            if(isElegible){
                stage = (Stage) userNameField.getScene().getWindow();
                stage.hide();

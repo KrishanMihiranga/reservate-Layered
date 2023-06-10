@@ -11,13 +11,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dao.custom.impl.EmployeeDAOImpl;
-import lk.ijse.reservate.dto.Employee;
-import lk.ijse.reservate.model.EmployeeModel;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.EmployeeBO;
+import lk.ijse.reservate.dto.EmployeeDTO;
 
-import java.sql.*;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Properties;
 import java.util.regex.Pattern;
 
 public class employee_form_Controller {
@@ -61,6 +60,8 @@ public class employee_form_Controller {
     @FXML
     private JFXComboBox<String> jobRole;
 
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.EMPLOYEE);
+
     public void initialize(){
         generateNextEmpId();
         date.setValue(LocalDate.now());
@@ -80,9 +81,9 @@ public class employee_form_Controller {
 
     private void generateNextEmpId() {
         try {
-            String nextEmpId = EmployeeModel.generateNextEmpId();
+            String nextEmpId = employeeBO.getNextId();
             empId.setText(nextEmpId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -107,7 +108,7 @@ public class employee_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values !").show();
             }else {
                 try {
-                    boolean isSaved = EmployeeModel.save(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email);
+                    boolean isSaved = employeeBO.add(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email);
                     if (isSaved) {
                         new Alert(Alert.AlertType.CONFIRMATION, "Employee Added!").show();
                     }
@@ -148,7 +149,7 @@ public class employee_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values !").show();
             }else {
                 try{
-                    boolean isSaved = EmployeeModel.update(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email);
+                    boolean isSaved = employeeBO.update(EmpId, Nic, FullName, Address, Mobile, Date, JobRole, Email);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Employee Updated!").show();
                     }
@@ -173,7 +174,7 @@ public class employee_form_Controller {
     public void btnRemoveOnAction(ActionEvent actionEvent) {
         String EmpId = empId.getText();
         try{
-            boolean isSaved = EmployeeDAOImpl.delete(EmpId);
+            boolean isSaved = employeeBO.delete(EmpId);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Employee Deleted!").show();
             }else{
@@ -187,7 +188,7 @@ public class employee_form_Controller {
     public void empIdOnAction(ActionEvent actionEvent) {
         String code = empId.getText();
         try {
-            Employee employee = EmployeeModel.setFields(code);
+            EmployeeDTO employee = employeeBO.setFields(code);
             if (employee != null)
             {
                 nic.setText(employee.getNic());
@@ -202,7 +203,7 @@ public class employee_form_Controller {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Employee found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
 

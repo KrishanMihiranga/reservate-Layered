@@ -10,12 +10,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.Employee;
-import lk.ijse.reservate.dto.Guest;
-import lk.ijse.reservate.model.EmployeeModel;
-import lk.ijse.reservate.model.GuestModel;
-import lk.ijse.reservate.model.UserModel;
-import lk.ijse.reservate.model.paymentModel;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.GuestBO;
+import lk.ijse.reservate.bo.custom.UserBO;
+import lk.ijse.reservate.dto.GuestDTO;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -59,6 +57,9 @@ public class guests_form_Controller {
     @FXML
     private JFXButton btnRemoveGuest;
 
+    GuestBO guestBO = (GuestBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.GUEST);
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
+
     public void initialize(){
         loadUserIds();
         generateNextId();
@@ -67,10 +68,10 @@ public class guests_form_Controller {
 
     private void generateNextId() {
         try {
-            String nextId = GuestModel.generateNextId();
+            String nextId = guestBO.getNextId();
             txtGuestId.setText(nextId);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -78,13 +79,13 @@ public class guests_form_Controller {
 
     private void loadUserIds() {
         try{
-            List<String> uIds = UserModel.getIds();
+            List<String> uIds = userBO.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String userIds : uIds){
                 obList.add(userIds);
             }
             cmbUserId.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
         }
@@ -109,7 +110,7 @@ public class guests_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = GuestModel.save(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email);
+                    boolean isSaved = guestBO.add(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Guest Added!").show();
                     }
@@ -141,7 +142,7 @@ public class guests_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = GuestModel.update(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email);
+                    boolean isSaved = guestBO.update(GuestId, UserId, Nic, Fullname, Address, Mobile, Date, Email);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Guest Updated!").show();
                     }
@@ -160,7 +161,7 @@ public class guests_form_Controller {
     public void btnRemoveGuestOnAction(ActionEvent actionEvent) {
         String GuestId = txtGuestId.getText();
         try{
-            boolean isSaved = GuestModel.remove(GuestId);
+            boolean isSaved = guestBO.delete(GuestId);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Guest Removed!").show();
             }
@@ -172,7 +173,7 @@ public class guests_form_Controller {
     public void txtGuestIdOnAction(ActionEvent actionEvent) {
         String GuestId = txtGuestId.getText();
         try {
-            Guest guest = GuestModel.setFields(GuestId);
+            GuestDTO guest = guestBO.setFields(GuestId);
             if (GuestId != null)
             {
                 txtGuestId.setText(guest.getGuestId());
@@ -187,7 +188,7 @@ public class guests_form_Controller {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Guest found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
     }

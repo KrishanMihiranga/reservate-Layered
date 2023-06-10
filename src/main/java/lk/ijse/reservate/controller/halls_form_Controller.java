@@ -9,10 +9,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.Hall;
-import lk.ijse.reservate.dto.MealPlans;
-import lk.ijse.reservate.model.HallModel;
-import lk.ijse.reservate.model.MealPlansModel;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.HallBO;
+
 
 import java.sql.SQLException;
 import java.util.regex.Pattern;
@@ -39,6 +38,8 @@ public class halls_form_Controller {
     @FXML
     private  JFXComboBox<String> cmbHallType;
 
+    HallBO hallBO = (HallBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.HALL);
+
     public void initialize(){
         generateNextId();
         setStatus();
@@ -55,9 +56,9 @@ public class halls_form_Controller {
 
     private void generateNextId() {
         try {
-            String nextId = HallModel.generateNextId();
+            String nextId = hallBO.getNextId();
             txtHallNumber.setText(nextId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -85,7 +86,7 @@ public class halls_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = HallModel.save(HallNumber, HallType, Price, HallStatus);
+                    boolean isSaved = hallBO.add(HallNumber, HallType, Price, HallStatus);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Hall Added!").show();
                     }
@@ -115,7 +116,7 @@ public class halls_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = HallModel.update(HallNumber, HallType, Price, HallStatus);
+                    boolean isSaved = hallBO.update(HallNumber, HallType, Price, HallStatus);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Hall Updated!").show();
                     }

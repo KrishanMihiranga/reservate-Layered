@@ -7,6 +7,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.ComplaintBO;
+import lk.ijse.reservate.dto.ComplaintDTO;
+import lk.ijse.reservate.entity.Complaint;
+import lk.ijse.reservate.tdm.ComplaintTM;
 
 
 import java.sql.SQLException;
@@ -41,6 +46,8 @@ public class complaint_table_Controller {
     @FXML
     private TableColumn<?, ?> coldescription;
 
+    ComplaintBO complaintBO = (ComplaintBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.COMPLAINT);
+
     public void initialize(){
         setCellValueFactory();
         getAll();
@@ -50,10 +57,10 @@ public class complaint_table_Controller {
         try {
             ObservableList<ComplaintTM> obList = FXCollections.observableArrayList();
 
-            List<Complaint> hresList = complaintModel.getAll();
+            List<ComplaintDTO> hresList = complaintBO.getAll();
 
 
-            for(Complaint complaint : hresList) {
+            for(ComplaintDTO complaint : hresList) {
                 obList.add(new ComplaintTM(
                         complaint.getComplaintId(),
                         complaint.getDate(),

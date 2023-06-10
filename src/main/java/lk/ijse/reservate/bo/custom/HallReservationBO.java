@@ -11,7 +11,7 @@ public interface HallReservationBO extends CrudBO<HallReservationDTO> {
 
     public  boolean isValid(String hallNumber) throws SQLException;
 
-    public hallReservation setHFields(String hallnumber) throws SQLException ;
+    public HallReservationDTO setHFields(String hallnumber) throws SQLException ;
 
     public  boolean Order(String checkIn, String checkOut, String hallReservationId, String guestId, String hallNumber) throws SQLException ;
 

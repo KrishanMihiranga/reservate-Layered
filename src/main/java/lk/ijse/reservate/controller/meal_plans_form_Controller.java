@@ -10,10 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.MealPlans;
-import lk.ijse.reservate.dto.Room;
-import lk.ijse.reservate.model.MealPlansModel;
-import lk.ijse.reservate.model.RoomModel;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.MealPlansBO;
+
+import lk.ijse.reservate.dto.MealPlansDTO;
+
 
 import java.sql.SQLException;
 import java.util.regex.Pattern;
@@ -44,6 +45,9 @@ public class meal_plans_form_Controller {
 
     @FXML
     private JFXButton btnRemove;
+
+    MealPlansBO mealPlansBO = (MealPlansBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.MEALPLANS);
+
     public void initialize(){
      setType();
      generateNextId();
@@ -65,9 +69,9 @@ public class meal_plans_form_Controller {
 
     private void generateNextId() {
         try {
-            String nextId = MealPlansModel.generateNextId();
+            String nextId = mealPlansBO.getNextId();
             txtPackageId.setText(nextId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -86,7 +90,7 @@ public class meal_plans_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = MealPlansModel.save(PackageId, MealPlan, MealType, Description, Price);
+                    boolean isSaved = mealPlansBO.add(PackageId, MealPlan, MealType, Description, Price);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Added!").show();
                     }
@@ -116,7 +120,7 @@ public class meal_plans_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = MealPlansModel.update(PackageId, MealPlan, MealType, Description, Price);
+                    boolean isSaved = mealPlansBO.update(PackageId, MealPlan, MealType, Description, Price);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Updated!").show();
                     }
@@ -137,7 +141,7 @@ public class meal_plans_form_Controller {
         String PackageId    =txtPackageId.getText();
 
         try{
-            boolean isSaved = MealPlansModel.remove(PackageId);
+            boolean isSaved = mealPlansBO.delete(PackageId);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Meal Removed!").show();
             }
@@ -150,7 +154,7 @@ public class meal_plans_form_Controller {
         String PackageId    =txtPackageId.getText();
 
         try {
-            MealPlans mealPlans = MealPlansModel.setFields(PackageId);
+            MealPlansDTO mealPlans = mealPlansBO.setFields(PackageId);
             if (mealPlans != null)
             {
                 txtPackageId.setText(mealPlans.getPackageId());
@@ -163,7 +167,7 @@ public class meal_plans_form_Controller {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Package found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
     }

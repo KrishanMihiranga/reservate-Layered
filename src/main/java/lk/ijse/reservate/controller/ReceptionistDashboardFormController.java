@@ -19,8 +19,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import lk.ijse.reservate.model.DashboardModel;
-import lk.ijse.reservate.model.paymentModel;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.DashboardBO;
+
 
 import java.io.IOException;
 import java.sql.Time;
@@ -71,6 +72,8 @@ public class ReceptionistDashboardFormController {
     private int month;
     private int datee;
 
+    DashboardBO dashboardBO = (DashboardBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.DASHBOARD);
+
     public void initialize(){
         setTxtDateTime();
         setlable();
@@ -100,19 +103,19 @@ public class ReceptionistDashboardFormController {
 
     private void setlable(){
         try {
-            int totRooms = DashboardModel.getTotalRooms();
+            int totRooms = dashboardBO.getTotalRooms();
             lblTotalRooms.setText(String.valueOf(totRooms));
 
-            int totHalls = DashboardModel.getTotalHalls();
+            int totHalls = dashboardBO.getTotalHalls();
             lblTotalHalls.setText(String.valueOf(totHalls));
 
-            int bookedHalls = DashboardModel.getBookedHalls();
+            int bookedHalls = dashboardBO.getBookedHalls();
             lblBookedhalls.setText(String.valueOf(bookedHalls));
 
-            int bookedRooms = DashboardModel.getBookedRooms();
+            int bookedRooms = dashboardBO.getBookedRooms();
             lblBookedRooms.setText(String.valueOf(bookedRooms));
 
-            int complaints = DashboardModel.getComplaints();
+            int complaints = dashboardBO.getComplaints();
             lblComplaints.setText(String.valueOf(complaints));
         }catch (Exception e){
             new Alert(Alert.AlertType.ERROR, "Error in set Label!").show();

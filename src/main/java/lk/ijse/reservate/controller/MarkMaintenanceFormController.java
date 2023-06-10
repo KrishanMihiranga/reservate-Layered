@@ -10,10 +10,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.Employee;
-import lk.ijse.reservate.dto.hallMaintenance;
-import lk.ijse.reservate.dto.roomMaintenance;
-import lk.ijse.reservate.model.*;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.HallBO;
+import lk.ijse.reservate.bo.custom.HallMaintenanceBO;
+import lk.ijse.reservate.bo.custom.RoomBO;
+import lk.ijse.reservate.bo.custom.RoomMaintenanceBO;
+
+import lk.ijse.reservate.dto.HallMaintenanceDTO;
+import lk.ijse.reservate.dto.RoomMaintenanceDTO;
+
 
 import java.sql.SQLException;
 import java.sql.Time;
@@ -66,6 +71,13 @@ public class MarkMaintenanceFormController {
     @FXML
     private JFXButton btnCancelHall;
 
+
+    HallMaintenanceBO hallMaintenanceBO = (HallMaintenanceBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.HALLMAINTENANCE);
+    RoomMaintenanceBO roomMaintenanceBO = (RoomMaintenanceBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOMMAINTENANCE);
+    HallBO hallBO = (HallBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.HALL);
+    RoomBO roomBO = (RoomBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
+
+
     public void initialize(){
         loadRoomIds();
         loadHallIds();
@@ -89,25 +101,25 @@ public class MarkMaintenanceFormController {
 
     private void generateNextId() {
         try {
-            String nextHId = HallMaintenanceModel.generateNextId();
-            String nextRId = RoomMaintenanceModel.generateNextId();
+            String nextHId = hallMaintenanceBO.getNextId();
+            String nextRId = hallMaintenanceBO.getNextId();
             txtHallMaintenanceId.setText(nextHId);
             txtRoomMaintenanceId.setText(nextRId);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void loadHallIds() {
         try{
-            List<String> HallIds = HallModel.getIds();
+            List<String> HallIds = hallBO.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String hIds : HallIds){
                 obList.add(hIds);
             }
             cmbHallNumber.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
         }
@@ -115,13 +127,13 @@ public class MarkMaintenanceFormController {
 
     private void loadRoomIds() {
         try{
-            List<String> RoomIds = RoomModel.getIds();
+            List<String> RoomIds = roomBO.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String rIds : RoomIds){
                 obList.add(rIds);
             }
             cmbroomNumber.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
         }
@@ -137,7 +149,7 @@ public class MarkMaintenanceFormController {
 
         if (cmbroomNumber.getValue() !=null) {
             try {
-                boolean isSaved = RoomMaintenanceModel.save(MaintenanceId, RoomNumber, Date, StartTime, EndTime);
+                boolean isSaved = roomMaintenanceBO.add(MaintenanceId, RoomNumber, Date, StartTime, EndTime);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
                 }
@@ -159,7 +171,7 @@ public class MarkMaintenanceFormController {
         String EndTime=txtEndTime.getText();
         if (cmbHallNumber.getValue() !=null) {
             try {
-                boolean isSaved = HallMaintenanceModel.save(MaintenanceId, hallNumber, Date, StartTime, EndTime);
+                boolean isSaved = hallMaintenanceBO.add(MaintenanceId, hallNumber, Date, StartTime, EndTime);
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
                 }
@@ -179,7 +191,7 @@ public class MarkMaintenanceFormController {
         String EndTime= txtEndTime.getText();
 
         try{
-            boolean isSaved = RoomMaintenanceModel.updateRoom(MaintenanceId, RoomNumber, Date, StartTime,EndTime);
+            boolean isSaved = roomMaintenanceBO.updateRoom(MaintenanceId, RoomNumber, Date, StartTime,EndTime);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
             }
@@ -196,7 +208,7 @@ public class MarkMaintenanceFormController {
         String StartTime=txtStartTime.getText();
         String EndTime=txtEndTime.getText();
         try{
-            boolean isSaved = HallMaintenanceModel.updateHall(MaintenanceId, hallNumber, Date, StartTime,EndTime);
+            boolean isSaved = hallMaintenanceBO.update(MaintenanceId, hallNumber, Date, StartTime,EndTime);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
             }
@@ -208,7 +220,7 @@ public class MarkMaintenanceFormController {
     public void btnCancelRoomOnAction(ActionEvent actionEvent) {
         String MaintenanceId = txtRoomMaintenanceId.getText();
         try{
-            boolean isSaved = RoomMaintenanceModel.remove(MaintenanceId);
+            boolean isSaved = roomMaintenanceBO.delete(MaintenanceId);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Removed!").show();
             }
@@ -221,7 +233,7 @@ public class MarkMaintenanceFormController {
     public void btnCancelHallOnAction(ActionEvent actionEvent) {
         String MaintenanceId=txtHallMaintenanceId.getText();
         try{
-            boolean isSaved = HallMaintenanceModel.remove(MaintenanceId);
+            boolean isSaved = hallMaintenanceBO.delete(MaintenanceId);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Removed!").show();
             }
@@ -233,7 +245,7 @@ public class MarkMaintenanceFormController {
     public void txtRoomMaintenanceIdOnAction(ActionEvent actionEvent) {
         String MaintenanceId = txtRoomMaintenanceId.getText();
         try {
-           roomMaintenance rm = RoomMaintenanceModel.setFields(MaintenanceId);
+           RoomMaintenanceDTO rm = roomMaintenanceBO.setFields(MaintenanceId);
             if (rm != null)
             {
                 txtRoomMaintenanceId.setText(rm.getRoomMaintenanceId());
@@ -245,7 +257,7 @@ public class MarkMaintenanceFormController {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Maintenance found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
     }
@@ -254,7 +266,7 @@ public class MarkMaintenanceFormController {
         String MaintenanceId=txtHallMaintenanceId.getText();
 
         try {
-            hallMaintenance hm =HallMaintenanceModel.setFields(MaintenanceId);
+            HallMaintenanceDTO hm =hallMaintenanceBO.setFields(MaintenanceId);
             if (hm != null)
             {
                 txtHallMaintenanceId.setText(hm.getHallMaintenanceId());
@@ -266,7 +278,7 @@ public class MarkMaintenanceFormController {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Maintenance found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
     }

@@ -20,6 +20,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.DashboardBO;
+import lk.ijse.reservate.bo.custom.PaymentBO;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -95,6 +98,11 @@ public class AdminDashboardFormController {
     private int month;
     private int datee;
     private Double totValue;
+
+    DashboardBO dashboardBO = (DashboardBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.DASHBOARD);
+    PaymentBO paymentBO = (PaymentBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PAYMENT);
+
+
     public void initialize() throws SQLException {
         setTxtDateTime();
         setlable();
@@ -102,7 +110,7 @@ public class AdminDashboardFormController {
     }
 
     private void setNetAmount() throws SQLException {
-        totValue= paymentModel.generateTotValue();
+        totValue= paymentBO.generateTotValue();
         lbltotValue.setText(String.valueOf(totValue));
     }
 
@@ -129,24 +137,24 @@ public class AdminDashboardFormController {
 
     private void setlable(){
         try {
-            int totRooms = DashboardModel.getTotalRooms();
+            int totRooms = dashboardBO.getTotalRooms();
             lblTotalRooms.setText(String.valueOf(totRooms));
 
-            int bookedRooms = DashboardModel.getBookedRooms();
+            int bookedRooms = dashboardBO.getBookedRooms();
             lblBookedRooms.setText(String.valueOf(bookedRooms));
 
             int AvailableRooms = (totRooms-bookedRooms);
             lblAvailablerooms.setText(String.valueOf(AvailableRooms));
 
-            int totHalls = DashboardModel.getTotalHalls();
+            int totHalls = dashboardBO.getTotalHalls();
 
-            int bookedHalls = DashboardModel.getBookedHalls();
+            int bookedHalls = dashboardBO.getBookedHalls();
             lblBookedhalls.setText(String.valueOf(bookedHalls));
 
             int AvailableHalls= (totHalls-bookedHalls);
             lblAvailableHalls.setText(String.valueOf(AvailableHalls));
 
-            int complaints = DashboardModel.getComplaints();
+            int complaints = dashboardBO.getComplaints();
             lblComplaints.setText(String.valueOf(complaints));
         }catch (Exception e){
             new Alert(Alert.AlertType.ERROR, "Error in set Label!").show();

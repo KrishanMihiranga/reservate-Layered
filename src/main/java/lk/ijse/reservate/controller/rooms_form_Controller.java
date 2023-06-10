@@ -9,10 +9,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.reservate.dto.Room;
-import lk.ijse.reservate.dto.User;
-import lk.ijse.reservate.model.RoomModel;
-import lk.ijse.reservate.model.UserModel;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.RoomBO;
+
+import lk.ijse.reservate.dto.RoomDTO;
+
 
 import java.sql.SQLException;
 import java.util.regex.Pattern;
@@ -43,6 +44,8 @@ public class rooms_form_Controller {
     @FXML
     private JFXComboBox<String> cmbroomType;
 
+    RoomBO roomBO = (RoomBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
+
     public void initialize(){
      setStatus();
      generateNextRoomNumber();
@@ -59,9 +62,9 @@ public class rooms_form_Controller {
 
     private void generateNextRoomNumber() {
         try {
-            String nextRoomNumber = RoomModel.generateNextRoomNumber();
+            String nextRoomNumber = roomBO.getNextId();
             txtRoomNumber.setText(nextRoomNumber);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -87,7 +90,7 @@ public class rooms_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = RoomModel.save(RoomNumber, RoomType, String.valueOf(Price), Status);
+                    boolean isSaved = roomBO.add(RoomNumber, RoomType, String.valueOf(Price), Status);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Room Added!").show();
                     }
@@ -117,7 +120,7 @@ public class rooms_form_Controller {
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = RoomModel.update(RoomNumber, RoomType, String.valueOf(Price), Status);
+                    boolean isSaved = roomBO.update(RoomNumber, RoomType, String.valueOf(Price), Status);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Room Updated!").show();
                     }
@@ -137,7 +140,7 @@ public class rooms_form_Controller {
     public void btnRemoveOnAction(ActionEvent actionEvent) {
         String RoomNumber = txtRoomNumber.getText();
         try{
-            boolean isSaved = RoomModel.remove(RoomNumber);
+            boolean isSaved = roomBO.delete(RoomNumber);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Room Removed!").show();
             }
@@ -149,7 +152,7 @@ public class rooms_form_Controller {
     public void txtRoomNumberOnAction(ActionEvent actionEvent) {
         String RoomNumber = txtRoomNumber.getText();
         try {
-            Room room = RoomModel.setFields(RoomNumber);
+            RoomDTO room = roomBO.setFields(RoomNumber);
             if (room != null)
             {
 
@@ -162,7 +165,7 @@ public class rooms_form_Controller {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Room found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
     }

@@ -16,9 +16,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.*;
 import lk.ijse.reservate.db.DBConnection;
 import lk.ijse.reservate.dto.*;
 
+import lk.ijse.reservate.entity.RoomReservationDetails;
+import lk.ijse.reservate.entity.hallReservation;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -73,6 +77,14 @@ public class reservation_form_Controller {
    @FXML
    private Label lblHall;
 
+    RoomReservationDetailsBO roomReservationDetailsBO = (RoomReservationDetailsBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOMRESERVATIONDETAILS);
+    HallReservationDetailsBO hallReservationDetailsBO = (HallReservationDetailsBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.HALLRESERVATIONDETAILS);
+    HallReservationBO hallReservationBO = (HallReservationBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.HALLRESERVATION);
+    HallBO hallBO = (HallBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.HALL);
+    RoomBO roomBO = (RoomBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
+    GuestBO guestBO = (GuestBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.GUEST);
+    RoomReservationBO roomReservationBO = (RoomReservationBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOMRESERVATION);
+
     public void initialize(){
         loadGuestIds();
         loadRoomIds();
@@ -85,11 +97,11 @@ public class reservation_form_Controller {
 
     private void generateNextId() {
         try {
-            String nextId = HallReservationModel.generateNextId();
+            String nextId = hallReservationBO.getNextId();
             txtHallReservationId.setText(nextId);
-            String nextRId = RoomReservationModel.generateNextId();
+            String nextRId = roomReservationBO.getNextId();
             txtRoomReservationId.setText(nextRId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -97,39 +109,39 @@ public class reservation_form_Controller {
 
     private void loadGuestIds(){
         try{
-            List<String> gIds = GuestModel.getIds();
+            List<String> gIds = guestBO.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String guestIds : gIds){
                 obList.add(guestIds);
             }
             cmbGuestId.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
         }
     }
     private void loadRoomIds(){
         try{
-            List<String> rIds = RoomModel.getIds();
+            List<String> rIds = roomBO.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String roomIds : rIds){
                 obList.add(roomIds);
             }
             cmbRoomNumber.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
         }
     }
     private void loadHallIds(){
         try{
-            List<String> hIds = HallModel.getIds();
+            List<String> hIds = hallBO.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String hallIds : hIds){
                 obList.add(hallIds);
             }
             cmbHallNumber.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
         }
@@ -144,7 +156,7 @@ public class reservation_form_Controller {
         String RoomReservationId = txtRoomReservationId.getText();
 
         try{
-            boolean isSaved = RoomReservationModel.Order(CheckIn, CheckOut, RoomReservationId, GuestId, RoomNumber);
+            boolean isSaved = roomReservationBO.Order(CheckIn, CheckOut, RoomReservationId, GuestId, RoomNumber);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Room Reserved!").show();
             }
@@ -161,7 +173,7 @@ public class reservation_form_Controller {
         String HallNumber = String.valueOf(cmbHallNumber.getValue());
 
         try{
-            boolean isSaved =HallReservationModel.Order(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
+            boolean isSaved =hallReservationBO.Order(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Hall Reserved!").show();
             }
@@ -177,7 +189,7 @@ public class reservation_form_Controller {
 
         try{
            // boolean isSaved = RoomReservationModel.remove(reservationId);
-            boolean isRemoved = RoomReservationDetailsModel.remove(reservationId);
+            boolean isRemoved = roomReservationBO.delete(reservationId);
 
             if(isRemoved){
 
@@ -195,7 +207,7 @@ public class reservation_form_Controller {
 
         try{
           //  boolean isSaved =HallReservationModel.remove(hallNumber);
-           boolean isRemoved = HallReservationDetailsModel.removeH(reservationId);
+           boolean isRemoved = hallReservationDetailsBO.removeH(reservationId);
             if(isRemoved){
 
                 new Alert(Alert.AlertType.CONFIRMATION, "Hall Reservation Canceled!").show();
@@ -222,7 +234,7 @@ public class reservation_form_Controller {
         lblHall.setText(null);
         String RoomNumber = cmbRoomNumber.getValue();
         try{
-            boolean isSaved =RoomReservationModel.isValid(RoomNumber);
+            boolean isSaved =roomReservationBO.isValid(RoomNumber);
             if(isSaved){
                 lblRoom.setText("*Already Reserved");
                 lblRoom.setStyle("-fx-text-fill: red;");
@@ -235,8 +247,8 @@ public class reservation_form_Controller {
         }
        String roomnumber = cmbRoomNumber.getValue();
         try {
-            roomReservation roomReservation = RoomReservationModel.setRFields(roomnumber);
-            RoomReservationDetails rd = RoomReservationDetailsModel.setFields(roomnumber);
+           RoomReservationDTO roomReservation = roomReservationBO.setRFields(roomnumber);
+            RoomReservationDetailsDTO rd = roomReservationDetailsBO.setFields(roomnumber);
             if (lblRoom.getText().equals("*Already Reserved")) {
                     cmbGuestId.setValue(roomReservation.getGuestId());
                     txtCheckInDate.setValue(LocalDate.parse(roomReservation.getCheckIn()));
@@ -246,7 +258,7 @@ public class reservation_form_Controller {
             }else{
                 initialize();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
 
@@ -257,7 +269,7 @@ public class reservation_form_Controller {
         lblRoom.setText(null);
         String HallNumber = cmbHallNumber.getValue();
         try{
-            boolean isSaved =HallReservationModel.isValid(HallNumber);
+            boolean isSaved =hallReservationBO.isValid(HallNumber);
             if(isSaved){
                 lblHall.setText("*Already Reserved");
                 lblHall.setStyle("-fx-text-fill: red;");
@@ -270,8 +282,8 @@ public class reservation_form_Controller {
         }
         String hallNumber =cmbHallNumber.getValue();
         try {
-            hallReservation hallReservation = HallReservationModel.setHFields(hallNumber);
-            HallReservationDetails hd = HallReservationDetailsModel.setFields(hallNumber);
+            HallReservationDTO hallReservation = hallReservationBO.setHFields(hallNumber);
+            HallReservationDetailsDTO hd = hallReservationDetailsBO.setFields(hallNumber);
             if (lblHall.getText().equals("*Already Reserved")) {
                 cmbGuestId.setValue(hallReservation.getGuestId());
                 txtCheckInDate.setValue(LocalDate.parse(hallReservation.getCheckIn()));
@@ -281,7 +293,7 @@ public class reservation_form_Controller {
             }else{
                 initialize();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
 
@@ -291,7 +303,7 @@ public class reservation_form_Controller {
     public void cmbrIdOnAction(ActionEvent actionEvent) {
         String rId = txtRoomReservationId.getText();
         try {
-            roomReservation reservation = RoomReservationModel.setFields(rId);
+            RoomReservationDTO reservation = roomReservationBO.setFields(rId);
             if (reservation != null)
             {
                 txtCheckInDate.setValue(LocalDate.parse(reservation.getCheckIn()));
@@ -302,7 +314,7 @@ public class reservation_form_Controller {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Reservation found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
     }
@@ -310,7 +322,7 @@ public class reservation_form_Controller {
     public void txtHallReservationIdOnAction(ActionEvent actionEvent) {
         String id = txtHallReservationId.getText();
         try {
-            hallReservation hallreservation= HallReservationModel.setFields(id);
+            HallReservationDTO hallreservation= hallReservationBO.setFields(id);
             if (hallreservation != null)
             {
                 txtCheckInDate.setValue(LocalDate.parse(hallreservation.getCheckIn()));
@@ -321,7 +333,7 @@ public class reservation_form_Controller {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Reservation found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
     }

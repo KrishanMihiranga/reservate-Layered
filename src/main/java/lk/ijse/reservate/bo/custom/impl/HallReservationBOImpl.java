@@ -88,7 +88,7 @@ public class HallReservationBOImpl implements HallReservationBO {
     }
 
     @Override
-    public hallReservation setHFields(String hallnumber) throws SQLException {
+    public HallReservationDTO setHFields(String hallnumber) throws SQLException {
         String sql = "SELECT * FROM HallReservation WHERE HallNumber = ?";
         ResultSet resultSet = SQLUtill.execute(sql, hallnumber);
         if (resultSet.next()) {
@@ -97,7 +97,7 @@ public class HallReservationBOImpl implements HallReservationBO {
             String HallReservationId = resultSet.getString(3);
             String GuestId = resultSet.getString(4);
             String HallNumber = resultSet.getString(5);
-            return new hallReservation(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
+            return new HallReservationDTO(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
         }
         return null;
     }

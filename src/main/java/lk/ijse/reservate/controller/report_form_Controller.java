@@ -8,10 +8,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.EmployeeBO;
+import lk.ijse.reservate.bo.custom.GuestBO;
+import lk.ijse.reservate.bo.custom.UserBO;
 import lk.ijse.reservate.db.DBConnection;
-import lk.ijse.reservate.model.EmployeeModel;
-import lk.ijse.reservate.model.GuestModel;
-import lk.ijse.reservate.model.UserModel;
+
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -47,17 +49,21 @@ public class report_form_Controller {
     @FXML
     private JFXButton btnGuestDetails;
 
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.EMPLOYEE);
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
+    GuestBO guestBO = (GuestBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.GUEST);
+
     @FXML
     void btnEmployeeDetailsOnAction(ActionEvent event) {
 
         try{
-            List<String> eIds = EmployeeModel.getIds();
+            List<String> eIds = employeeBO.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String empIds : eIds){
                 obList.add(empIds);
             }
             cmbEmpId.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
         }
@@ -106,13 +112,13 @@ public class report_form_Controller {
     @FXML
     void btnUserDetailsOnAction(ActionEvent event) {
         try{
-            List<String> uIds = UserModel.getIds();
+            List<String> uIds = userBO.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String userIds : uIds){
                 obList.add(userIds);
             }
             cmbEmpId.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
         }
@@ -178,13 +184,13 @@ public class report_form_Controller {
     @FXML
     void btnGuestDetailsOnAction(ActionEvent event){
         try{
-            List<String> uIds = GuestModel.getIds();
+            List<String> uIds = guestBO.getIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String userIds : uIds){
                 obList.add(userIds);
             }
             cmbEmpId.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
         }

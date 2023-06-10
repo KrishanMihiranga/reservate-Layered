@@ -9,7 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.reservate.model.UserModel;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.UserBO;
+
 
 import java.sql.SQLException;
 import java.util.regex.Pattern;
@@ -32,10 +34,12 @@ public class recover_password_form_Controller {
     @FXML
     private JFXButton btnDone;
 
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
+
     @FXML
     void btnCheckOnAction(ActionEvent event) throws SQLException {
         String userName = txtUserName.getText();
-        boolean isvalid = UserModel.getValid(userName);
+        boolean isvalid = userBO.getValid(userName);
         if (isvalid){
         lblCheck.setText(null);
         txtPassword.setVisible(true);
@@ -50,7 +54,7 @@ public class recover_password_form_Controller {
         String userName = txtUserName.getText();
         boolean isStrong = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$").matcher(password).matches();
         if (isStrong) {
-            boolean isValid = UserModel.RecoverUpdate(userName, password);
+            boolean isValid = userBO.RecoverUpdate(userName, password);
 
             if (isValid) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Password Changed!").show();

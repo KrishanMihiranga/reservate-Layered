@@ -12,7 +12,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
-
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.ComplaintBO;
+import lk.ijse.reservate.dto.ComplaintDTO;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -58,7 +60,7 @@ public class ComplaintFormController implements Initializable {
     private JFXButton btnUpdateComplain;
     @FXML
     private JFXButton btnRemove;
-
+    ComplaintBO complaintBO = (ComplaintBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.COMPLAINT);
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadGuestIds();
@@ -82,17 +84,17 @@ public class ComplaintFormController implements Initializable {
     }
     private void generateNextId() {
         try {
-            String nextId = complaintModel.generateNextId();
+            String nextId = complaintBO.getNextId();
             txtComplaintId.setText(nextId);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void loadRoomReservationIds() {
         try{
-            List<String> RIds = complaintModel.getRIds();
+            List<String> RIds = complaintBO.getRIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String RoomIds : RIds){
                 obList.add(RoomIds);
@@ -106,7 +108,7 @@ public class ComplaintFormController implements Initializable {
 
     private void loadHallreservationIds() {
         try{
-            List<String> HIds = complaintModel.getHIds();
+            List<String> HIds = complaintBO.getHIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String HallIds : HIds){
                 obList.add(HallIds);
@@ -120,7 +122,7 @@ public class ComplaintFormController implements Initializable {
 
     private void loadMealOrderIds() {
         try{
-            List<String> MIds = complaintModel.getMIds();
+            List<String> MIds = complaintBO.getMIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String MealIds : MIds){
                 obList.add(MealIds);
@@ -134,7 +136,7 @@ public class ComplaintFormController implements Initializable {
 
     private void loadGuestIds() {
         try{
-            List<String> GIds = complaintModel.getGIds();
+            List<String> GIds = complaintBO.getGIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String GuestIds : GIds){
                 obList.add(GuestIds);
@@ -157,7 +159,7 @@ public class ComplaintFormController implements Initializable {
         String HallId=cmbHallResrvationId.getValue();
         String Description=txtDescription.getText();
         try{
-            boolean isSaved= complaintModel.save(complainid, date, time, GuestId, MealId, RoomId, HallId, Description);
+            boolean isSaved= complaintBO.add(complainid, date, time, GuestId, MealId, RoomId, HallId, Description);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Complaint Added!").show();
             }
@@ -176,7 +178,7 @@ public class ComplaintFormController implements Initializable {
         String HallId=cmbHallResrvationId.getValue();
         String Description=txtDescription.getText();
         try{
-            boolean isSaved= complaintModel.update(complainid, date, time, GuestId, MealId, RoomId, HallId, Description);
+            boolean isSaved= complaintBO.update(complainid, date, time, GuestId, MealId, RoomId, HallId, Description);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Complaint Added!").show();
             }
@@ -188,7 +190,7 @@ public class ComplaintFormController implements Initializable {
     public void btnRemoveOnAction(ActionEvent actionEvent) {
         String complainid= txtComplaintId.getText();
         try{
-            boolean isSaved= complaintModel.remove(complainid);
+            boolean isSaved= complaintBO.delete(complainid);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Complaint Removed!").show();
             }
@@ -200,7 +202,7 @@ public class ComplaintFormController implements Initializable {
     public void txtComplaintIdOnAction(ActionEvent actionEvent) {
         String complainid= txtComplaintId.getText();
         try {
-            Complaint complaint = complaintModel.setFields(complainid);
+            ComplaintDTO complaint = complaintBO.setFields(complainid);
             if (complaint != null)
             {
                 txtComplaintId.setText(complaint.getComplaintId());
@@ -215,7 +217,7 @@ public class ComplaintFormController implements Initializable {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Complaint found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
     }

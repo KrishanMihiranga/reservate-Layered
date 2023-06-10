@@ -11,16 +11,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.reservate.bo.BOFactory;
+import lk.ijse.reservate.bo.custom.*;
 import lk.ijse.reservate.db.DBConnection;
 import lk.ijse.reservate.dto.*;
-import lk.ijse.reservate.model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.InputStream;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -77,6 +76,19 @@ public class PaymentFormController {
     private LocalDate roomendDate;
     private int halldays;
     private int roomdays;
+
+    PaymentBO paymentBO = (PaymentBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PAYMENT);
+    MealOrderDetailsBO mealOrderDetailsBO = (MealOrderDetailsBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.MEALORDERDETAILS);
+    RoomReservationDetailsBO roomReservationDetailsBO = (RoomReservationDetailsBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOMRESERVATIONDETAILS);
+    HallReservationDetailsBO hallReservationDetailsBO = (HallReservationDetailsBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.HALLRESERVATIONDETAILS);
+    MealOrderBO mealOrderBO = (MealOrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.MEALORDER);
+    HallReservationBO hallReservationBO = (HallReservationBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.HALLRESERVATION);
+    MealPlansBO mealPlansBO = (MealPlansBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.MEALPLANS);
+    HallBO hallBO = (HallBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.HALL);
+    RoomBO roomBO = (RoomBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
+    GuestBO guestBO = (GuestBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.GUEST);
+    RoomReservationBO roomReservationBO = (RoomReservationBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOMRESERVATION);
+
     public void initialize(){
         loadGuestIds();
         loadOrderIds();
@@ -96,10 +108,10 @@ public class PaymentFormController {
     }
     private void generateNextId() {
         try {
-            String nextId = paymentModel.generateNextId();
+            String nextId = paymentBO.getNextId();
             txtPaymentId.setText(nextId);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -107,7 +119,7 @@ public class PaymentFormController {
 
     private void loadRoomReservationIds() {
         try{
-            List<String> RoomIds = paymentModel.getRds();
+            List<String> RoomIds = paymentBO.getRds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String rIds : RoomIds){
                 obList.add(rIds);
@@ -121,7 +133,7 @@ public class PaymentFormController {
 
     private void loadHallreservationIds() {
         try{
-            List<String> HallIds = paymentModel.getHIds();
+            List<String> HallIds = paymentBO.getHIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String hIds : HallIds){
                 obList.add(hIds);
@@ -135,7 +147,7 @@ public class PaymentFormController {
 
     private void loadOrderIds() {
         try{
-            List<String> OrderIds = paymentModel.getOIds();
+            List<String> OrderIds = paymentBO.getOIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String oIds : OrderIds){
                 obList.add(oIds);
@@ -149,7 +161,7 @@ public class PaymentFormController {
 
     private void loadGuestIds() {
         try{
-            List<String> GuestIds = paymentModel.getGIds();
+            List<String> GuestIds = paymentBO.getGIds();
             ObservableList<String> obList = FXCollections.observableArrayList();
             for(String gIds : GuestIds){
                 obList.add(gIds);
@@ -173,10 +185,10 @@ public class PaymentFormController {
         String Time = txtTime.getText();
 if (!txtTime.getText().isEmpty()) {
     try {
-        boolean isSaved = paymentModel.save(paymentId, GuestId, MealOrderId, HallReservationId, RoomReservationId, Date, Time, Amount);
-        boolean isDeleted = MealOrderDetailsModel.remove(MealOrderId);
-        boolean isRoomDeleted = RoomReservationDetailsModel.removeR(RoomReservationId);
-        boolean isHallDeleted = HallReservationDetailsModel.removeH(HallReservationId);
+        boolean isSaved = paymentBO.add(paymentId, GuestId, MealOrderId, HallReservationId, RoomReservationId, Date, Time, Amount);
+        boolean isDeleted = mealOrderDetailsBO.delete(MealOrderId);
+        boolean isRoomDeleted = roomReservationDetailsBO.removeR(RoomReservationId);
+        boolean isHallDeleted = hallReservationDetailsBO.removeH(HallReservationId);
         if (isSaved) {
             new Alert(Alert.AlertType.CONFIRMATION, "Payment Done!").show();
             lblAmount.setText("00.00");
@@ -192,7 +204,7 @@ if (!txtTime.getText().isEmpty()) {
     public void btnCancelPaymentOnAction(ActionEvent actionEvent) {
         String paymentId=txtPaymentId.getText();
         try{
-            boolean isSaved = paymentModel.remove(paymentId);
+            boolean isSaved = paymentBO.delete(paymentId);
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Payment Canceled!").show();
             }
@@ -204,7 +216,7 @@ if (!txtTime.getText().isEmpty()) {
     public void txtPaymentIdOnAction(ActionEvent actionEvent) {
         String paymentId=txtPaymentId.getText();
         try {
-            Payment payment = paymentModel.setFields(paymentId);
+            PaymentDTO payment = paymentBO.setFields(paymentId);
             if (payment != null)
             {
                 txtPaymentId.setText(payment.getPaymentid());
@@ -219,7 +231,7 @@ if (!txtTime.getText().isEmpty()) {
             } else {
                 new Alert(Alert.AlertType.WARNING, "no payment found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
     }
@@ -228,19 +240,19 @@ if (!txtTime.getText().isEmpty()) {
         String orderId= cmbOrderId.getValue();
 
         try {
-            mealOrder mealO = MealOrderModel.getFields(orderId);
+            MealOrderDTO mealO = mealOrderBO.getFields(orderId);
             if (mealO != null)
             {
                 pkgId =mealO.getPackageId();
                 Qty= Integer.parseInt(mealO.getQty());
-                MealPlans mealPlans = MealPlansModel.setFields(pkgId);
+                MealPlansDTO mealPlans = mealPlansBO.setFields(pkgId);
                 if(mealPlans!=null){
                     mealPrice = mealPlans.getPrice();
                 }
             } else {
                 new Alert(Alert.AlertType.WARNING, "no payment found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
 
@@ -252,7 +264,7 @@ if (!txtTime.getText().isEmpty()) {
         String hallR=cmbhallReservationId.getValue();
 
         try {
-            hallReservation hallReservation = HallReservationModel.setFields(hallR);
+            HallReservationDTO hallReservation = hallReservationBO.setFields(hallR);
             if (hallReservation != null)
             {
                 hNumber=hallReservation.getHallNumber();
@@ -263,14 +275,14 @@ if (!txtTime.getText().isEmpty()) {
                     halldays=1;
                 }
 
-                Hall hall= HallModel.setFields(hNumber);
+                HallDTO hall= hallBO.setFields(hNumber);
                 if (hall!=null){
                     hallPrice =hall.getPrice();
                 }
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Hall found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
 
@@ -283,7 +295,7 @@ if (!txtTime.getText().isEmpty()) {
         String roomR=cmbRoomReservationId.getValue();
 
         try {
-            roomReservation reservation = RoomReservationModel.setFields(roomR);
+           RoomReservationDTO reservation = roomReservationBO.setFields(roomR);
             if (reservation != null)
             {
                 rNumber=reservation.getRoomNumber();
@@ -295,14 +307,14 @@ if (!txtTime.getText().isEmpty()) {
                     roomdays=1;
                 }
 
-                Room room= RoomModel.setFields(rNumber);
+                RoomDTO room= roomBO.setFields(rNumber);
                 if (room!=null){
                     roomPrice =room.getPrice();
                 }
             } else {
                 new Alert(Alert.AlertType.WARNING, "no Room found :(").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
         System.out.println(roomPrice);
@@ -312,13 +324,13 @@ if (!txtTime.getText().isEmpty()) {
 
     public void btnPrintBillOnaction(ActionEvent actionEvent) throws SQLException {
 
-        String name = GuestModel.getName(cmbGuestId.getValue());
+        String name = guestBO.getName(cmbGuestId.getValue());
         String amount = lblAmount.getText();
-        String packageId = MealOrderDetailsModel.getpkg(cmbOrderId.getValue());
-        String items = MealPlansModel.getItems(packageId);
-        String hallId = HallReservationDetailsModel.getHall(cmbhallReservationId.getValue());
-        String roomId = RoomReservationDetailsModel.getRoom(cmbRoomReservationId.getValue());
-        String qty = MealOrderModel.getQty(cmbOrderId.getValue());
+        String packageId = mealOrderDetailsBO.getpkg(cmbOrderId.getValue());
+        String items = mealPlansBO.getItems(packageId);
+        String hallId = hallReservationDetailsBO.getHall(cmbhallReservationId.getValue());
+        String roomId = roomReservationDetailsBO.getRoom(cmbRoomReservationId.getValue());
+        String qty = mealOrderBO.getQty(cmbOrderId.getValue());
         try {
             InputStream rpt = this.getClass().getResourceAsStream("/reports/payment.jrxml");
             JasperReport compileReport = JasperCompileManager.compileReport(rpt);
