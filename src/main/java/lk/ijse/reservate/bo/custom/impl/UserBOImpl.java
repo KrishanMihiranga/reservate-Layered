@@ -2,12 +2,10 @@ package lk.ijse.reservate.bo.custom.impl;
 
 import lk.ijse.reservate.bo.custom.UserBO;
 import lk.ijse.reservate.dao.DAOFactory;
-import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.dao.custom.UserDAO;
 import lk.ijse.reservate.dto.UserDTO;
 import lk.ijse.reservate.entity.User;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 

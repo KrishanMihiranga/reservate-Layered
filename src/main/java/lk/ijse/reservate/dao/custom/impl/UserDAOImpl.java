@@ -15,7 +15,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public String getNextId() throws SQLException, ClassNotFoundException {
-        String sql = "SELECT UserId FROM UserDTO ORDER BY UserId DESC LIMIT 1";
+
+        String sql = "SELECT UserId FROM user ORDER BY UserId DESC LIMIT 1";
         ResultSet resultSet = SQLUtill.execute(sql);
         if(resultSet.next()) {
             return splitId(resultSet.getString(1));
@@ -36,7 +37,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean add(User entity) throws SQLException, ClassNotFoundException {
-        String sql ="INSERT INTO UserDTO(UserID, EmpId, UserName, Password) VALUES(?, ?, ?, ?)";
+        String sql ="INSERT INTO user(UserID, EmpId, UserName, Password) VALUES(?, ?, ?, ?)";
         return SQLUtill.execute(sql, entity.getUserId(), entity.getEmpId(), entity.getUserName(),entity.getPassword());
     }
 

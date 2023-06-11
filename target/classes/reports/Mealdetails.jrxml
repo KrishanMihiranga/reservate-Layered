@@ -91,7 +91,7 @@
 			</staticText>
 			<image>
 				<reportElement x="2" y="0" width="80" height="80" uuid="79a4df6b-cffc-4b3a-948b-8803d55ebde9"/>
-				<imageExpression><![CDATA["C:/Users/HI/Desktop/project-reservate/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
+				<imageExpression><![CDATA["D:/ijse/reservate-Layered/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>

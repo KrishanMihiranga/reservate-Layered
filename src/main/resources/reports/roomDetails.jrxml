@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
 	<queryString language="SQL">
-		<![CDATA[select RoomNumber, RoomType, Price, Status from roomDTO]]>
+		<![CDATA[select RoomNumber, RoomType, Price, Status from room]]>
 	</queryString>
 	<field name="RoomNumber" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="RoomNumber"/>
@@ -71,7 +71,7 @@
 			</staticText>
 			<image>
 				<reportElement x="2" y="0" width="80" height="80" uuid="770ec575-dc26-4fc2-8d07-c6d9d2741c5c"/>
-				<imageExpression><![CDATA["C:/Users/HI/Desktop/project-reservate/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
+				<imageExpression><![CDATA["D:/ijse/reservate-Layered/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>

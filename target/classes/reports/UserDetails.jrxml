@@ -6,7 +6,7 @@
 	<parameter name="userId" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT *
-FROM userDTO
+FROM user
 WHERE UserId =  $P{userId}]]>
 	</queryString>
 	<field name="UserId" class="java.lang.String">
@@ -74,7 +74,7 @@ WHERE UserId =  $P{userId}]]>
 			</staticText>
 			<image>
 				<reportElement x="2" y="0" width="80" height="80" uuid="d50de1ef-639a-4bdb-9345-768fc0f122ab"/>
-				<imageExpression><![CDATA["C:/Users/HI/Desktop/project-reservate/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
+				<imageExpression><![CDATA["D:/ijse/reservate-Layered/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>

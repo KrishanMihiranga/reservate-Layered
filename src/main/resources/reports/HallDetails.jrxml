@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
 	<queryString language="SQL">
-		<![CDATA[select * from hallDTO]]>
+		<![CDATA[select * from hall]]>
 	</queryString>
 	<field name="HallNumber" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="HallNumber"/>
@@ -91,7 +91,7 @@
 			</staticText>
 			<image>
 				<reportElement x="2" y="0" width="80" height="80" uuid="b8687687-3431-45df-bcd0-6f90afa5a545"/>
-				<imageExpression><![CDATA["C:/Users/HI/Desktop/project-reservate/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
+				<imageExpression><![CDATA["D:/ijse/reservate-Layered/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>

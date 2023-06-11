@@ -34,7 +34,7 @@
 	<parameter name="roomId" class="java.lang.String"/>
 	<parameter name="Qty" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select * from paymentDTO]]>
+		<![CDATA[select * from payment]]>
 	</queryString>
 	<field name="paymentid" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="paymentid"/>
@@ -135,7 +135,7 @@
 			</textField>
 			<image>
 				<reportElement x="2" y="0" width="80" height="80" uuid="e02a34b3-add9-409e-ba99-25a1ecdd1513"/>
-				<imageExpression><![CDATA["C:/Users/HI/Desktop/project-reservate/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
+				<imageExpression><![CDATA["D:/ijse/reservate-Layered/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>

@@ -22,7 +22,7 @@
 	Date,
 	JObRole,
 	Email
-FROM employeeDTO
+FROM employee
 WHERE EmpId = $P{EmpId}]]>
 	</queryString>
 	<field name="EmpId" class="java.lang.String">
@@ -110,14 +110,14 @@ WHERE EmpId = $P{EmpId}]]>
 			</staticText>
 			<image>
 				<reportElement x="2" y="0" width="80" height="80" uuid="224198b8-b002-46e3-97bf-806051a5d6c8"/>
-				<imageExpression><![CDATA["C:/Users/HI/Desktop/project-reservate/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
+				<imageExpression><![CDATA["D:/ijse/reservate-Layered/src/main/resources/img/blueocean-modified.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="73" splitType="Stretch">
 			<staticText>
-				<reportElement x="50" y="10" width="456" height="56" forecolor="#74B9FF" uuid="77dbbdd1-f7da-416e-9d31-f9c068748461"/>
+				<reportElement x="60" y="10" width="456" height="56" forecolor="#74B9FF" uuid="77dbbdd1-f7da-416e-9d31-f9c068748461"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial Black" size="26"/>
 				</textElement>
