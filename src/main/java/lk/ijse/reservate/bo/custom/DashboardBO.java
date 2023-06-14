@@ -12,4 +12,5 @@ public interface DashboardBO extends SuperBO {
     public int getBookedHalls() throws SQLException;
     public int getBookedRooms() throws SQLException;
     public int getComplaints() throws SQLException;
+
 }

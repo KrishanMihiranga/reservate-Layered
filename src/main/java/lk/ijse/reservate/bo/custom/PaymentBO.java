@@ -1,14 +1,12 @@
 package lk.ijse.reservate.bo.custom;
 
-import lk.ijse.reservate.bo.CrudBO;
-import lk.ijse.reservate.dao.CrudDAO;
+import lk.ijse.reservate.bo.SuperBO;
 import lk.ijse.reservate.dto.PaymentDTO;
-import lk.ijse.reservate.entity.payment;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface PaymentBO extends CrudBO<PaymentDTO> {
+public interface PaymentBO extends SuperBO {
 
     public  double generateTotValue() throws SQLException ;
 
@@ -19,5 +17,18 @@ public interface PaymentBO extends CrudBO<PaymentDTO> {
     public  List<String> getHIds() throws SQLException;
 
     public  List<String> getRds() throws SQLException;
+    public String getNextId() throws SQLException, ClassNotFoundException;
+
+    public  String splitId(String currentId) throws SQLException, ClassNotFoundException;
+
+    public boolean add(PaymentDTO entity) throws SQLException, ClassNotFoundException;
+
+    public boolean update(PaymentDTO entity) throws SQLException, ClassNotFoundException;
+
+    public  boolean delete(String id) throws SQLException, ClassNotFoundException;
+
+    public List<String> getIds() throws SQLException, ClassNotFoundException;
+
+    public PaymentDTO setFields(String id) throws SQLException, ClassNotFoundException ;
 
 }

@@ -25,6 +25,7 @@ import lk.ijse.reservate.dto.MealPlansDTO;
 import lk.ijse.reservate.dto.selectMealDTO;
 import lk.ijse.reservate.tdm.mealDetailsTM;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -140,17 +141,17 @@ public class select_meal_form_Controller {
         String OrderId = txtOrderId.getText();
         String GuestId = cmbGuestId.getValue();
         String PackageId = cmbPackageId.getValue();
-        String Date = String.valueOf(date.getValue());
+        Date date1 = Date.valueOf(date.getValue());
         String Qty    = txtQty.getText();
 
         boolean isMatch = Pattern.compile("^[0-9]+$").matcher(Qty).matches();
         if (isMatch){
             txtQty.setStyle("-fx-text-fill: black");
-            if (OrderId.isEmpty() || GuestId.isEmpty() || PackageId.isEmpty() || Date.isEmpty() || Qty.isEmpty()){
+            if (OrderId.isEmpty() || GuestId.isEmpty() || PackageId.isEmpty() ||date1.equals(null)|| Qty.isEmpty()){
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = mealOrderBO.Order(OrderId, GuestId, PackageId, Date, Qty,OrderId, PackageId);
+                    boolean isSaved = mealOrderBO.Order(OrderId, GuestId, PackageId, date1, Qty,OrderId, PackageId);
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Order Added!").show();
                     }
@@ -195,24 +196,27 @@ public class select_meal_form_Controller {
    }
 
     public void btnUpdateOrderOnAction(ActionEvent actionEvent) {
+
+
         String OrderId = txtOrderId.getText();
         String GuestId = cmbGuestId.getValue();
         String PackageId = cmbPackageId.getValue();
-        String Date = String.valueOf(date.getValue());
+        Date date1 = Date.valueOf(date.getValue());
         String Qty    = txtQty.getText();
 
         boolean isMatch = Pattern.compile("^[0-9]+$").matcher(Qty).matches();
         if (isMatch){
             txtQty.setStyle("-fx-text-fill: black");
-            if (OrderId.isEmpty() || GuestId.isEmpty() || PackageId.isEmpty() || Date.isEmpty() || Qty.isEmpty()){
+            if (OrderId.isEmpty() || GuestId.isEmpty() || PackageId.isEmpty() || date1.equals(null)|| Qty.isEmpty()){
                 new Alert(Alert.AlertType.ERROR, "Cannot pass empty values!").show();
             }else{
                 try{
-                    boolean isSaved = mealOrderBO.update(new MealOrderDTO(OrderId, GuestId, PackageId, Date, Qty));
+                    boolean isSaved = mealOrderBO.update(new MealOrderDTO(OrderId, Qty, GuestId, PackageId, date1));
                     if(isSaved){
                         new Alert(Alert.AlertType.CONFIRMATION, "Meal Order Updated!").show();
                     }
                 }catch(Exception e){
+
                     new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
                 }
             }
@@ -226,12 +230,17 @@ public class select_meal_form_Controller {
     }
 
     public void btnCancelOrderOnAction(ActionEvent actionEvent) {
+
+
         String OrderId = txtOrderId.getText();
     try{
-            boolean isSaved = mealOrderDetailsBO.delete(OrderId);
+            boolean isDeleted = mealOrderDetailsBO.delete(OrderId);
             try {
-                if (isSaved) {
+                if (isDeleted) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Meal Order Removed!").show();
+                }else {
+                    System.out.println(isDeleted);
+                    new Alert(Alert.AlertType.ERROR, "There is no matching Order!").show();
                 }
             }catch(Exception e){
                 e.printStackTrace();
@@ -245,19 +254,26 @@ public class select_meal_form_Controller {
 
     public void txtOrderIdOnAction(ActionEvent actionEvent) {
       String id = txtOrderId.getText();
+
        try {
-          MealOrderDTO meal= mealOrderBO.setFields(id);
+           MealOrderDTO meal = null;
+           try{
+               meal= mealOrderBO.setFields(id);
+           }catch (Exception e){
+               new Alert(Alert.AlertType.WARNING, "no Order found :(").show();
+           }
+
            if (meal != null)
            {
                txtOrderId.setText(meal.getMealOrderId());
                cmbGuestId.setValue(meal.getGuestId());
                cmbPackageId.setValue(meal.getPackageId());
-               date.setValue(LocalDate.parse(meal.getDate()));
+               date.setValue(LocalDate.parse(String.valueOf(meal.getDate())));
                txtQty.setText(meal.getQty());
            } else {
-               new Alert(Alert.AlertType.WARNING, "no Reservation found :(").show();
+               new Alert(Alert.AlertType.WARNING, "no Order found :(").show();
            }
-       } catch (SQLException | ClassNotFoundException e) {
+       } catch (Exception e) {
            new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
        }
 

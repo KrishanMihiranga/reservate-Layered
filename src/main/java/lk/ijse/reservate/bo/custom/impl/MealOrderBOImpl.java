@@ -11,6 +11,7 @@ import lk.ijse.reservate.entity.mealOrder;
 import lk.ijse.reservate.entity.mealOrderDetails;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -32,13 +33,13 @@ public class MealOrderBOImpl implements MealOrderBO {
 
     @Override
     public boolean add(MealOrderDTO entity) throws SQLException, ClassNotFoundException {
-        return mealOrderDAO.add(new mealOrder(entity.getMealOrderId(),entity.getGuestId(),entity.getPackageId(),entity.getDate(),entity.getQty()));
+        return mealOrderDAO.add(new mealOrder(entity.getMealOrderId(),entity.getGuestId(),entity.getPackageId(),entity.getQty(),entity.getDate()));
 
     }
 
     @Override
     public boolean update(MealOrderDTO entity) throws SQLException, ClassNotFoundException {
-        return mealOrderDAO.update(new mealOrder(entity.getGuestId(),entity.getPackageId(),entity.getDate(),entity.getQty(),entity.getMealOrderId()));
+        return mealOrderDAO.update(new mealOrder(entity.getMealOrderId(),entity.getQty(),entity.getGuestId(),entity.getPackageId(),entity.getDate()));
 
     }
 
@@ -72,12 +73,12 @@ public class MealOrderBOImpl implements MealOrderBO {
     }
 
     @Override
-    public boolean Order(String orderId, String guestId, String packageId, String date, String qty, String orderId1, String packageId1) throws SQLException {
+    public boolean Order(String orderId, String guestId, String packageId, Date date, String qty, String orderId1, String packageId1) throws SQLException {
         Connection con = null;
         try{
             con= DBConnection.getInstance().getConnection();
             con.setAutoCommit(false);
-            boolean isSaved = mealOrderDAO.add(new mealOrder(orderId, guestId, packageId, date, qty));
+            boolean isSaved = mealOrderDAO.add(new mealOrder(orderId, qty, guestId, packageId, date));
             if(isSaved){
                 boolean isAdded= mealOrderDetailsDAO.add(orderId, packageId);
                 if (isAdded){

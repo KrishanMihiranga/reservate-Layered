@@ -4,6 +4,7 @@ import lk.ijse.reservate.dao.custom.MealOrderDAO;
 import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.entity.mealOrder;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -55,15 +56,15 @@ public class MealOrderDAOImpl implements MealOrderDAO {
 
     @Override
     public mealOrder setFields(String id) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM mealorder WHERE MealOrderId = ?";
+        String sql = "SELECT * FROM mealorderdetails WHERE MealOrderId = ?";
         ResultSet resultSet = SQLUtill.execute(sql, id);
         if (resultSet.next()) {
             String MealOrderId=resultSet.getString(1);
             String Qty=resultSet.getString(2);
             String GuestId=resultSet.getString(3);
             String PackageId=resultSet.getString(4);
-            String Date=resultSet.getString(5);
-            return new mealOrder(MealOrderId, Qty, GuestId, PackageId, Date);
+            Date date = Date.valueOf(resultSet.getString(5));
+            return new mealOrder(MealOrderId, Qty, GuestId, PackageId, date);
         }
         return null;
     }
@@ -77,8 +78,8 @@ public class MealOrderDAOImpl implements MealOrderDAO {
             String Qty=resultSet.getString(2);
             String GuestId=resultSet.getString(3);
             String PackageId=resultSet.getString(4);
-            String Date=resultSet.getString(5);
-            return new mealOrder(MealOrderId, Qty, GuestId, PackageId, Date);
+            Date date= Date.valueOf(resultSet.getString(5));
+            return new mealOrder(MealOrderId, Qty, GuestId, PackageId, date);
         }
         return null;
     }

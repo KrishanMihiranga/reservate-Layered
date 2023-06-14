@@ -2,6 +2,9 @@ package lk.ijse.reservate.dto;
 
 import lombok.*;
 
+import java.sql.Date;
+
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -12,5 +15,5 @@ public class MealOrderDTO {
     private String Qty;
     private String GuestId;
     private String PackageId;
-    private String Date;
+    private Date date;
 }
