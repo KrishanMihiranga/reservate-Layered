@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.reservate.controller.complaint_table_Controller">
+   <children>
+      <TableView fx:id="tblComplaints" layoutX="18.0" layoutY="138.0" prefHeight="448.0" prefWidth="1124.0" stylesheets="@../css/table_style.css">
+        <columns>
+          <TableColumn fx:id="colComplaintid" prefWidth="103.00003051757812" text="ComplaintId" />
+          <TableColumn fx:id="colDate" prefWidth="124.0" text="Date" />
+            <TableColumn fx:id="coltime" prefWidth="120.0" text="time" />
+            <TableColumn fx:id="colguestid" prefWidth="97.0" text="guestid" />
+            <TableColumn fx:id="colmealorderid" prefWidth="116.0" text="mealorderid" />
+            <TableColumn fx:id="colhallreservationid" prefWidth="125.0" text="hallreservationid" />
+            <TableColumn fx:id="colroomreservationid" prefWidth="139.0" text="roomreservationid" />
+            <TableColumn fx:id="coldescription" prefWidth="300.0" text="description" />
+        </columns>
+      </TableView>
+      <Label layoutX="25.0" layoutY="28.0" opacity="0.5" text="Complaints Details" textFill="#0984e3">
+         <font>
+            <Font size="66.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
