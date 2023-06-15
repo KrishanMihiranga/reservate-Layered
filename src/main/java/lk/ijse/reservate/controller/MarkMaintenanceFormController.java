@@ -20,6 +20,7 @@ import lk.ijse.reservate.dto.HallMaintenanceDTO;
 import lk.ijse.reservate.dto.RoomMaintenanceDTO;
 
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -102,7 +103,7 @@ public class MarkMaintenanceFormController {
     private void generateNextId() {
         try {
             String nextHId = hallMaintenanceBO.getNextId();
-            String nextRId = hallMaintenanceBO.getNextId();
+            String nextRId = roomMaintenanceBO.getNextId();
             txtHallMaintenanceId.setText(nextHId);
             txtRoomMaintenanceId.setText(nextRId);
 
@@ -142,14 +143,14 @@ public class MarkMaintenanceFormController {
     @FXML
     void btnMarkRoomOnAction(ActionEvent event) {
         String MaintenanceId = txtRoomMaintenanceId.getText();
-        String Date = String.valueOf(date.getValue());
+        Date date1 = Date.valueOf(date.getValue());
         String RoomNumber= cmbroomNumber.getValue();
         String StartTime= txtStartTime.getText();
         String EndTime= txtEndTime.getText();
 
         if (cmbroomNumber.getValue() !=null) {
             try {
-                boolean isSaved = roomMaintenanceBO.add(new RoomMaintenanceDTO(MaintenanceId, RoomNumber, Date, StartTime, EndTime));
+                boolean isSaved = roomMaintenanceBO.add(new RoomMaintenanceDTO(MaintenanceId, date1, StartTime, EndTime, RoomNumber));
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
                 }
@@ -165,17 +166,18 @@ public class MarkMaintenanceFormController {
     @FXML
     void btnMarkHallOnAction(ActionEvent event) {
         String MaintenanceId=txtHallMaintenanceId.getText();
-        String Date= String.valueOf(date.getValue());
+        Date date1= Date.valueOf(date.getValue());
         String hallNumber=cmbHallNumber.getValue();
         String StartTime=txtStartTime.getText();
         String EndTime=txtEndTime.getText();
         if (cmbHallNumber.getValue() !=null) {
             try {
-                boolean isSaved = hallMaintenanceBO.add(new HallMaintenanceDTO(MaintenanceId, hallNumber, Date, StartTime, EndTime));
+                boolean isSaved = hallMaintenanceBO.add(new HallMaintenanceDTO(MaintenanceId, date1, StartTime, EndTime, hallNumber));
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
             }
         }else{
@@ -185,13 +187,13 @@ public class MarkMaintenanceFormController {
 
     public void btnUpdateRoomOnAction(ActionEvent actionEvent) {
         String MaintenanceId = txtRoomMaintenanceId.getText();
-        String Date = String.valueOf(date.getValue());
+        Date date1 = Date.valueOf(date.getValue());
         String RoomNumber= cmbroomNumber.getValue();
         String StartTime= txtStartTime.getText();
         String EndTime= txtEndTime.getText();
 
         try{
-            boolean isSaved = roomMaintenanceBO.updateRoom(MaintenanceId, RoomNumber, Date, StartTime,EndTime);
+            boolean isSaved = roomMaintenanceBO.update(new RoomMaintenanceDTO( MaintenanceId, date1, StartTime,EndTime, RoomNumber));
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
             }
@@ -203,12 +205,12 @@ public class MarkMaintenanceFormController {
 
     public void btnUpdateHallOnAction(ActionEvent actionEvent) {
         String MaintenanceId=txtHallMaintenanceId.getText();
-        String Date= String.valueOf(date.getValue());
+       Date date1= Date.valueOf(date.getValue());
         String hallNumber=cmbHallNumber.getValue();
         String StartTime=txtStartTime.getText();
         String EndTime=txtEndTime.getText();
         try{
-            boolean isSaved = hallMaintenanceBO.update(new HallMaintenanceDTO( MaintenanceId, hallNumber, Date, StartTime,EndTime));
+            boolean isSaved = hallMaintenanceBO.update(new HallMaintenanceDTO( MaintenanceId, date1, StartTime,EndTime, hallNumber));
             if(isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION, "Maintenance Added!").show();
             }
@@ -249,7 +251,7 @@ public class MarkMaintenanceFormController {
             if (rm != null)
             {
                 txtRoomMaintenanceId.setText(rm.getRoomMaintenanceId());
-                date.setValue(LocalDate.parse(rm.getDate()));
+                date.setValue(LocalDate.parse((CharSequence) rm.getDate()));
                 cmbroomNumber.setValue(rm.getRoomNumber());
                 txtStartTime.setText(rm.getStartTime());
                 txtEndTime.setText(rm.getEndTime());
@@ -270,7 +272,7 @@ public class MarkMaintenanceFormController {
             if (hm != null)
             {
                 txtHallMaintenanceId.setText(hm.getHallMaintenanceId());
-                date.setValue(LocalDate.parse(hm.getDate()));
+                date.setValue(LocalDate.parse((CharSequence) hm.getDate()));
                 cmbHallNumber.setValue(hm.getHallNumber());
                 txtStartTime.setText(hm.getStartTime());
                 txtEndTime.setText(hm.getEndTime());

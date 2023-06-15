@@ -4,6 +4,7 @@ import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.dao.custom.RoomMaintenanceDAO;
 import lk.ijse.reservate.entity.roommaintenance;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -39,7 +40,8 @@ public class RoomMaintenanceDAOImpl implements RoomMaintenanceDAO {
 
     @Override
     public boolean update(roommaintenance entity) throws SQLException, ClassNotFoundException {
-        return false;
+        String sql = "UPDATE roommaintenance SET RoomNumber = ?, Date = ?, StartTime = ?, EndTime = ? WHERE RoomMaintenanceId = ?";
+        return SQLUtill.execute(sql, entity.getRoomMaintenanceId(),entity.getDate(),entity.getStartTime(),entity.getEndTime(),entity.getRoomNumber());
     }
 
     @Override
@@ -59,11 +61,11 @@ public class RoomMaintenanceDAOImpl implements RoomMaintenanceDAO {
         ResultSet resultSet = SQLUtill.execute(sql, id);
         if (resultSet.next()) {
             String RoomMaintenanceId=resultSet.getString(1);
-            String Date=resultSet.getString(2);
+            Date date = Date.valueOf(resultSet.getString(2));
             String startTime=resultSet.getString(3);
             String EndTime=resultSet.getString(4);
             String RoomNumber=resultSet.getString(5);
-            return new roommaintenance(RoomMaintenanceId, Date, startTime, EndTime, RoomNumber);
+            return new roommaintenance(RoomMaintenanceId, date, startTime, EndTime, RoomNumber);
         }
         return null;
     }

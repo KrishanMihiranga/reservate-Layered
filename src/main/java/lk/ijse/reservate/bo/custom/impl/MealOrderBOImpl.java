@@ -28,7 +28,13 @@ public class MealOrderBOImpl implements MealOrderBO {
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-       return mealOrderDAO.splitId(currentId);
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(1));
+            int newNum = lastNum + 1;
+            String newId = String.format("O%04d", newNum);
+            return newId;
+        }
+        return "O0001";
     }
 
     @Override

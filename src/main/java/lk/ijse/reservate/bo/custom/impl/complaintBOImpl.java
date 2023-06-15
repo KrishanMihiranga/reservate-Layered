@@ -20,7 +20,13 @@ public class complaintBOImpl implements ComplaintBO {
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-        return complaintDAO.splitId(currentId);
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(1));
+            int newNum = lastNum + 1;
+            String newId = String.format("C%04d", newNum);
+            return newId;
+        }
+        return "C0001";
     }
 
     @Override
@@ -30,7 +36,7 @@ public class complaintBOImpl implements ComplaintBO {
 
     @Override
     public boolean update(ComplaintDTO entity) throws SQLException, ClassNotFoundException {
-        return complaintDAO.update(new Complaint(entity.getDate(), entity.getTime(), entity.getGuestid(), entity.getMealorderid(), entity.getHallreservationid(), entity.getRoomreservationid(), entity.getDescription(), entity.getComplaintId()));
+        return complaintDAO.update(new Complaint( entity.getComplaintId(),entity.getDate(), entity.getTime(), entity.getGuestid(), entity.getMealorderid(), entity.getHallreservationid(), entity.getRoomreservationid(), entity.getDescription()));
     }
 
     @Override

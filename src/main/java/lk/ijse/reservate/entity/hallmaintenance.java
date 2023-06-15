@@ -2,6 +2,8 @@ package lk.ijse.reservate.entity;
 
 import lombok.*;
 
+import java.sql.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -9,7 +11,7 @@ import lombok.*;
 @ToString
 public class hallmaintenance {
     private String HallMaintenanceId;
-    private String Date;
+    private Date date;
     private String startTime;
     private String EndTime;
     private String HallNumber;

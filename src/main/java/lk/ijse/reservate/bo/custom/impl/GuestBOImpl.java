@@ -24,7 +24,13 @@ public class GuestBOImpl implements GuestBO {
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-       return guestDAO.splitId(currentId);
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(1));
+            int newNum = lastNum + 1;
+            String newId = String.format("G%04d", newNum);
+            return newId;
+        }
+        return "G0001";
     }
 
     @Override
@@ -35,7 +41,7 @@ public class GuestBOImpl implements GuestBO {
 
     @Override
     public boolean update(GuestDTO entity) throws SQLException, ClassNotFoundException {
-        return guestDAO.update(new guest(entity.getUserId(),entity.getNic(), entity.getFullname(), entity.getAddress(), entity.getMobile(), entity.getDate(), entity.getEmail(), entity.getGuestId()));
+        return guestDAO.update(new guest( entity.getGuestId(), entity.getUserId(),entity.getNic(), entity.getFullname(), entity.getAddress(), entity.getMobile(), entity.getDate(), entity.getEmail()));
     }
 
     @Override

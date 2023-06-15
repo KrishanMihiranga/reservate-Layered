@@ -5,12 +5,15 @@ import lk.ijse.reservate.dao.DAOFactory;
 import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.dao.custom.HallReservationDAO;
 import lk.ijse.reservate.dao.custom.HallReservationDetailsDAO;
+import lk.ijse.reservate.dao.custom.RoomReservationDAO;
 import lk.ijse.reservate.dao.custom.impl.HallReservationDAOImpl;
 import lk.ijse.reservate.dao.custom.impl.HallReservationDetailsDAOImpl;
 import lk.ijse.reservate.db.DBConnection;
 import lk.ijse.reservate.dto.HallReservationDTO;
+import lk.ijse.reservate.dto.RoomReservationDTO;
 import lk.ijse.reservate.entity.HallReservationDetails;
 import lk.ijse.reservate.entity.hallReservation;
+import lk.ijse.reservate.entity.roomreservation;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,14 +22,13 @@ import java.util.List;
 
 public class HallReservationBOImpl implements HallReservationBO {
 
+    HallReservationDAO hallReservationDAO = (HallReservationDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.HALLRESERVATION);
+    HallReservationDetailsDAO hallReservationDetailsDAO = (HallReservationDetailsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.HALLRESERVATIONDETAILS);
+
     @Override
     public String getNextId() throws SQLException, ClassNotFoundException {
-        String sql = "SELECT HallReservationId FROM HallReservation ORDER BY HallReservationId DESC LIMIT 1";
-        ResultSet resultSet = SQLUtill.execute(sql);
-        if(resultSet.next()) {
-            return splitId(resultSet.getString(1));
-        }
-        return splitId(null);
+        return hallReservationDAO.getNextId();
+
     }
 
     @Override
@@ -42,8 +44,8 @@ public class HallReservationBOImpl implements HallReservationBO {
 
     @Override
     public boolean add(HallReservationDTO entity) throws SQLException, ClassNotFoundException {
-        String sql ="INSERT INTO HallReservation(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber) VALUES(?, ?, ?, ?, ?)";
-        return SQLUtill.execute(sql, entity.getCheckIn(), entity.getCheckOut(),entity.getHallReservationId(),entity.getGuestId(),entity.getHallNumber());
+        return hallReservationDAO.add(new hallReservation(entity.getCheckIn(), entity.getCheckOut(),entity.getHallReservationId(),entity.getGuestId(),entity.getHallNumber()));
+
     }
 
     @Override
@@ -53,8 +55,7 @@ public class HallReservationBOImpl implements HallReservationBO {
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        String sql = "DELETE FROM HallReservation WHERE HallNumber = ?";
-        return SQLUtill.execute(sql, id);
+        return hallReservationDAO.delete(id);
     }
 
     @Override
@@ -64,48 +65,27 @@ public class HallReservationBOImpl implements HallReservationBO {
 
     @Override
     public HallReservationDTO setFields(String id) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM HallReservation WHERE HallReservationId = ?";
-        ResultSet resultSet = SQLUtill.execute(sql, id);
-        if (resultSet.next()) {
-            String CheckIn = resultSet.getString(1);
-            String CheckOut = resultSet.getString(2);
-            String HallReservationId = resultSet.getString(3);
-            String GuestId = resultSet.getString(4);
-            String HallNumber = resultSet.getString(5);
-            return new HallReservationDTO(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
-        }
-        return null;
+
+        hallReservation hallReservation = hallReservationDAO.setFields(id);
+        return new HallReservationDTO(hallReservation.getCheckIn(),hallReservation.getCheckOut(),hallReservation.getHallReservationId(),hallReservation.getGuestId(),hallReservation.getHallNumber());
+
     }
 
     @Override
     public boolean isValid(String hallNumber) throws SQLException {
-        String sql = "SELECT * FROM hallreservationdetails WHERE HallNumber = ?";
-        ResultSet resultSet = SQLUtill.execute(sql, hallNumber);
-        if(resultSet.next()){
-            return  true;
-        }
-        return false;
+        return hallReservationDAO.isValid(hallNumber);
     }
 
     @Override
     public HallReservationDTO setHFields(String hallnumber) throws SQLException {
-        String sql = "SELECT * FROM HallReservation WHERE HallNumber = ?";
-        ResultSet resultSet = SQLUtill.execute(sql, hallnumber);
-        if (resultSet.next()) {
-            String CheckIn = resultSet.getString(1);
-            String CheckOut = resultSet.getString(2);
-            String HallReservationId = resultSet.getString(3);
-            String GuestId = resultSet.getString(4);
-            String HallNumber = resultSet.getString(5);
-            return new HallReservationDTO(CheckIn, CheckOut, HallReservationId, GuestId, HallNumber);
-        }
-        return null;
+
+        hallReservation hallReservation = hallReservationDAO.setHFields(hallnumber);
+        return new HallReservationDTO(hallReservation.getCheckIn(),hallReservation.getCheckOut(),hallReservation.getHallReservationId(),hallReservation.getGuestId(),hallReservation.getHallNumber());
+
     }
 
     @Override
     public boolean Order(String checkIn, String checkOut, String hallReservationId, String guestId, String hallNumber) throws SQLException {
-        HallReservationDAO hallReservationDAO = (HallReservationDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.HALLRESERVATION);
-        HallReservationDetailsDAO hallReservationDetailsDAO = (HallReservationDetailsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.HALLRESERVATIONDETAILS);
 
         Connection con = null;
         try{

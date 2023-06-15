@@ -25,7 +25,13 @@ public class RoomBOImpl implements RoomBO {
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-       return roomDAO.splitId(currentId);
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(1));
+            int newNum = lastNum + 1;
+            String newId = String.format("R%04d", newNum);
+            return newId;
+        }
+        return "R0001";
     }
 
     @Override

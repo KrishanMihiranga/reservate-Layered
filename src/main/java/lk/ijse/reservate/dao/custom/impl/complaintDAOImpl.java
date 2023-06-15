@@ -17,6 +17,7 @@ public class complaintDAOImpl implements ComplaintDAO {
     public String getNextId() throws SQLException, ClassNotFoundException {
         String sql = "SELECT ComplaintId FROM complaints ORDER BY ComplaintId DESC LIMIT 1";
         ResultSet resultSet = SQLUtill.execute(sql);
+
         if(resultSet.next()) {
             return splitId(resultSet.getString(1));
         }

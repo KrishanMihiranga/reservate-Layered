@@ -189,8 +189,8 @@ public class reservation_form_Controller {
 
         try{
            // boolean isSaved = RoomReservationModel.remove(reservationId);
-            boolean isRemoved = roomReservationBO.delete(reservationId);
-
+          //  boolean isRemoved = roomReservationBO.delete(reservationId);
+            boolean isRemoved = roomReservationDetailsBO.removeR(reservationId);
             if(isRemoved){
 
                 new Alert(Alert.AlertType.CONFIRMATION, "Room Reservation Canceled!").show();
@@ -246,9 +246,16 @@ public class reservation_form_Controller {
             new Alert(Alert.AlertType.ERROR, "Something went wrong").show();
         }
        String roomnumber = cmbRoomNumber.getValue();
+        RoomReservationDTO roomReservation = null;
+        RoomReservationDetailsDTO rd = null;
         try {
-           RoomReservationDTO roomReservation = roomReservationBO.setRFields(roomnumber);
-            RoomReservationDetailsDTO rd = roomReservationDetailsBO.setFields(roomnumber);
+            try {
+                 roomReservation = roomReservationBO.setRFields(roomnumber);
+                 rd = roomReservationDetailsBO.setFields(roomnumber);
+            }
+           catch (Exception e){
+
+           }
             if (lblRoom.getText().equals("*Already Reserved")) {
                     cmbGuestId.setValue(roomReservation.getGuestId());
                     txtCheckInDate.setValue(LocalDate.parse(roomReservation.getCheckIn()));
@@ -258,7 +265,7 @@ public class reservation_form_Controller {
             }else{
                 initialize();
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
 
@@ -282,8 +289,15 @@ public class reservation_form_Controller {
         }
         String hallNumber =cmbHallNumber.getValue();
         try {
-            HallReservationDTO hallReservation = hallReservationBO.setHFields(hallNumber);
-            HallReservationDetailsDTO hd = hallReservationDetailsBO.setFields(hallNumber);
+            HallReservationDTO hallReservation = null;
+            HallReservationDetailsDTO hd= null;
+            try {
+                hallReservation = hallReservationBO.setHFields(hallNumber);
+                hd = hallReservationDetailsBO.setFields(hallNumber);
+            }catch (Exception e){
+
+            }
+
             if (lblHall.getText().equals("*Already Reserved")) {
                 cmbGuestId.setValue(hallReservation.getGuestId());
                 txtCheckInDate.setValue(LocalDate.parse(hallReservation.getCheckIn()));
@@ -293,7 +307,8 @@ public class reservation_form_Controller {
             }else{
                 initialize();
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
+           e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "oops! something went wrong :(").show();
         }
 

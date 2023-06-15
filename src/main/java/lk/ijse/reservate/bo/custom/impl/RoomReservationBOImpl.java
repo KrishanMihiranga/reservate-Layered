@@ -28,7 +28,13 @@ public class RoomReservationBOImpl implements RoomReservationBO {
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-      return roomReservationDAO.splitId(currentId);
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(2));
+            int newNum = lastNum + 1;
+            String newId = String.format("RR%04d", newNum);
+            return newId;
+        }
+        return "RR0001";
     }
 
     @Override

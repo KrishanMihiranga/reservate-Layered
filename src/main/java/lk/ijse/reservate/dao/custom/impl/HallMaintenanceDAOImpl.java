@@ -4,6 +4,7 @@ import lk.ijse.reservate.dao.SQLUtill;
 import lk.ijse.reservate.dao.custom.HallMaintenanceDAO;
 import lk.ijse.reservate.entity.hallmaintenance;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -39,7 +40,7 @@ public class HallMaintenanceDAOImpl implements HallMaintenanceDAO {
     @Override
     public boolean update(hallmaintenance entity) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE hallmaintenance SET HallNumber = ?, Date = ?, StartTime = ?, EndTime = ? WHERE HallMaintenanceId = ?";
-        return SQLUtill.execute(sql, entity.getHallNumber(),entity.getDate(),entity.getStartTime(),entity.getEndTime(),entity.getHallMaintenanceId());
+        return SQLUtill.execute(sql, entity.getHallMaintenanceId(),entity.getDate(),entity.getStartTime(),entity.getEndTime(),entity.getHallNumber());
     }
 
     @Override
@@ -59,11 +60,11 @@ public class HallMaintenanceDAOImpl implements HallMaintenanceDAO {
         ResultSet resultSet = SQLUtill.execute(sql, id);
         if (resultSet.next()) {
             String HallMaintenanceId=resultSet.getString(1);
-            String Date=resultSet.getString(2);
+            Date date = Date.valueOf(resultSet.getString(2));
             String startTime=resultSet.getString(3);
             String EndTime=resultSet.getString(4);
             String hallNumber=resultSet.getString(5);
-            return new hallmaintenance(HallMaintenanceId, Date, startTime, EndTime, hallNumber);
+            return new hallmaintenance(HallMaintenanceId, date, startTime, EndTime, hallNumber);
         }
         return null;
     }

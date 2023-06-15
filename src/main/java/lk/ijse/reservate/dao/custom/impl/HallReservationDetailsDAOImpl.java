@@ -24,7 +24,7 @@ public class HallReservationDetailsDAOImpl implements HallReservationDetailsDAO 
 
     @Override
     public boolean add(HallReservationDetails entity) throws SQLException, ClassNotFoundException {
-        String sql ="INSERT INTO HallReservationDetailsDTO(HallReservationId, HallNumber) VALUES(?, ?)";
+        String sql ="INSERT INTO HallReservationDetails(HallReservationId, HallNumber) VALUES(?, ?)";
         return SQLUtill.execute(sql, entity.getHallReservationId(), entity.getHallNumber());
     }
 
@@ -35,7 +35,7 @@ public class HallReservationDetailsDAOImpl implements HallReservationDetailsDAO 
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        String sql = "DELETE FROM HallReservationDetailsDTO WHERE HallNumber = ?";
+        String sql = "DELETE FROM HallReservationDetails WHERE HallNumber = ?";
         return SQLUtill.execute(sql, id);
     }
 
@@ -46,7 +46,7 @@ public class HallReservationDetailsDAOImpl implements HallReservationDetailsDAO 
 
     @Override
     public HallReservationDetails setFields(String id) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM HallReservationDetailsDTO WHERE HallNumber = ?";
+        String sql = "SELECT * FROM HallReservationDetails WHERE HallNumber = ?";
         ResultSet resultSet = SQLUtill.execute(sql, id);
         if (resultSet.next()) {
             String hallReservationId = resultSet.getString(1);
@@ -58,7 +58,7 @@ public class HallReservationDetailsDAOImpl implements HallReservationDetailsDAO 
 
     @Override
     public List<HallReservationDetails> getAll() throws SQLException {
-        String sql = "SELECT * FROM HallReservationDetailsDTO";
+        String sql = "SELECT * FROM HallReservationDetails";
         List<HallReservationDetails> data = new ArrayList<>();
         ResultSet resultSet = SQLUtill.execute(sql);
         while (resultSet.next()) {
@@ -72,14 +72,14 @@ public class HallReservationDetailsDAOImpl implements HallReservationDetailsDAO 
 
     @Override
     public boolean removeH(String hallReservationId) throws SQLException {
-        String sql = "DELETE FROM HallReservationDetailsDTO WHERE HallReservationId = ?";
+        String sql = "DELETE FROM HallReservationDetails WHERE HallReservationId = ?";
         return SQLUtill.execute(sql, hallReservationId);
     }
 
     @Override
     public String getHall(String value) throws SQLException {
         String hallId;
-        String sql = "SELECT * FROM HallReservationDetailsDTO WHERE HallReservationId = ?";
+        String sql = "SELECT * FROM HallReservationDetails WHERE HallReservationId = ?";
         ResultSet resultSet = SQLUtill.execute(sql, value);
         if (resultSet.next()){
             hallId= resultSet.getString("HallNumber");

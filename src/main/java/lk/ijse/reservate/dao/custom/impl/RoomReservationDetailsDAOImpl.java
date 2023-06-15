@@ -22,7 +22,7 @@ public class RoomReservationDetailsDAOImpl implements RoomReservationDetailsDAO 
 
     @Override
     public boolean add(RoomReservationDetails entity) throws SQLException, ClassNotFoundException {
-        String sql ="INSERT INTO RoomReservationDetailsDTO(RoomReservationId, RoomNumber) VALUES(?, ?)";
+        String sql ="INSERT INTO RoomReservationDetails(RoomReservationId, RoomNumber) VALUES(?, ?)";
         return SQLUtill.execute(sql, entity.getRoomReservationId(),entity.getRoomNumber());
     }
 
@@ -33,7 +33,7 @@ public class RoomReservationDetailsDAOImpl implements RoomReservationDetailsDAO 
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        String sql = "DELETE FROM RoomReservationDetailsDTO WHERE RoomReservationId = ?";
+        String sql = "DELETE FROM RoomReservationDetails WHERE RoomReservationId = ?";
         return SQLUtill.execute(sql, id);
     }
 
@@ -44,7 +44,7 @@ public class RoomReservationDetailsDAOImpl implements RoomReservationDetailsDAO 
 
     @Override
     public RoomReservationDetails setFields(String id) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM RoomReservationDetailsDTO WHERE RoomNumber = ?";
+        String sql = "SELECT * FROM roomreservationdetails WHERE RoomNumber = ?";
         ResultSet resultSet = SQLUtill.execute(sql, id);
         if (resultSet.next()) {
             String RoomReservationId = resultSet.getString(1);
@@ -56,7 +56,7 @@ public class RoomReservationDetailsDAOImpl implements RoomReservationDetailsDAO 
 
     @Override
     public List<RoomReservationDetails> getAll() throws SQLException {
-        String sql = "SELECT * FROM RoomReservationDetailsDTO";
+        String sql = "SELECT * FROM RoomReservationDetails";
         List<RoomReservationDetails> data = new ArrayList<>();
         ResultSet resultSet = SQLUtill.execute(sql);
         while (resultSet.next()) {
@@ -70,14 +70,14 @@ public class RoomReservationDetailsDAOImpl implements RoomReservationDetailsDAO 
 
     @Override
     public boolean removeR(String roomReservationId) throws SQLException {
-        String sql = "DELETE FROM RoomReservationDetailsDTO WHERE RoomReservationId = ?";
+        String sql = "DELETE FROM RoomReservationDetails WHERE RoomReservationId = ?";
         return SQLUtill.execute(sql, roomReservationId);
     }
 
     @Override
     public String getRoom(String value) throws SQLException {
         String roomId;
-        String sql = "SELECT * FROM RoomReservationDetailsDTO WHERE RoomReservationId = ?";
+        String sql = "SELECT * FROM RoomReservationDetails WHERE RoomReservationId = ?";
         ResultSet resultSet = SQLUtill.execute(sql, value);
         if (resultSet.next()){
             roomId= resultSet.getString("RoomNumber");

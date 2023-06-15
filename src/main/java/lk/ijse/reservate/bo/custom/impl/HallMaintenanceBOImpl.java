@@ -22,12 +22,18 @@ public class HallMaintenanceBOImpl implements HallMaintenanceBO {
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-       return dao.splitId(currentId);
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(2));
+            int newNum = lastNum + 1;
+            String newId = String.format("HM%04d", newNum);
+            return newId;
+        }
+        return "HM0001";
     }
 
     @Override
     public boolean add(HallMaintenanceDTO entity) throws SQLException, ClassNotFoundException {
-        return dao.add(new hallmaintenance(entity.getHallMaintenanceId(),entity.getHallNumber(),entity.getDate(),entity.getStartTime(),entity.getEndTime()));
+        return dao.add(new hallmaintenance(entity.getHallMaintenanceId(),entity.getDate(),entity.getStartTime(),entity.getEndTime(),entity.getHallNumber()));
     }
 
     @Override

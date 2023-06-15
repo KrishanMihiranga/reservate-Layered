@@ -25,7 +25,13 @@ public class paymentBOImpl implements PaymentBO {
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-      return paymentDAO.splitId(currentId);
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(1));
+            int newNum = lastNum + 1;
+            String newId = String.format("P%04d", newNum);
+            return newId;
+        }
+        return "P0001";
     }
 
     @Override

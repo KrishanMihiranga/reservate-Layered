@@ -25,7 +25,13 @@ public class HallBOImpl implements HallBO {
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-        return hallDAO.splitId(currentId);
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(1));
+            int newNum = lastNum + 1;
+            String newId = String.format("H%04d", newNum);
+            return newId;
+        }
+        return "H0001";
     }
 
     @Override

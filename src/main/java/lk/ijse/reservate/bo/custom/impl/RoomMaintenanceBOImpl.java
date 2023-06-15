@@ -22,17 +22,23 @@ public class RoomMaintenanceBOImpl implements RoomMaintenanceBO {
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-       return roomMaintenanceDAO.splitId(currentId);
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(2));
+            int newNum = lastNum + 1;
+            String newId = String.format("RM%04d", newNum);
+            return newId;
+        }
+        return "RM0001";
     }
 
     @Override
     public boolean add(RoomMaintenanceDTO entity) throws SQLException, ClassNotFoundException {
-        return roomMaintenanceDAO.add(new roommaintenance(entity.getRoomMaintenanceId(),entity.getRoomNumber(),entity.getDate(),entity.getStartTime(),entity.getEndTime()));
+        return roomMaintenanceDAO.add(new roommaintenance(entity.getRoomMaintenanceId(),entity.getDate(),entity.getStartTime(),entity.getEndTime(),entity.getRoomNumber()));
     }
 
     @Override
     public boolean update(RoomMaintenanceDTO entity) throws SQLException, ClassNotFoundException {
-        return false;
+       return roomMaintenanceDAO.update(new roommaintenance(entity.getRoomMaintenanceId(),entity.getDate(),entity.getStartTime(),entity.getEndTime(),entity.getRoomNumber()));
     }
 
     @Override

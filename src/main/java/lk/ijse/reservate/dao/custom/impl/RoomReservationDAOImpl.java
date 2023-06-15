@@ -82,7 +82,7 @@ public class RoomReservationDAOImpl implements RoomReservationDAO {
 
     @Override
     public roomreservation setRFields(String roomnumber) throws SQLException {
-        String sql = "SELECT * FROM RoomReservation WHERE RoomNumber = ?";
+        String sql = "SELECT * FROM roomreservation WHERE RoomNumber = ?";
         ResultSet resultSet = SQLUtill.execute(sql, roomnumber);
         if (resultSet.next()) {
             String CheckIn = resultSet.getString(1);

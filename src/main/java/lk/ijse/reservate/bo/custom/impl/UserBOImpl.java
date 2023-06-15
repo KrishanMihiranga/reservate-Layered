@@ -20,7 +20,13 @@ public class UserBOImpl implements UserBO {
 
     @Override
     public String splitId(String currentId) throws SQLException, ClassNotFoundException {
-       return user.splitId(currentId);
+        if(currentId != null) {
+            int lastNum = Integer.parseInt(currentId.substring(1));
+            int newNum = lastNum + 1;
+            String newId = String.format("U%04d", newNum);
+            return newId;
+        }
+        return "U0001";
     }
 
     @Override
@@ -32,7 +38,7 @@ public class UserBOImpl implements UserBO {
     @Override
     public boolean update(UserDTO entity) throws SQLException, ClassNotFoundException {
 
-        return user.update(new User(entity.getEmpId(),entity.getUserName(),entity.getPassword(),entity.getUserId()));
+        return user.update(new User(entity.getUserId(),entity.getEmpId(),entity.getUserName(),entity.getPassword()));
     }
 
     @Override
